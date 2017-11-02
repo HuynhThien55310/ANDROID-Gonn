@@ -29,13 +29,15 @@
             style="@style/editText_style"
             android:layout_width="match_parent"
             android:layout_gravity="center"
+            android:hint="Email"
             android:inputType="textEmailAddress" />
 
         <EditText
             android:id="@+id/txtPass"
             style="@style/editText_style"
-            android:layout_gravity="center"
             android:layout_width="match_parent"
+            android:layout_gravity="center"
+            android:hint="Mật khẩu"
             android:inputType="textPassword" />
 
         <LinearLayout
@@ -76,14 +78,18 @@
                 android:layout_weight="1"
                 android:background="@android:color/darker_gray" />
 
-            <EditText
-                android:id="@+id/editText"
+            <TextView
+                android:id="@+id/textView"
                 android:layout_width="60dp"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|center_horizontal"
                 android:ems="10"
-                android:inputType="text"
-                android:text="Hoặc" />
-
+                android:paddingLeft="2dp"
+                android:paddingRight="2dp"
+                android:text="Hoặc"
+                android:textAlignment="center"
+                android:textSize="20dp"
+                android:textStyle="bold" />
             <View
                 android:id="@+id/view2"
                 android:layout_width="wrap_content"

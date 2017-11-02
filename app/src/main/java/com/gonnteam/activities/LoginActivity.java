@@ -91,6 +91,13 @@ public class LoginActivity extends FragmentActivity {
                 signInGg();
             }
         });
+        btnRegister.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public  void onClick(View view){
+                Intent intent = new Intent(LoginActivity.this, SigupActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void addControls() {

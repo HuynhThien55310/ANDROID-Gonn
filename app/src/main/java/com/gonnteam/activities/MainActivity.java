@@ -10,7 +10,7 @@ import com.gonnteam.R;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Button btnLogin, btnSignup;
+    private Button btnLogin, btnSignup, btnLogout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
     private void addControls(){
         btnLogin = findViewById(R.id.btnLogin);
         btnSignup = findViewById(R.id.btnSignup);
+        btnLogout = findViewById(R.id.btnLogout);
     }
 
     private void addEvents(){
@@ -30,6 +31,13 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent login = new Intent(MainActivity.this,LoginActivity.class);
                 startActivity(login);
+            }
+        });
+
+        btnLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
             }
         });
     }

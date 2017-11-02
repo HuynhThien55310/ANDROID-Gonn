@@ -31,6 +31,4 @@ dependencies {
     compile 'com.facebook.android:facebook-login:[4,5)'
 }
 
-
-
 apply plugin: 'com.google.gms.google-services'

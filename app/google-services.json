@@ -59,11 +59,11 @@
       },
       "oauth_client": [
         {
-          "client_id": "947724074034-t5gv1vbi3tntiopskqtvub4abvq5ra52.apps.googleusercontent.com",
+          "client_id": "947724074034-b9g1pno7p95hpkk3qd942q33gd2tvo7c.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.gonnteam",
-            "certificate_hash": "e2cc23bfb2670f5430c03f8a946aded40a767943"
+            "certificate_hash": "f826a7537d8040d707b70265e797a68dbe15f5a1"
           }
         },
         {

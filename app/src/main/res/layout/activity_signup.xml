@@ -104,28 +104,33 @@
                 android:layout_weight="1"
                 android:orientation="horizontal">
 
-                <RadioButton
-                    android:id="@+id/radioMan"
-                    style="@style/editText_style"
+                <RadioGroup
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:text="Nam"
-                    android:textAlignment="center"
-                    android:textSize="20dp"
-                   />
+                    android:layout_weight="1" >
 
-                <RadioButton
-                    android:id="@+id/radioLady"
-                    style="@style/editText_style"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:text="Nữ"
-                    android:textAlignment="center"
-                    android:textSize="20dp" />
+                    <RadioButton
+                        android:id="@+id/radioMan"
+                        style="@style/editText_style"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:text="Nam"
+                        android:textAlignment="center"
+                        android:textSize="20dp" />
+
+                    <RadioButton
+                        android:id="@+id/radioLady"
+                        style="@style/editText_style"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:text="Nữ"
+                        android:textAlignment="center"
+                        android:textSize="20dp" />
+                </RadioGroup>
 
 
             </LinearLayout>

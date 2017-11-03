@@ -1,5 +1,6 @@
 package com.gonnteam.activities;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -73,7 +74,7 @@ public class SigupActivity  extends FragmentActivity {
                 int mMonth = c.get(Calendar.MONTH); // current month
                 int mDay = c.get(Calendar.DAY_OF_MONTH); // current day
                 // date picker dialog
-                datePickerDialog = new DatePickerDialog(SigupActivity.this,
+                datePickerDialog = new DatePickerDialog(SigupActivity.this, AlertDialog.THEME_HOLO_LIGHT,
                         new DatePickerDialog.OnDateSetListener() {
 
                             @Override
@@ -85,6 +86,7 @@ public class SigupActivity  extends FragmentActivity {
 
                             }
                         }, mYear, mMonth, mDay);
+                datePickerDialog.updateDate(1996,11,10);
                 datePickerDialog.show();
             }
         });

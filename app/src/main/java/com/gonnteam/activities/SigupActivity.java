@@ -1,104 +1,136 @@
 package com.gonnteam.activities;
 
 import android.app.AlertDialog;
-import android.app.DatePickerDialog;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.content.Intent;
+import android.content.DialogInterface;
+import android.databinding.DataBindingUtil;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.View;
-import android.view.Window;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.facebook.AccessToken;
-import com.facebook.CallbackManager;
-import com.facebook.FacebookCallback;
-import com.facebook.FacebookException;
-import com.facebook.FacebookSdk;
-import com.facebook.login.LoginResult;
-import com.facebook.login.widget.LoginButton;
-import com.google.android.gms.auth.api.Auth;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.auth.api.signin.GoogleSignInResult;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient;
+import com.gonnteam.R;
+import com.gonnteam.databinding.ActivitySignupBinding;
+import com.gonnteam.models.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.GoogleAuthProvider;
-import com.gonnteam.R;
-
-import static android.content.ContentValues.TAG;
-import java.util.Calendar;
 
 /**
  * Created by Minh Phuong on 03/11/2017.
  */
 
-public class SigupActivity  extends FragmentActivity {
-    TextView date;
-    Button back;
-    DatePickerDialog datePickerDialog;
+public class SigupActivity extends FragmentActivity {
+    private static final String TAG = "SigupActivity";
+    private EditText txtEmail;
+    private EditText txtPassword;
+    private EditText txtRePassword;
+    private EditText txtFirstName;
+    private EditText txtLastName;
+    private Button btnSignup;
+
+    private FirebaseAuth mAuth;
+    private User user;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
-        // initiate the date picker and a button
-        date = (TextView) findViewById(R.id.txtSignupBirth);
-        back = (Button) findViewById(R.id.back);
-        // perform click event on edit text
+        ActivitySignupBinding binding = DataBindingUtil.setContentView(SigupActivity.this,R.layout.activity_signup);
+        user = new User("","","");
+        binding.setUser(user);
+        addControls();
         addEvents();
+    }
 
-
+    private void addControls() {
+        txtEmail = findViewById(R.id.txtSignupEmail);
+        txtPassword = findViewById(R.id.txtSignupPass);
+        txtRePassword = findViewById(R.id.txtSignupRePass);
+        txtFirstName = findViewById(R.id.txtSignupFName);
+        txtLastName = findViewById(R.id.txtSignupLName);
+        btnSignup = findViewById(R.id.btnSignup);
+        mAuth = FirebaseAuth.getInstance();
     }
 
     private void addEvents() {
-        date.setOnClickListener(new View.OnClickListener() {
+        btnSignup.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                // calender class's instance and get current date , month and year from calender
-                final Calendar c = Calendar.getInstance();
-                int mYear = c.get(Calendar.YEAR); // current year
-                int mMonth = c.get(Calendar.MONTH); // current month
-                int mDay = c.get(Calendar.DAY_OF_MONTH); // current day
-                // date picker dialog
-                datePickerDialog = new DatePickerDialog(SigupActivity.this, AlertDialog.THEME_HOLO_LIGHT,
-                        new DatePickerDialog.OnDateSetListener() {
-
-                            @Override
-                            public void onDateSet(DatePicker view, int year,
-                                                  int monthOfYear, int dayOfMonth) {
-                                // set day of month , month and year value in the edit text
-                                date.setText(dayOfMonth + "/"
-                                        + (monthOfYear + 1) + "/" + year);
-
-                            }
-                        }, mYear, mMonth, mDay);
-                datePickerDialog.updateDate(1996,11,10);
-                datePickerDialog.show();
-            }
-        });
-
-        back.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v){
-                Intent intent = new Intent(SigupActivity.this, LoginActivity.class);
-                startActivity(intent);
+            public void onClick(View view) {
+                signupUser();
             }
         });
     }
 
+    private boolean validateUser(String password, String rePass){
+        // AlertDialog used to show message
+        AlertDialog.Builder builder;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            builder = new AlertDialog.Builder(SigupActivity.this, android.R.style.Theme_Material_Dialog_Alert);
+        } else {
+            builder = new AlertDialog.Builder(SigupActivity.this);
+        }
+        builder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                // continue with delete
+            }
+        });
+        //// Validate
+        // check empty
+        if (user.email.isEmpty() || password.isEmpty() || user.firstName.isEmpty() || user.lastName.isEmpty() || rePass.isEmpty()){
+            builder.setTitle("Thông báo")
+                    .setMessage("Vui lòng nhập đầy đủ thông tin bạn nhé!")
+                    .show();
+            return false;
+        }
+        // check email format
+        if (!android.util.Patterns.EMAIL_ADDRESS.matcher(user.email).matches()){
+            builder.setMessage("Email không đúng định dạng. Kiểm tra lại bạn nhé!")
+                    .show();
+            return false;
+        }
+        // check password
+        if (!password.equals(rePass) ){
+            builder.setMessage("Mật khẩu không đúng. Kiểm tra lại bạn nhé!")
+                    .show();
+            return false;
+        }
+        return true;
+    }
 
+    private void signupUser(){
+        String password = txtPassword.getText().toString();
+        String rePass = txtRePassword.getText().toString();
+        if (validateUser(password, rePass)){
+            // Create user
+            mAuth.createUserWithEmailAndPassword(user.email, password)
+                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
+                                // Sign in success, update UI with the signed-in user's information
+                                Log.d(TAG, "createUserWithEmail:success");
+                                FirebaseUser user = mAuth.getCurrentUser();
+                                //updateUI(user);
+                                Toast.makeText(SigupActivity.this, "Sign up successfully",
+                                        Toast.LENGTH_SHORT).show();
+                            } else {
+                                // If sign in fails, display a message to the user.
+                                Log.w(TAG, "createUserWithEmail:failure", task.getException());
+                                Toast.makeText(SigupActivity.this, "Authentication failed.",
+                                        Toast.LENGTH_SHORT).show();
+                                //updateUI(null);
+                            }
+
+                            // ...
+                        }
+                    });
+        }
+    }
 }

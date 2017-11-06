@@ -18,10 +18,19 @@ import com.gonnteam.R;
 import com.gonnteam.databinding.ActivitySignupBinding;
 import com.gonnteam.models.User;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
+import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Minh Phuong on 03/11/2017.
@@ -38,12 +47,16 @@ public class SigupActivity extends FragmentActivity {
 
     private FirebaseAuth mAuth;
     private User user;
+    private DocumentReference mDocRef;
+    private AlertDialog.Builder builder;
+    private FirebaseUser fuser;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
-        ActivitySignupBinding binding = DataBindingUtil.setContentView(SigupActivity.this,R.layout.activity_signup);
-        user = new User("","","");
+        ActivitySignupBinding binding = DataBindingUtil.setContentView(SigupActivity.this, R.layout.activity_signup);
+        user = new User("", "", "");
         binding.setUser(user);
         addControls();
         addEvents();
@@ -57,6 +70,19 @@ public class SigupActivity extends FragmentActivity {
         txtLastName = findViewById(R.id.txtSignupLName);
         btnSignup = findViewById(R.id.btnSignup);
         mAuth = FirebaseAuth.getInstance();
+
+        // AlertDialog used to show message
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            builder = new AlertDialog.Builder(SigupActivity.this, android.R.style.Theme_Material_Dialog_Alert);
+        } else {
+            builder = new AlertDialog.Builder(SigupActivity.this);
+        }
+        builder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                // continue with delete
+            }
+        });
     }
 
     private void addEvents() {
@@ -68,35 +94,24 @@ public class SigupActivity extends FragmentActivity {
         });
     }
 
-    private boolean validateUser(String password, String rePass){
-        // AlertDialog used to show message
-        AlertDialog.Builder builder;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            builder = new AlertDialog.Builder(SigupActivity.this, android.R.style.Theme_Material_Dialog_Alert);
-        } else {
-            builder = new AlertDialog.Builder(SigupActivity.this);
-        }
-        builder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-                // continue with delete
-            }
-        });
+    private boolean validateUser(String password, String rePass) {
+
         //// Validate
         // check empty
-        if (user.email.isEmpty() || password.isEmpty() || user.firstName.isEmpty() || user.lastName.isEmpty() || rePass.isEmpty()){
+        if (user.email.isEmpty() || password.isEmpty() || user.firstName.isEmpty() || user.lastName.isEmpty() || rePass.isEmpty()) {
             builder.setTitle("Thông báo")
                     .setMessage("Vui lòng nhập đầy đủ thông tin bạn nhé!")
                     .show();
             return false;
         }
         // check email format
-        if (!android.util.Patterns.EMAIL_ADDRESS.matcher(user.email).matches()){
+        if (!android.util.Patterns.EMAIL_ADDRESS.matcher(user.email).matches()) {
             builder.setMessage("Email không đúng định dạng. Kiểm tra lại bạn nhé!")
                     .show();
             return false;
         }
         // check password
-        if (!password.equals(rePass) ){
+        if (!password.equals(rePass)) {
             builder.setMessage("Mật khẩu không đúng. Kiểm tra lại bạn nhé!")
                     .show();
             return false;
@@ -104,11 +119,12 @@ public class SigupActivity extends FragmentActivity {
         return true;
     }
 
-    private void signupUser(){
+    private void signupUser() {
         String password = txtPassword.getText().toString();
         String rePass = txtRePassword.getText().toString();
-        if (validateUser(password, rePass)){
+        if (validateUser(password, rePass)) {
             // Create user
+
             mAuth.createUserWithEmailAndPassword(user.email, password)
                     .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                         @Override
@@ -116,19 +132,50 @@ public class SigupActivity extends FragmentActivity {
                             if (task.isSuccessful()) {
                                 // Sign in success, update UI with the signed-in user's information
                                 Log.d(TAG, "createUserWithEmail:success");
-                                FirebaseUser user = mAuth.getCurrentUser();
+
                                 //updateUI(user);
                                 Toast.makeText(SigupActivity.this, "Sign up successfully",
                                         Toast.LENGTH_SHORT).show();
                             } else {
                                 // If sign in fails, display a message to the user.
                                 Log.w(TAG, "createUserWithEmail:failure", task.getException());
+                                try {
+                                    throw task.getException();
+                                } catch (FirebaseAuthWeakPasswordException passEx) {
+                                    builder.setMessage("Mật khẩu phải ít nhất 6 kí tự.")
+                                            .show();
+                                    return;
+                                } catch (FirebaseAuthUserCollisionException emailEx) {
+                                    builder.setMessage("Email đã tồn tại.")
+                                            .show();
+                                    return;
+                                } catch (Exception e) {
+                                    Log.e(TAG, e.getMessage());
+                                }
                                 Toast.makeText(SigupActivity.this, "Authentication failed.",
                                         Toast.LENGTH_SHORT).show();
                                 //updateUI(null);
                             }
-
-                            // ...
+                            task.addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                    fuser = task.getResult().getUser();
+                                    mDocRef = FirebaseFirestore.getInstance().document("users/" + fuser.getUid());
+                                    mDocRef.set(user)
+                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                @Override
+                                                public void onSuccess(Void aVoid) {
+                                                    Log.d(TAG, "DocumentSnapshot added with ID: " + mDocRef.getId());
+                                                }
+                                            })
+                                            .addOnFailureListener(new OnFailureListener() {
+                                                @Override
+                                                public void onFailure(@NonNull Exception e) {
+                                                    Log.w(TAG, "Error adding document", e);
+                                                }
+                                            });
+                                }
+                            });
                         }
                     });
         }

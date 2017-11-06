@@ -6,89 +6,124 @@
             name="user"
             type="com.gonnteam.models.User"/>
     </data>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorPrimary"
+        android:background="@drawable/background_image"
         android:orientation="vertical"
-        android:paddingBottom="20dp"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        android:paddingTop="20dp">
+        android:paddingBottom="20sp"
+        android:paddingLeft="20sp"
+        android:paddingRight="20sp"
+        android:paddingTop="20sp">
 
 
-    <EditText
-        android:id="@+id/txtSignupEmail"
-        style="@style/editText_style"
-        android:layout_width="match_parent"
-        android:layout_gravity="center"
-        android:layout_weight="1"
-        android:hint="Email"
-        android:inputType="textEmailAddress"
-        android:textSize="20dp"
-        android:text="@={user.email}"/>
-
-    <EditText
-        android:id="@+id/txtSignupPass"
-        style="@style/editText_style"
-        android:layout_width="match_parent"
-        android:layout_gravity="center"
-        android:layout_weight="1"
-        android:hint="Mật khẩu"
-        android:inputType="textPassword"
-        android:textSize="20dp"
-        />
-
-    <EditText
-        android:id="@+id/txtSignupRePass"
-        style="@style/editText_style"
-        android:layout_width="match_parent"
-        android:layout_gravity="center"
-        android:layout_weight="1"
-        android:hint="Nhập lại mật khẩu"
-        android:inputType="textPassword"
-        android:textSize="20dp" />
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:orientation="horizontal">
-
-        <EditText
-            android:id="@+id/txtSignupLName"
-            style="@style/editText_style"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:hint="Họ"
-            android:inputType="textPersonName"
-            android:textSize="20dp"
-            android:text="@={user.firstName}"/>
+            android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/txtSignupFName"
-            style="@style/editText_style"
+            <EditText
+                android:id="@+id/txtSignupPass"
+                style="@style/editText_style"
+                android:layout_width="match_parent"
+                android:layout_height="12sp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:hint="Mật khẩu"
+                android:inputType="textPassword"
+                android:textSize="20sp" />
+
+            <EditText
+                android:id="@+id/txtSignupRePass"
+                style="@style/editText_style"
+                android:layout_width="match_parent"
+                android:layout_height="12sp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:hint="Nhập lại mật khẩu"
+                android:inputType="textPassword"
+                android:textSize="20sp" />
+
+            <EditText
+                android:id="@+id/txtSignupEmail"
+                style="@style/editText_style"
+                android:layout_width="match_parent"
+                android:layout_height="10sp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:hint="Email"
+                android:inputType="textEmailAddress"
+                android:text="@={user.email}"
+                android:textSize="20sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="20sp"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/txtSignupLName"
+                    style="@style/editText_style"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:hint="Họ"
+                    android:inputType="textPersonName"
+                    android:text="@={user.firstName}"
+                    android:textSize="20sp" />
+
+                <EditText
+                    android:id="@+id/txtSignupFName"
+                    style="@style/editText_style"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:hint="Tên"
+                    android:inputType="textPersonName"
+                    android:text="@={user.lastName}"
+                    android:textSize="20sp" />
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btnSignup"
+                style="@style/button_style"
+                android:layout_width="match_parent"
+                android:layout_height="10sp"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="Đăng ký"
+                android:textSize="18sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top"
             android:layout_weight="1"
-            android:hint="Tên"
-            android:inputType="textPersonName"
-            android:textSize="20dp"
-            android:text="@={user.lastName}"/>
-    </LinearLayout>
+            android:gravity="bottom"
+            android:orientation="vertical">
 
-    <Button
-        android:id="@+id/btnSignup"
-        style="@style/button_style"
-        android:layout_width="match_parent"
-        android:layout_gravity="center_horizontal"
-        android:layout_weight="1"
-        android:gravity="center"
-        android:text="Đăng ký" />
+
+            <Button
+                android:id="@+id/btnLogin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|center"
+                android:background="#00ffffff"
+                android:text="Đăng nhập"
+                android:textColor="#fff"
+                android:textSize="20sp" />
+
+        </LinearLayout>
+
 
     </LinearLayout>
 </layout>

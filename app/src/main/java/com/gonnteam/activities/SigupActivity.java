@@ -2,6 +2,7 @@ package com.gonnteam.activities;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Build;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.gonnteam.R;
@@ -22,6 +24,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+
+import org.w3c.dom.Text;
 
 /**
  * Created by Minh Phuong on 03/11/2017.
@@ -34,7 +38,9 @@ public class SigupActivity extends FragmentActivity {
     private EditText txtRePassword;
     private EditText txtFirstName;
     private EditText txtLastName;
+    private TextView txtBirth;
     private Button btnSignup;
+    private Button btnLogin;
 
     private FirebaseAuth mAuth;
     private User user;
@@ -56,6 +62,7 @@ public class SigupActivity extends FragmentActivity {
         txtFirstName = findViewById(R.id.txtSignupFName);
         txtLastName = findViewById(R.id.txtSignupLName);
         btnSignup = findViewById(R.id.btnSignup);
+        btnLogin = findViewById(R.id.btnLogin);
         mAuth = FirebaseAuth.getInstance();
     }
 
@@ -66,6 +73,14 @@ public class SigupActivity extends FragmentActivity {
                 signupUser();
             }
         });
+
+        btnLogin.setOnClickListener((new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(SigupActivity.this, LoginActivity.class);
+                startActivity(intent);
+            }
+        }));
     }
 
     private boolean validateUser(String password, String rePass){

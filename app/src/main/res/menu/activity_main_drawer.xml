@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item android:id="@+id/navMix"
+            android:icon="@drawable/soup"
+            android:title="@string/navMix"/>
+        <item android:id="@+id/navSoup"
+            android:icon="@drawable/soup"
+            android:title="@string/navSoup"/>
+        <item android:id="@+id/navGrill"
+            android:icon="@drawable/soup"
+            android:title="@string/navGrill"/>
+        <item android:id="@+id/navFry"
+            android:icon="@drawable/soup"
+            android:title="@string/navFry"/>
+        <item android:id="@+id/navSteam"
+            android:icon="@drawable/soup"
+            android:title="@string/navSteam"/>
+        <item android:id="@+id/navVegetable"
+            android:icon="@drawable/soup"
+            android:title="@string/navVegetable"/>
+        <item android:id="@+id/navDessert"
+            android:icon="@drawable/soup"
+            android:title="@string/navDessert"/>
+    </group>
+
+    <item android:title="@string/navAppSetting">
+        <menu>
+            <item
+                android:id="@+id/nav_share"
+                android:icon="@drawable/ic_menu_share"
+                android:title="@string/navShare" />
+            <item android:id="@+id/navReport"
+                android:icon="@drawable/ic_menu_share"
+                android:title="@string/navReport"/>
+            <item android:id="@+id/navAbout"
+                android:icon="@drawable/ic_menu_share"
+                android:title="@string/navAbout"/>
+        </menu>
+    </item>
+
+</menu>

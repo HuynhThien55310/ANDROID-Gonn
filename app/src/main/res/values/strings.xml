@@ -2,4 +2,22 @@
     <string name="app_name">Gonn</string>
     <string name="facebook_app_id">206777106530321</string>
     <string name="fb_login_protocol_scheme">fb206777106530321</string>
+    <string name="navAccount">Tài khoản</string>
+    <string name="navMix">Ẩm thực 3 miền</string>
+    <string name="navSoup">Món canh</string>
+    <string name="navGrill">Món nướng</string>
+    <string name="navFry">Món chiên xào</string>
+    <string name="navSteam">Món hấp</string>
+    <string name="navVegetable">Món chay</string>
+    <string name="navDessert">Món tráng miệng</string>
+    <string name="navSetting">Cài đặt</string>
+    <string name="navAppSetting">Ứng dụng</string>
+    <string name="navAbout">Về chúng tôi</string>
+    <string name="navReport">Báo cáo lỗi</string>
+    <string name="navShare">Chia sẽ</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_main">MainActivity</string>
 </resources>

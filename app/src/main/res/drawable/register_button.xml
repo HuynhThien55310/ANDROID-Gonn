@@ -5,10 +5,10 @@
 
     <item>
         <shape android:shape="rectangle">
-            <corners android:radius="10sp"/>
+            <corners android:radius="30sp"/>
             <size android:height="30sp"/>
-            <solid android:color="#fff"/>
+            <solid android:color="#4DEDD3D2"/>
         </shape>
     </item>
-    <item android:drawable="@drawable/button_shadow"/>
+
 </selector>

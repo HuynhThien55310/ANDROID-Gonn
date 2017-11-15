@@ -30,4 +30,7 @@
     <string name="last_name">Họ</string>
     <string name="first_name">Tên</string>
     <string name="signup">Đăng ký</string>
+    <string name="imgFoodDes">Backdrop image</string>
+    <string name="imgLikeDes">Like image</string>
+    <string name="imgShareDes">Share image</string>
 </resources>

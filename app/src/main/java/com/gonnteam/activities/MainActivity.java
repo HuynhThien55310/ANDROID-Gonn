@@ -10,6 +10,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 import com.gonnteam.R;
 import com.gonnteam.adapters.TabsPagerAdapter;
@@ -40,6 +42,9 @@ public class MainActivity extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         NavigationView navigationView = findViewById(R.id.nav_view);
+        View header = navigationView.getHeaderView(0);
+        TextView txtName = header.findViewById(R.id.txtName);
+        txtName.setText("Đã set");
         navigationView.setNavigationItemSelectedListener(this);
     }
 

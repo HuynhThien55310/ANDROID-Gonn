@@ -32,6 +32,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
+import java.util.Arrays;
+
 public class LoginActivity extends FragmentActivity {
     private static final String TAG = "LoginActivity";
     private FirebaseAuth mAuth;
@@ -61,7 +63,7 @@ public class LoginActivity extends FragmentActivity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                sigIn();
+                sigInWithEmail();
             }
         });
         btnGgLogin.setOnClickListener(new View.OnClickListener() {
@@ -81,14 +83,14 @@ public class LoginActivity extends FragmentActivity {
     }
 
     private void addControls() {
-        txtEmail = (EditText) findViewById(R.id.txtMail);
-        txtPassword = (EditText) findViewById(R.id.txtPass);
-        btnLogin = (Button) findViewById(R.id.btnLogin);
-        btnGgLogin = (Button) findViewById(R.id.btnLoginGG);
-        btnRegister = (Button) findViewById(R.id.btnRegister);
+        txtEmail = findViewById(R.id.txtMail);
+        txtPassword = findViewById(R.id.txtPass);
+        btnLogin = findViewById(R.id.btnLogin);
+        btnGgLogin = findViewById(R.id.btnLoginGG);
+        btnRegister = findViewById(R.id.btnRegister);
     }
 
-    private void sigIn() {
+    private void sigInWithEmail() {
         String email = txtEmail.getText().toString();
         String password = txtPassword.getText().toString();
         if (email.isEmpty()) {
@@ -105,9 +107,8 @@ public class LoginActivity extends FragmentActivity {
                 if (task.isSuccessful()) {
                     // Sign in success, update UI with the signed-in user's information
                     Log.d(TAG, "signInWithEmail:success");
-                    FirebaseUser user = mAuth.getCurrentUser();
-                    //updateUI(user);
-                    Toast.makeText(LoginActivity.this, "Login successfully", Toast.LENGTH_LONG).show();
+                    Intent main = new Intent(LoginActivity.this,MainActivity.class);
+                    startActivity(main);
                 } else {
                     // If sign in fails, display a message to the user.
                     Log.w(TAG, "signInWithEmail:failure", task.getException());
@@ -170,9 +171,8 @@ public class LoginActivity extends FragmentActivity {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithCredential:success");
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            //updateUI(user);
-                            Toast.makeText(LoginActivity.this, "Login successfully", Toast.LENGTH_LONG).show();
+                            Intent main = new Intent(LoginActivity.this,MainActivity.class);
+                            startActivity(main);
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithCredential:failure", task.getException());
@@ -200,8 +200,9 @@ public class LoginActivity extends FragmentActivity {
 
     private void initializeFbLogin() {
         callbackManager = CallbackManager.Factory.create();
-        btnFbLogin = (LoginButton) findViewById(R.id.btnLoginFB);
-        btnFbLogin.setReadPermissions("email");
+        btnFbLogin = findViewById(R.id.btnLoginFB);
+        btnFbLogin.setReadPermissions(Arrays.asList(
+                "public_profile", "email"));
         // Callback registration
         btnFbLogin.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
@@ -209,7 +210,6 @@ public class LoginActivity extends FragmentActivity {
                 Log.d(TAG, "signInWithFacebook:success");
                 fbAccessToken = loginResult.getAccessToken();
                 handleFacebookAccessToken(loginResult.getAccessToken());
-                Toast.makeText(LoginActivity.this, "Login successfully", Toast.LENGTH_LONG).show();
             }
 
             @Override
@@ -219,7 +219,7 @@ public class LoginActivity extends FragmentActivity {
 
             @Override
             public void onError(FacebookException exception) {
-                Toast.makeText(LoginActivity.this, "Authentication failed.",
+                Toast.makeText(LoginActivity.this, "Đăng nhập thất bại.",
                         Toast.LENGTH_SHORT).show();
             }
         });
@@ -234,9 +234,8 @@ public class LoginActivity extends FragmentActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
-                            Log.d(TAG, "signInWithCredential:success");
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            //updateUI(user);
+                            Intent main = new Intent(LoginActivity.this,MainActivity.class);
+                            startActivity(main);
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithCredential:failure", task.getException());

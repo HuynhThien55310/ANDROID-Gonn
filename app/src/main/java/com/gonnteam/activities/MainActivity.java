@@ -1,5 +1,6 @@
 package com.gonnteam.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -11,14 +12,33 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.gonnteam.R;
 import com.gonnteam.adapters.TabsPagerAdapter;
+import com.gonnteam.models.User;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    // Firebase and User declaration
+    private FirebaseAuth mAuth;
+    private FirebaseUser fUser;
+    private User user;
+
+    // ViewPager declaration
+    private TabsPagerAdapter adapter;
+    private ViewPager pager;
+
+    // Navigation menu declaration
+    private Toolbar toolbar;
+    private DrawerLayout drawer;
+    private ActionBarDrawerToggle toggle;
+    private NavigationView navigationView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,24 +48,42 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void initViewPager() {
-        TabsPagerAdapter adapter = new TabsPagerAdapter(getSupportFragmentManager(),this);
-        ViewPager pager = findViewById(R.id.pager);
+        adapter = new TabsPagerAdapter(getSupportFragmentManager(),this);
+        pager = findViewById(R.id.pager);
         pager.setAdapter(adapter);
     }
 
     private void initNavigationMenu(){
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+        drawer = findViewById(R.id.drawer_layout);
+        toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
-        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+    }
+
+    private void initUser(){
+        mAuth = FirebaseAuth.getInstance();
+        fUser = mAuth.getCurrentUser();
         View header = navigationView.getHeaderView(0);
         TextView txtName = header.findViewById(R.id.txtName);
-        txtName.setText("Đã set");
-        navigationView.setNavigationItemSelectedListener(this);
+        ImageView imgAvatar = header.findViewById(R.id.imgAvatar);
+        if (mAuth.getCurrentUser() == null){
+            txtName.setText(R.string.txtLogin);
+            txtName.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent login = new Intent(MainActivity.this,LoginActivity.class);
+                    startActivity(login);
+                }
+            });
+        } else {
+            // Update user profile
+            txtName.setText(fUser.getUid());
+        }
     }
 
     @Override
@@ -103,5 +141,17 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        initUser();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        initUser();
     }
 }

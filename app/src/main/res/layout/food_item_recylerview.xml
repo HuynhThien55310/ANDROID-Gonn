@@ -9,49 +9,72 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/shadowbackground"
         android:orientation="vertical">
 
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="200sp"
-            app:srcCompat="@mipmap/backdrop"
-            android:scaleType="fitCenter"
-            android:adjustViewBounds="true"
-            android:contentDescription="@string/imgFoodDes" />
-        <TextView
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:contentDescription="@string/imgFoodDes"
+            android:scaleType="fitCenter"
+            app:srcCompat="@mipmap/backdrop" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:fontFamily="@font/dosis_semibold"
+            android:paddingTop="2sp"
             android:text="Tên món ăn"
-            android:textSize="20sp"/>
+            android:textAlignment="center"
+            android:textColorLink="@color/colorFoodTitle"
+            android:textSize="25sp"
+            android:typeface="serif" />
+        <View
+            android:id="@+id/view1"
+            android:layout_width="wrap_content"
+            android:layout_height="1sp"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:background="@android:color/darker_gray" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
             android:orientation="horizontal">
 
             <ImageButton
-                android:layout_width="50sp"
-                android:layout_height="50sp"
+                android:layout_width="40sp"
+                android:layout_height="40sp"
                 android:background="@android:color/transparent"
-                app:srcCompat="@drawable/ic_like"
-                android:contentDescription="@string/imgLikeDes"/>
+                android:contentDescription="@string/imgLikeDes"
+                app:srcCompat="@drawable/ic_like" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="1000"
                 android:layout_gravity="center"
-                android:textSize="20sp"/>
+                android:text="1000"
+                android:textColorLink="@color/colorFoodAction"
+                android:textSize="20sp" />
+
             <ImageButton
-                android:layout_width="50sp"
-                android:layout_height="50sp"
+                android:layout_width="40sp"
+                android:layout_height="40sp"
                 android:background="@android:color/transparent"
-                app:srcCompat="@drawable/ic_share"
-                android:contentDescription="@string/imgShareDes"/>
+                android:contentDescription="@string/imgShareDes"
+                app:srcCompat="@drawable/ic_share" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="1000"
                 android:layout_gravity="center"
-                android:textSize="20sp"/>
+                android:text="1000"
+                android:textColorLink="@color/colorFoodAction"
+                android:textSize="20sp" />
         </LinearLayout>
+
     </LinearLayout>
 </layout>

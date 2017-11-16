@@ -18,7 +18,6 @@ public class User extends BaseObservable {
     public String gender;
     public Date dateOfBirth;
     public String avatar;
-    public String id;
     public User() {
         // Default constructor
     }
@@ -83,7 +82,5 @@ public class User extends BaseObservable {
         this.avatar = avatar;
     }
 
-    public String getId() {
-        return id;
-    }
+
 }

@@ -14,16 +14,24 @@ import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
+import com.facebook.FacebookSdk;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.gonnteam.R;
+import com.gonnteam.models.User;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.plus.Plus;
+import com.google.android.gms.plus.model.people.Person;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
@@ -31,7 +39,14 @@ import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Arrays;
 
 public class LoginActivity extends FragmentActivity {
@@ -43,9 +58,11 @@ public class LoginActivity extends FragmentActivity {
     private GoogleApiClient mGoogleApiClient;
 
     private CallbackManager callbackManager;
-    private AccessToken fbAccessToken;
     private LoginButton btnFbLogin;
 
+    private User user;
+    private DocumentReference mDocRef;
+    private FirebaseUser fuser;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -149,6 +166,7 @@ public class LoginActivity extends FragmentActivity {
                 // Google Sign In was successful, authenticate with Firebase
                 GoogleSignInAccount account = result.getSignInAccount();
                 firebaseAuthWithGoogle(account);
+
             } else {
                 // Google Sign In failed, update UI appropriately
                 //updateUI(null);
@@ -161,7 +179,7 @@ public class LoginActivity extends FragmentActivity {
         }
     }
 
-    private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
+    private void firebaseAuthWithGoogle(final GoogleSignInAccount acct) {
         Log.d(TAG, "firebaseAuthWithGoogle:" + acct.getId());
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
         mAuth.signInWithCredential(credential)
@@ -170,9 +188,14 @@ public class LoginActivity extends FragmentActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
-                            Log.d(TAG, "signInWithCredential:success");
-                            Intent main = new Intent(LoginActivity.this,MainActivity.class);
-                            startActivity(main);
+                            getGgUserInfor(acct);
+                            task.addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                    saveUserToDatabase(task);
+                                }
+                            });
+
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithCredential:failure", task.getException());
@@ -208,7 +231,8 @@ public class LoginActivity extends FragmentActivity {
             @Override
             public void onSuccess(LoginResult loginResult) {
                 Log.d(TAG, "signInWithFacebook:success");
-                fbAccessToken = loginResult.getAccessToken();
+                // save user information to database
+                getFbUserInfor(loginResult.getAccessToken());
                 handleFacebookAccessToken(loginResult.getAccessToken());
             }
 
@@ -225,7 +249,7 @@ public class LoginActivity extends FragmentActivity {
         });
     }
 
-    private void handleFacebookAccessToken(AccessToken token) {
+    private void handleFacebookAccessToken(final AccessToken token) {
         Log.d(TAG, "handleFacebookAccessToken:" + token);
         AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
         mAuth.signInWithCredential(credential)
@@ -233,13 +257,82 @@ public class LoginActivity extends FragmentActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
+                            //Save Fb user to database
+                            task.addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                    saveUserToDatabase(task);
+                                }
+                            });
                             // Sign in success, update UI with the signed-in user's information
-                            Intent main = new Intent(LoginActivity.this,MainActivity.class);
-                            startActivity(main);
+
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithCredential:failure", task.getException());
                         }
+                    }
+                });
+    }
+
+    private void getFbUserInfor(AccessToken token){
+        GraphRequest request = GraphRequest.newMeRequest(token, new GraphRequest.GraphJSONObjectCallback() {
+            @Override
+            public void onCompleted(JSONObject object, GraphResponse response) {
+                try {
+                    user = new User();
+                    String userId = object.getString("id");
+                    user.avatar = new URL("https://graph.facebook.com/" + userId + "/picture?width=500&height=500").toString();
+                    if(object.has("first_name"))
+                        user.firstName = object.getString("first_name");
+                    if(object.has("last_name"))
+                        user.lastName = object.getString("last_name");
+                    if (object.has("email"))
+                        user.email = object.getString("email");
+                    if (object.has("birthday")){
+                        //user.dateOfBirth = object.getString("birthday");
+                        Log.d(TAG, "birthday: " + object.getString("birthday"));
+                    }
+                    if (object.has("gender"))
+                        user.gender = object.getString("gender");
+                    finish();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        });
+        Bundle parameters = new Bundle();
+        parameters.putString("fields", "id, first_name, last_name, email, birthday, gender");
+        request.setParameters(parameters);
+        request.executeAsync();
+    }
+
+    private void getGgUserInfor(GoogleSignInAccount account){
+        user = new User();
+        user.setAvatar(account.getPhotoUrl().toString());
+        user.setFirstName(account.getGivenName());
+        user.setLastName(account.getFamilyName());
+        user.setEmail(account.getEmail());
+    }
+
+    private void saveUserToDatabase(Task<AuthResult> task){
+        fuser = task.getResult().getUser();
+        mDocRef = FirebaseFirestore.getInstance().document("users/" + fuser.getUid());
+        mDocRef.set(user)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Intent main = new Intent(LoginActivity.this,MainActivity.class);
+                        startActivity(main);
+                        finish();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error adding document", e);
                     }
                 });
     }

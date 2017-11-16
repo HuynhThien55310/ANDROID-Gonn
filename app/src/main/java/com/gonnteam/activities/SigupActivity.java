@@ -110,10 +110,6 @@ public class SigupActivity extends FragmentActivity {
     }
 
 
-
-
-
-
     private boolean validateUser(String password, String rePass) {
 
         //// Validate
@@ -144,7 +140,6 @@ public class SigupActivity extends FragmentActivity {
         String rePass = txtRePassword.getText().toString();
         if (validateUser(password, rePass)) {
             // Create user
-
             mAuth.createUserWithEmailAndPassword(user.email, password)
                     .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                         @Override

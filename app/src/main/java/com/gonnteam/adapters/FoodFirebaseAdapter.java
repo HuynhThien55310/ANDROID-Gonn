@@ -41,7 +41,7 @@ public class FoodFirebaseAdapter {
             @Override
             public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
                 data = new ArrayList<>();
-                data = documentSnapshots.toObjects(Food.class).;
+                data = documentSnapshots.toObjects(Food.class);
             }
         });
 

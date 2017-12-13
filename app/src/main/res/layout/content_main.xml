@@ -13,10 +13,12 @@
         android:layout_height="match_parent">
 
         <android.support.v4.view.PagerTabStrip
+            style="@style/viewPagerTitleStrip"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+
             android:layout_gravity="top"
-            style="@style/viewPagerTitleStrip"
-            />
+            android:paddingBottom="10sp"
+            android:paddingTop="10sp" />
     </android.support.v4.view.ViewPager>
 </android.support.constraint.ConstraintLayout>

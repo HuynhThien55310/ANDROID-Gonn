@@ -18,8 +18,21 @@ public class Food extends BaseObservable {
     private String video;
     private int like;
     private int share;
+    private int comment;
 
     public Food() {
+    }
+
+    public Food(String backdrop, String body, String[] type, String title, Date posted, String video, int like, int share, int comment) {
+        this.backdrop = backdrop;
+        this.body = body;
+        this.type = type;
+        this.title = title;
+        this.posted = posted;
+        this.video = video;
+        this.like = like;
+        this.share = share;
+        this.comment = comment;
     }
 
     public String getId() {
@@ -92,5 +105,13 @@ public class Food extends BaseObservable {
 
     public void setShare(int share) {
         this.share = share;
+    }
+
+    public int getComment() {
+        return comment;
+    }
+
+    public void setComment(int comment) {
+        this.comment = comment;
     }
 }

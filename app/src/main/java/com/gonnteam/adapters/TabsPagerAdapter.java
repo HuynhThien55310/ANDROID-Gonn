@@ -7,8 +7,8 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 import com.gonnteam.R;
 import com.gonnteam.fragments.FoodDiscoverFragment;
-import com.gonnteam.fragments.PartyFoodFragment;
-import com.gonnteam.fragments.TodayFoodFragment;
+import com.gonnteam.fragments.MostLikedFoodFragment;
+import com.gonnteam.fragments.MostViewedFoodFragment;
 
 /**
  * Created by MrThien on 2017-11-07.
@@ -25,8 +25,8 @@ public class TabsPagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position){
             case 0: return new FoodDiscoverFragment();
-            case 1: return new TodayFoodFragment();
-            case 2: return new PartyFoodFragment();
+            case 1: return new MostViewedFoodFragment();
+            case 2: return new MostLikedFoodFragment();
             default: return null;
         }
     }
@@ -40,8 +40,8 @@ public class TabsPagerAdapter extends FragmentPagerAdapter {
     public CharSequence getPageTitle(int position) {
         switch (position){
             case 0: return activity.getString(R.string.tabDiscoverFood);
-            case 1: return activity.getString(R.string.tabTodayFood);
-            case 2: return activity.getString(R.string.tabPartyFood);
+            case 1: return activity.getString(R.string.tabMostViewedFood);
+            case 2: return activity.getString(R.string.tabMostLikedFood);
             default: return "";
         }
     }

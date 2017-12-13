@@ -10,48 +10,52 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
-
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtTitle"
+            android:text="Tên món ăn"
+            android:textSize="20sp"/>
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="200sp"
             app:srcCompat="@mipmap/backdrop"
-            android:scaleType="fitCenter"
+            android:id="@+id/imgBackdrop"
+            android:scaleType="centerCrop"
             android:adjustViewBounds="true"
             android:contentDescription="@string/imgFoodDes" />
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Tên món ăn"
-            android:textSize="20sp"/>
+            android:id="@+id/txtLikeCmtShare"
+            android:text="0 Like - 0 Comment - 0 Share"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
+            <ImageButton
+                android:layout_width="50sp"
+                android:layout_height="50sp"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                app:srcCompat="@drawable/ic_like"
+                android:contentDescription="@string/imgLikeDes"/>
+            <ImageButton
+                android:layout_width="50sp"
+                android:layout_height="50sp"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                app:srcCompat="@drawable/ic_comment"
+                android:contentDescription="@string/imgShareDes" />
 
             <ImageButton
                 android:layout_width="50sp"
                 android:layout_height="50sp"
-                android:background="@android:color/transparent"
-                app:srcCompat="@drawable/ic_like"
-                android:contentDescription="@string/imgLikeDes"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="1000"
-                android:layout_gravity="center"
-                android:textSize="20sp"/>
-            <ImageButton
-                android:layout_width="50sp"
-                android:layout_height="50sp"
+                android:layout_weight="1"
                 android:background="@android:color/transparent"
                 app:srcCompat="@drawable/ic_share"
                 android:contentDescription="@string/imgShareDes"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="1000"
-                android:layout_gravity="center"
-                android:textSize="20sp"/>
+
         </LinearLayout>
     </LinearLayout>
 </layout>

@@ -14,14 +14,14 @@ import com.gonnteam.R;
  * Created by MrThien on 2017-11-07.
  */
 
-public class PartyFoodFragment extends Fragment {
+public class MostViewedFoodFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_party_food, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_most_viewed_food, container, false);
         return rootView;
     }
 
-    public PartyFoodFragment() {
+    public MostViewedFoodFragment() {
     }
 }

@@ -39,6 +39,8 @@ public class MainActivity extends AppCompatActivity
     private DrawerLayout drawer;
     private ActionBarDrawerToggle toggle;
     private NavigationView navigationView;
+    private boolean isUpdatedUser = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,6 +74,7 @@ public class MainActivity extends AppCompatActivity
         TextView txtName = header.findViewById(R.id.txtName);
         ImageView imgAvatar = header.findViewById(R.id.imgAvatar);
         if (mAuth.getCurrentUser() == null){
+            isUpdatedUser = false;
             txtName.setText(R.string.txtLogin);
             txtName.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -81,6 +84,10 @@ public class MainActivity extends AppCompatActivity
                 }
             });
         } else {
+            if (isUpdatedUser){
+                //User avatar was updated do nothing
+                return;
+            }
             // Update user profile
             txtName.setText(fUser.getUid());
         }

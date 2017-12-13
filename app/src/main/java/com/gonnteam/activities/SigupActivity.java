@@ -147,10 +147,10 @@ public class SigupActivity extends FragmentActivity {
                             if (task.isSuccessful()) {
                                 // Sign in success, update UI with the signed-in user's information
                                 Log.d(TAG, "createUserWithEmail:success");
-
-                                //updateUI(user);
-                                Toast.makeText(SigupActivity.this, "Sign up successfully",
-                                        Toast.LENGTH_SHORT).show();
+                                builder.setMessage("Đăng ký thành công.").show();
+                                Intent login = new Intent(SigupActivity.this,LoginActivity.class);
+                                startActivity(login);
+                                finish();
                             } else {
                                 // If sign in fails, display a message to the user.
                                 Log.w(TAG, "createUserWithEmail:failure", task.getException());

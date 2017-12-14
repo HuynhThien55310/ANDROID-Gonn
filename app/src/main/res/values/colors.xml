@@ -5,6 +5,8 @@
     <color name="colorAccent">#FF4081</color>
     <color name="colorBackgroundContent">#EEEEEE</color>
     <color name="colorWhite">#FFFFFF</color>
-    <color name="colorFoodTitle">#B2757F</color>
+    <color name="colorRed">#D4A3A3</color>
     <color name="colorFoodAction">#222222</color>
+    <color name="colorDarkRed">#B25A5D</color>
+
 </resources>

@@ -62,8 +62,8 @@ public class FoodFirebaseAdapter {
 
 
                 holder.setTitle(data.get(position).getTitle());
-                holder.setSocialInfo(data.get(position).getLike(),
-                        data.get(position).getComment(), data.get(position).getShare());
+//                holder.setSocialInfo(data.get(position).getLike(),
+//                        data.get(position).getComment(), data.get(position).getShare());
                 holder.setBackdrop(data.get(position).getBackdrop(), context);
 
                 holder.imgBackdrop.setOnClickListener(new View.OnClickListener() {
@@ -94,10 +94,10 @@ public class FoodFirebaseAdapter {
             txtTitle.setText(title);
         }
 
-        public void setSocialInfo(int like, int comment, int share){
-            TextView txtSocialInfo = itemView.findViewById(R.id.txtLikeCmtShare);
-            txtSocialInfo.setText(like + " Thích - " + comment + " Bình luận - " + share + " Chia sẻ");
-        }
+//        public void setSocialInfo(int like, int comment, int share){
+//            TextView txtSocialInfo = itemView.findViewById(R.id.txtLikeCmtShare);
+//            txtSocialInfo.setText(like + " Thích - " + comment + " Bình luận - " + share + " Chia sẻ");
+//        }
 
         public void setBackdrop(String backdrop, Context context){
             imgBackdrop = itemView.findViewById(R.id.imgBackdrop);

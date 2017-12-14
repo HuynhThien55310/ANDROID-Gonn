@@ -34,4 +34,6 @@
     <string name="imgLikeDes">Like image</string>
     <string name="imgShareDes">Share image</string>
     <string name="txtLogin">Đăng nhập</string>
+    <string name="title_activity_food_detail">FoodDetail</string>
+    <string name="section_format">Hello World from section: %1$d</string>
 </resources>

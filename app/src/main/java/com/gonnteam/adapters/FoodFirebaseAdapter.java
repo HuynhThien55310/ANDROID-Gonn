@@ -41,6 +41,7 @@ public class FoodFirebaseAdapter {
             @Override
             public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
                 data = new ArrayList<>();
+
                 data = documentSnapshots.toObjects(Food.class);
             }
         });
@@ -60,7 +61,7 @@ public class FoodFirebaseAdapter {
             @Override
             protected void onBindViewHolder(FoodViewHolder holder, final int position, Food model) {
 
-
+                final String ID = getSnapshots().getSnapshot(position).getId();
                 holder.setTitle(data.get(position).getTitle());
                 holder.setSocialInfo(data.get(position).getLike(),
                         data.get(position).getComment(), data.get(position).getShare());
@@ -69,7 +70,7 @@ public class FoodFirebaseAdapter {
                 holder.imgBackdrop.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Toast.makeText(context,data.get(position).getId(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context,ID, Toast.LENGTH_SHORT).show();
                     }
                 });
             }

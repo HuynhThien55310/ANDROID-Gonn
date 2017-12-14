@@ -1,39 +1,32 @@
 package com.gonnteam.models;
 
 import android.databinding.BaseObservable;
+import android.os.Parcel;
+import android.os.Parcelable;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * Created by MrThien on 2017-11-15.
  */
 
-public class Food extends BaseObservable {
+public class Food extends BaseObservable implements Serializable {
     private String id;
     private String backdrop;
     private String body;
-    private String[] type;
+    private String[] tags;
     private String title;
-    private Date posted;
-    private String video;
+    private String posted;
     private int like;
     private int share;
     private int comment;
+    private int view;
 
     public Food() {
+
     }
 
-    public Food(String backdrop, String body, String[] type, String title, Date posted, String video, int like, int share, int comment) {
-        this.backdrop = backdrop;
-        this.body = body;
-        this.type = type;
-        this.title = title;
-        this.posted = posted;
-        this.video = video;
-        this.like = like;
-        this.share = share;
-        this.comment = comment;
-    }
 
     public String getId() {
         return id;
@@ -60,11 +53,11 @@ public class Food extends BaseObservable {
     }
 
     public String[] getType() {
-        return type;
+        return tags;
     }
 
     public void setType(String[] type) {
-        this.type = type;
+        this.tags = type;
     }
 
     public String getTitle() {
@@ -75,21 +68,14 @@ public class Food extends BaseObservable {
         this.title = title;
     }
 
-    public Date getPosted() {
+    public String getPosted() {
         return posted;
     }
 
-    public void setPosted(Date posted) {
+    public void setPosted(String posted) {
         this.posted = posted;
     }
 
-    public String getVideo() {
-        return video;
-    }
-
-    public void setVideo(String video) {
-        this.video = video;
-    }
 
     public int getLike() {
         return like;
@@ -113,5 +99,13 @@ public class Food extends BaseObservable {
 
     public void setComment(int comment) {
         this.comment = comment;
+    }
+
+    public int getView() {
+        return view;
+    }
+
+    public void setView(int view) {
+        this.view = view;
     }
 }

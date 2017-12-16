@@ -81,7 +81,7 @@
             android:paddingTop="4sp">
 
             <TextView
-                android:id="@+id/textView5"
+                android:id="@+id/txtLike"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -91,7 +91,7 @@
                 android:textSize="17sp" />
 
             <TextView
-                android:id="@+id/textView4"
+                android:id="@+id/txtCmt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -101,7 +101,7 @@
                 android:textSize="17sp" />
 
             <TextView
-                android:id="@+id/textView3"
+                android:id="@+id/txtShare"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"

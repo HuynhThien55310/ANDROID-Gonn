@@ -1,6 +1,8 @@
 package com.gonnteam.adapters;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,6 +15,7 @@ import android.widget.Toast;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.gonnteam.R;
+import com.gonnteam.activities.FoodDetailActivity;
 import com.gonnteam.models.Food;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -62,17 +65,24 @@ public class FoodFirebaseAdapter {
             protected void onBindViewHolder(FoodViewHolder holder, final int position, Food model) {
 
                 final String ID = getSnapshots().getSnapshot(position).getId();
-                holder.setTitle(data.get(position).getTitle());
-//                holder.setSocialInfo(data.get(position).getLike(),
-//                        data.get(position).getComment(), data.get(position).getShare());
-                holder.setBackdrop(data.get(position).getBackdrop(), context);
-
+                final Food food = data.get(position);
+                holder.setTitle(food.getTitle());
+                holder.setCmt(food.getComment());
+                holder.setLike(food.getLike());
+                holder.setShare(food.getShare());
+                holder.setBackdrop(food.getBackdrop(), context);
                 holder.imgBackdrop.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Toast.makeText(context,ID, Toast.LENGTH_SHORT).show();
+                        Intent detail = new Intent(context, FoodDetailActivity.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable("food", food);
+                        detail.putExtra("bundle",bundle);
+                        context.startActivity(detail);
                     }
                 });
+
+
             }
 
             @Override
@@ -95,10 +105,20 @@ public class FoodFirebaseAdapter {
             txtTitle.setText(title);
         }
 
-//        public void setSocialInfo(int like, int comment, int share){
-//            TextView txtSocialInfo = itemView.findViewById(R.id.txtLikeCmtShare);
-//            txtSocialInfo.setText(like + " Thích - " + comment + " Bình luận - " + share + " Chia sẻ");
-//        }
+        public void setLike(int like){
+            TextView txtLike = itemView.findViewById(R.id.txtLike);
+            txtLike.setText(like + "");
+        }
+
+        public void setCmt(int cmt){
+            TextView txtCmt = itemView.findViewById(R.id.txtCmt);
+            txtCmt.setText(cmt + "");
+        }
+
+        public void setShare(int share){
+            TextView txtShare = itemView.findViewById(R.id.txtShare);
+            txtShare.setText(share + "");
+        }
 
         public void setBackdrop(String backdrop, Context context){
             imgBackdrop = itemView.findViewById(R.id.imgBackdrop);

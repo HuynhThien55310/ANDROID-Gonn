@@ -18,7 +18,7 @@ import android.widget.TextView;
 
 import com.gonnteam.R;
 
-public class FoodDetail extends AppCompatActivity {
+public class FoodDetailActivity extends AppCompatActivity {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide

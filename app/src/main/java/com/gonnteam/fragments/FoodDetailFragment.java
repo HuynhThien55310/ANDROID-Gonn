@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.gonnteam.R;
 import com.gonnteam.models.Food;
+import com.squareup.picasso.Picasso;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
 
@@ -34,7 +35,12 @@ public class FoodDetailFragment extends Fragment {
 
         this.food = (Food) getActivity().getIntent().getSerializableExtra("food");
         txtTitle = rootView.findViewById(R.id.txtTitle);
+        imgBackdrop = rootView.findViewById(R.id.imgBackdrop);
+        wbvBody = rootView.findViewById(R.id.wbvBody);
 
+        txtTitle.setText(food.getTitle());
+        Picasso.with(getActivity()).load(food.getBackdrop()).into(imgBackdrop);
+        wbvBody.loadData(food.getBody(),"text/html; charset=UTF-8", null);
         return rootView;
     }
 

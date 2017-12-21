@@ -112,7 +112,7 @@
         </LinearLayout>
         <View
             android:layout_width="match_parent"
-            android:layout_height="10sp"
+            android:layout_height="5sp"
             android:background="@color/colorRed" />
 
     </LinearLayout>

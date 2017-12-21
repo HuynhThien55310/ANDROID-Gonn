@@ -111,11 +111,11 @@ public class LoginActivity extends FragmentActivity {
         String email = txtEmail.getText().toString();
         String password = txtPassword.getText().toString();
         if (email.isEmpty()) {
-            Toast.makeText(LoginActivity.this, "Email is empty", Toast.LENGTH_SHORT).show();
+            Toast.makeText(LoginActivity.this, "Email không được trống", Toast.LENGTH_SHORT).show();
             return;
         }
         if (password.isEmpty()) {
-            Toast.makeText(LoginActivity.this, "Password is empty", Toast.LENGTH_SHORT).show();
+            Toast.makeText(LoginActivity.this, "Mật khẩu không được trống", Toast.LENGTH_SHORT).show();
             return;
         }
         mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {

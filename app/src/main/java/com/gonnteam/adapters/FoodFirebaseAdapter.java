@@ -17,6 +17,7 @@ import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.gonnteam.R;
 import com.gonnteam.activities.FoodDetailActivity;
 import com.gonnteam.models.Food;
+import com.gonnteam.models.Like;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -37,6 +38,7 @@ public class FoodFirebaseAdapter {
     private List<Food> data;
     private Context context;
     private Query query;
+    private Like like;
     public FoodFirebaseAdapter(final Query query, final Context context) {
         this.context = context;
         this.query = query;
@@ -78,6 +80,7 @@ public class FoodFirebaseAdapter {
                         Bundle bundle = new Bundle();
                         bundle.putSerializable("food", food);
                         detail.putExtra("bundle",bundle);
+                        detail.putExtra("foodID", ID);
                         context.startActivity(detail);
                     }
                 });

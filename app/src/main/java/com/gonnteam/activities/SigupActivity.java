@@ -56,7 +56,6 @@ public class SigupActivity extends FragmentActivity {
     private DocumentReference mDocRef;
     private AlertDialog.Builder builder;
     private FirebaseUser fuser;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -176,6 +175,7 @@ public class SigupActivity extends FragmentActivity {
                                 public void onComplete(@NonNull Task<AuthResult> task) {
                                     fuser = task.getResult().getUser();
                                     mDocRef = FirebaseFirestore.getInstance().document("users/" + fuser.getUid());
+                                    user.setAvatar("https://firebasestorage.googleapis.com/v0/b/gonn-86b4a.appspot.com/o/image%2Fprofile.png?alt=media&token=3918c606-0594-4609-bba7-19283b19dee1");
                                     mDocRef.set(user)
                                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                                 @Override

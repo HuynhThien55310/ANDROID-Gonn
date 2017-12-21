@@ -1,17 +1,32 @@
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/constraintLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.gonnteam.activities.FoodDetailActivity$PlaceholderFragment">
-
-    <TextView
-        android:id="@+id/section_label"
-        android:layout_width="wrap_content"
+    android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/constraintLayout"
-        android:text="detail"/>
+        android:orientation="horizontal">
+        <EditText
+            android:layout_width="330sp"
+            android:layout_height="wrap_content"
+            android:hint="@string/txtComment"
+            android:layout_marginStart="10sp"
+            android:id="@+id/txtComment"/>
 
-</android.support.constraint.ConstraintLayout>
+        <ImageButton
+            android:layout_width="50sp"
+            android:layout_height="50sp"
+            android:background="@android:color/transparent"
+            app:srcCompat="@drawable/ic_menu_send"
+            android:id="@+id/btnSend"/>
+    </LinearLayout>
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/revComment">
+    </android.support.v7.widget.RecyclerView>
+
+</LinearLayout>

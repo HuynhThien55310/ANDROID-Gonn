@@ -3,27 +3,52 @@
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <ImageView
+        android:orientation="horizontal"
+        android:paddingLeft="5sp">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/imgAvatar"
             android:layout_width="65sp"
             android:layout_height="65sp"
-            android:id="@+id/imgAvatar"/>
+            android:background="@drawable/com_facebook_profile_picture_blank_square"
+            app:civ_border_width="2dp"
+            app:civ_border_color="#FF000000"/>
 
-        <TextView
-            android:id="@+id/txtName"
-            android:layout_width="wrap_content"
-            android:layout_height="65sp"
-            android:text="User name"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10sp"
+            android:layout_marginRight="10sp"
+            android:background="@drawable/button_shadow"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/txtName"
+                android:layout_width="match_parent"
+                android:layout_height="35sp"
+                android:gravity="center_vertical"
+                android:paddingLeft="10sp"
+                android:paddingRight="10sp"
+                android:text="User name"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/txtText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:paddingBottom="7sp"
+                android:paddingLeft="10sp"
+                android:paddingRight="10sp"
+                android:text="Nội dung cmt"
+                android:textSize="20sp" />
+        </LinearLayout>
+
     </LinearLayout>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Nội dung cmt"
-        android:textSize="20sp"
-        android:id="@+id/txtText"/>
 </LinearLayout>

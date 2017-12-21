@@ -33,7 +33,7 @@ public class MostLikedFoodFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        adapter.getAdapter().startListening();
+       // adapter.getAdapter().startListening();
     }
 
 
@@ -41,6 +41,6 @@ public class MostLikedFoodFragment extends Fragment {
     @Override
     public void onStop() {
         super.onStop();
-        adapter.getAdapter().stopListening();
+      //  adapter.getAdapter().stopListening();
     }
 }

@@ -45,6 +45,7 @@
                 android:layout_height="30sp"
                 android:layout_weight="1"
                 android:background="@android:color/transparent"
+                android:id="@+id/btnLike"
                 android:contentDescription="@string/imgLikeDes"
                 app:srcCompat="@drawable/ic_like" />
 
@@ -53,6 +54,7 @@
                 android:layout_height="30sp"
                 android:layout_weight="1"
                 android:background="@android:color/transparent"
+                android:id="@+id/btnComment"
                 android:contentDescription="@string/imgShareDes"
                 app:srcCompat="@drawable/ic_comment" />
 
@@ -61,6 +63,7 @@
                 android:layout_height="30sp"
                 android:layout_weight="1"
                 android:background="@android:color/transparent"
+                android:id="@+id/btnShare"
                 android:contentDescription="@string/imgShareDes"
                 app:srcCompat="@drawable/ic_share" />
 

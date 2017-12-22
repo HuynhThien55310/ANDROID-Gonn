@@ -37,7 +37,7 @@ public class FoodDiscoverFragment extends Fragment {
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         Query query = FirebaseFirestore.getInstance()
                 .collection("foods")
-                .orderBy("postedAt")
+                .orderBy("postedAt", Query.Direction.DESCENDING)
                 .limit(50);
         adapter = new FoodFirebaseAdapter(query, getContext());
         revFoodDiscover.setAdapter(adapter.getAdapter());

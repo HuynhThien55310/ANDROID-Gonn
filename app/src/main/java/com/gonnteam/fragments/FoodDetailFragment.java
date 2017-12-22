@@ -13,6 +13,8 @@ import android.widget.TextView;
 
 import com.gonnteam.R;
 import com.gonnteam.models.Food;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.squareup.picasso.Picasso;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
@@ -24,6 +26,7 @@ public class FoodDetailFragment extends Fragment {
     private TextView txtTitle;
     private ImageView imgBackdrop;
     private WebView wbvBody;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
@@ -33,6 +36,8 @@ public class FoodDetailFragment extends Fragment {
         txtTitle = rootView.findViewById(R.id.txtTitle);
         imgBackdrop = rootView.findViewById(R.id.imgBackdrop);
         wbvBody = rootView.findViewById(R.id.wbvBody);
+
+
 
         txtTitle.setText(food.getTitle());
         Picasso.with(getActivity()).load(food.getBackdrop()).into(imgBackdrop);

@@ -42,12 +42,14 @@ public class FoodCommentFragment extends Fragment{
 
     private RecyclerView revCommentDiscover;
     private CommentFirebaseAdapter adapter;
-
+    private String foodID;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_food_comment, container, false);
-        
+
+        foodID = getActivity().getIntent().getStringExtra("foodID");
+
         // add controls for post comment
         txtComment = rootView.findViewById(R.id.txtComment);
         btnSend = rootView.findViewById(R.id.btnSend);
@@ -62,7 +64,7 @@ public class FoodCommentFragment extends Fragment{
         revCommentDiscover = rootView.findViewById(R.id.revComment);
         Query query = FirebaseFirestore.getInstance()
                 .collection("comments")
-                .orderBy("postedAt")
+                .whereEqualTo("foodID", foodID)
                 .limit(50);
         adapter = new CommentFirebaseAdapter(query, getContext());
         revCommentDiscover.setAdapter(adapter.getAdapter());
@@ -79,7 +81,7 @@ public class FoodCommentFragment extends Fragment{
             Intent login = new Intent(getActivity(),LoginActivity.class);
             startActivity(login);
         }else {
-            String foodID = getActivity().getIntent().getStringExtra("foodID");
+
             String text = txtComment.getText().toString();
             if (text == ""){
                 return;
@@ -108,6 +110,18 @@ public class FoodCommentFragment extends Fragment{
 
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        adapter.getAdapter().startListening();
+    }
 
+
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        adapter.getAdapter().stopListening();
+    }
 
 }

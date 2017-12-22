@@ -12,6 +12,11 @@ public class Like extends BaseObservable implements Serializable{
     private String foodID;
     private String userID;
 
+    public Like(String foodID, String userID) {
+        this.foodID = foodID;
+        this.userID = userID;
+    }
+
     public Like() {
     }
 

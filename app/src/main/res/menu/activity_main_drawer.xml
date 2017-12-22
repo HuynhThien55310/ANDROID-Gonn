@@ -30,15 +30,10 @@
     <item android:title="@string/navAppSetting">
         <menu>
             <item
-                android:id="@+id/nav_share"
+                android:id="@+id/navSetting"
                 android:icon="@drawable/ic_menu_share"
-                android:title="@string/navShare" />
-            <item android:id="@+id/navReport"
-                android:icon="@drawable/ic_menu_share"
-                android:title="@string/navReport"/>
-            <item android:id="@+id/navAbout"
-                android:icon="@drawable/ic_menu_share"
-                android:title="@string/navAbout"/>
+                android:title="@string/navSetting" />
+
         </menu>
     </item>
 

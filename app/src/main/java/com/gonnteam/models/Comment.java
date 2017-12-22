@@ -24,13 +24,13 @@ public class Comment extends BaseObservable implements Serializable {
     private String foodID;
     private String userID;
     private String text;
-//    private Object postedAt;
+
 
     public Comment(String foodID, String userID, String text) {
         this.foodID = foodID;
         this.userID = userID;
         this.text = text;
-//        postedAt = new Date();
+
     }
 
     public Comment() {

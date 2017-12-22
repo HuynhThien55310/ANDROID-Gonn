@@ -54,6 +54,7 @@ public class FoodFirebaseAdapter {
     private String foodID;
     private FirebaseUser fuser;
     private FirebaseAuth mAuth;
+
     public FoodFirebaseAdapter(final Query query, final Context context) {
         this.context = context;
         this.query = query;
@@ -63,6 +64,7 @@ public class FoodFirebaseAdapter {
                 data = new ArrayList<>();
 
                 data = documentSnapshots.toObjects(Food.class);
+
             }
         });
 
@@ -79,52 +81,100 @@ public class FoodFirebaseAdapter {
             }
 
             @Override
-            protected void onBindViewHolder(FoodViewHolder holder, final int position, Food model) {
-
+            protected void onBindViewHolder(final FoodViewHolder holder, final int position, Food model) {
+                //get firebase instance
+                mLikeRef = FirebaseFirestore.getInstance().collection("likes");
+                mFoodRef = FirebaseFirestore.getInstance().collection("foods");
+                mAuth = FirebaseAuth.getInstance();
+                fuser = mAuth.getCurrentUser();
+                // get food
                 foodID = getSnapshots().getSnapshot(position).getId();
                 final Food food = data.get(position);
-                holder.setTitle(food.getTitle());
-                holder.setCmt(food.getComment());
+
+
+//                // set like number
+//                Query countLike = mLikeRef.whereEqualTo("foodID", foodID);
+//                countLike.addSnapshotListener(new EventListener<QuerySnapshot>() {
+//                    @Override
+//                    public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
+//                        holder.setLike(documentSnapshots.getDocuments().size());
+//                    }
+//                });
                 holder.setLike(food.getLike());
+
+
+                // binding food value
+                holder.setTitle(food.getTitle());
+                holder.setCmt(0);
                 holder.setShare(food.getShare());
                 holder.setBackdrop(food.getBackdrop(), context);
                 holder.imgBackdrop.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        // increase view value
+                        mFoodRef.document(foodID)
+                                .update("view", food.getView() + 1);
+                        Toast.makeText(context,foodID,Toast.LENGTH_SHORT).show();
                         Intent detail = new Intent(context, FoodDetailActivity.class);
                         Bundle bundle = new Bundle();
                         bundle.putSerializable("food", food);
-                        detail.putExtra("bundle",bundle);
+                        detail.putExtra("bundle", bundle);
                         detail.putExtra("foodID", foodID);
                         context.startActivity(detail);
                     }
                 });
+
                 holder.btnLike.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         //check user already login
-                        mAuth = FirebaseAuth.getInstance();
-                        fuser = mAuth.getCurrentUser();
-                        if (fuser == null){
+
+                        if (fuser == null) {
+                            // if user did not login -> login activity
                             Intent login = new Intent(context, LoginActivity.class);
                             context.startActivity(login);
                         } else {
-                            String userID = fuser.getUid();
+                            // already login
+                            final String userID = fuser.getUid();
                             mProcessLike = true;
-                            mLikeRef = FirebaseFirestore.getInstance().collection("likes/" + foodID);
-                            mLikeRef.add(userID)
-                                    .addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<DocumentReference> task) {
 
-                                        }
-                                    })
-                                    .addOnFailureListener(new OnFailureListener() {
-                                        @Override
-                                        public void onFailure(@NonNull Exception e) {
 
+                            Query likeQuery = mLikeRef.whereEqualTo("foodID", foodID).whereEqualTo("userID", userID);
+
+
+                            //
+
+                            likeQuery.addSnapshotListener(new EventListener<QuerySnapshot>() {
+                                @Override
+                                public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
+                                    if (mProcessLike) {
+                                        if (documentSnapshots.isEmpty()) {
+                                            // user did not like current food
+                                            Like like = new Like(foodID, userID);
+                                            mLikeRef.add(like)
+                                                    .addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                                                        @Override
+                                                        public void onComplete(@NonNull Task<DocumentReference> task) {
+                                                            holder.setBtnLike(true);
+                                                        }
+                                                    });
+                                            mProcessLike = false;
+                                        } else {
+                                            // user liked -> unlike
+                                            String likedRef = documentSnapshots.getDocuments().get(0).getId();
+                                            mLikeRef.document(likedRef).delete()
+                                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                        @Override
+                                                        public void onComplete(@NonNull Task<Void> task) {
+                                                            holder.setBtnLike(false);
+                                                        }
+                                                    });
+                                            mProcessLike = false;
                                         }
-                                    });
+                                    }
+
+                                }
+                            });
                         }
 
                     }
@@ -134,7 +184,7 @@ public class FoodFirebaseAdapter {
 
             @Override
             public void onError(FirebaseFirestoreException e) {
-                Log.d("Lỗi ở main",e.getMessage());
+                Log.d("Lỗi ở main", e.getMessage());
             }
         };
     }
@@ -143,34 +193,44 @@ public class FoodFirebaseAdapter {
 
         private ImageView imgBackdrop;
         private ImageButton btnLike;
+
         public FoodViewHolder(View itemView) {
             super(itemView);
             btnLike = itemView.findViewById(R.id.btnLike);
         }
 
-        public void setTitle(String title){
+        public void setTitle(String title) {
             TextView txtTitle = itemView.findViewById(R.id.txtTitle);
             txtTitle.setText(title);
         }
 
-        public void setLike(int like){
+        public void setLike(int like) {
             TextView txtLike = itemView.findViewById(R.id.txtLike);
             txtLike.setText(like + "");
         }
 
-        public void setCmt(int cmt){
+        public void setCmt(int cmt) {
             TextView txtCmt = itemView.findViewById(R.id.txtCmt);
             txtCmt.setText(cmt + "");
         }
 
-        public void setShare(int share){
+        public void setShare(int share) {
             TextView txtShare = itemView.findViewById(R.id.txtShare);
             txtShare.setText(share + "");
         }
 
-        public void setBackdrop(String backdrop, Context context){
+        public void setBackdrop(String backdrop, Context context) {
             imgBackdrop = itemView.findViewById(R.id.imgBackdrop);
             Picasso.with(context).load(backdrop).into(imgBackdrop);
+        }
+
+        public void setBtnLike(boolean isLiked) {
+            if (isLiked) {
+                btnLike.setImageResource(R.drawable.ic_already_like);
+            } else {
+                btnLike.setImageResource(R.drawable.ic_like);
+
+            }
         }
 
     }

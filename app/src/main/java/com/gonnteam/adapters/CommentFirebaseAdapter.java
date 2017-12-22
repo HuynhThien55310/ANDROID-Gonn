@@ -50,11 +50,6 @@ public class CommentFirebaseAdapter {
             public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
                 data = new ArrayList<>();
 
-//                try {
-//                    data = documentSnapshots.toObjects(Comment.class);
-//                }catch (RuntimeException ex){
-//                    Log.d("Bug comment",ex.getMessage());
-//                }
                 data = documentSnapshots.toObjects(Comment.class);
             }
         });

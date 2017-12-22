@@ -4,37 +4,31 @@ import android.databinding.BaseObservable;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.firebase.database.GenericTypeIndicator;
+import com.google.firebase.firestore.Exclude;
+
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by MrThien on 2017-11-15.
  */
 
-public class Food extends BaseObservable implements Serializable {
-    private String id;
+public class Food implements Serializable {
+
     private String backdrop;
     private String body;
-    private String[] tags;
     private String title;
-    private String posted;
-    private int like;
-    private int share;
-    private int comment;
-    private int view;
 
+    private int share;
+    private int view;
+    private int like;
     public Food() {
 
     }
 
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 
     public String getBackdrop() {
         return backdrop;
@@ -52,13 +46,7 @@ public class Food extends BaseObservable implements Serializable {
         this.body = body;
     }
 
-    public String[] getType() {
-        return tags;
-    }
 
-    public void setType(String[] type) {
-        this.tags = type;
-    }
 
     public String getTitle() {
         return title;
@@ -68,22 +56,6 @@ public class Food extends BaseObservable implements Serializable {
         this.title = title;
     }
 
-    public String getPosted() {
-        return posted;
-    }
-
-    public void setPosted(String posted) {
-        this.posted = posted;
-    }
-
-
-    public int getLike() {
-        return like;
-    }
-
-    public void setLike(int like) {
-        this.like = like;
-    }
 
     public int getShare() {
         return share;
@@ -93,13 +65,6 @@ public class Food extends BaseObservable implements Serializable {
         this.share = share;
     }
 
-    public int getComment() {
-        return comment;
-    }
-
-    public void setComment(int comment) {
-        this.comment = comment;
-    }
 
     public int getView() {
         return view;
@@ -107,5 +72,15 @@ public class Food extends BaseObservable implements Serializable {
 
     public void setView(int view) {
         this.view = view;
+    }
+
+
+
+    public int getLike() {
+        return like;
+    }
+
+    public void setLike(int like) {
+        this.like = like;
     }
 }

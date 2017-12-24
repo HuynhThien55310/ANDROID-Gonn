@@ -31,6 +31,7 @@ public class FoodDetailFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_food_detail, container, false);
+
         Bundle bundle = getActivity().getIntent().getBundleExtra("bundle");
         this.food = (Food) bundle.getSerializable("food");
         txtTitle = rootView.findViewById(R.id.txtTitle);

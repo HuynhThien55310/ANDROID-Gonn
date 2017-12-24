@@ -54,7 +54,7 @@ public class FoodFirebaseAdapter {
     private String foodID;
     private FirebaseUser fuser;
     private FirebaseAuth mAuth;
-
+    private boolean likeInit = false;
     public FoodFirebaseAdapter(final Query query, final Context context) {
         this.context = context;
         this.query = query;
@@ -90,17 +90,35 @@ public class FoodFirebaseAdapter {
                 // get food
                 foodID = getSnapshots().getSnapshot(position).getId();
                 final Food food = data.get(position);
+                final Intent detail = new Intent(context, FoodDetailActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("food", food);
+                detail.putExtra("bundle", bundle);
+                detail.putExtra("foodID", foodID);
 
+                // set like number
+                Query countLike = mLikeRef.whereEqualTo("foodID", detail.getStringExtra("foodID"));
+                countLike.addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
+                        holder.setLike(documentSnapshots.getDocuments().size());
+                    }
+                });
+                if (fuser != null){
+                    countLike.whereEqualTo("userID",fuser.getUid())
+                            .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                                @Override
+                                public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
+                                        if (documentSnapshots.size() != 0){
+                                            holder.setBtnLike(true);
+                                        }else {
+                                            holder.setBtnLike(false);
 
-//                // set like number
-//                Query countLike = mLikeRef.whereEqualTo("foodID", foodID);
-//                countLike.addSnapshotListener(new EventListener<QuerySnapshot>() {
-//                    @Override
-//                    public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
-//                        holder.setLike(documentSnapshots.getDocuments().size());
-//                    }
-//                });
-                holder.setLike(food.getLike());
+                                        }
+                                }
+                            });
+                }
+                //holder.setLike(food.getLike());
 
 
                 // binding food value
@@ -112,14 +130,9 @@ public class FoodFirebaseAdapter {
                     @Override
                     public void onClick(View view) {
                         // increase view value
-                        mFoodRef.document(foodID)
-                                .update("view", food.getView() + 1);
-                        Toast.makeText(context,foodID,Toast.LENGTH_SHORT).show();
-                        Intent detail = new Intent(context, FoodDetailActivity.class);
-                        Bundle bundle = new Bundle();
-                        bundle.putSerializable("food", food);
-                        detail.putExtra("bundle", bundle);
-                        detail.putExtra("foodID", foodID);
+                        mFoodRef.document(detail.getStringExtra("foodID"))
+                                .update("view", food.getView() +1);
+                        Toast.makeText(context,detail.getStringExtra("foodID"),Toast.LENGTH_SHORT).show();
                         context.startActivity(detail);
                     }
                 });
@@ -137,38 +150,27 @@ public class FoodFirebaseAdapter {
                             // already login
                             final String userID = fuser.getUid();
                             mProcessLike = true;
-
-
-                            Query likeQuery = mLikeRef.whereEqualTo("foodID", foodID).whereEqualTo("userID", userID);
-
-
+                            Query likeQuery = mLikeRef.whereEqualTo("foodID", detail.getStringExtra("foodID")).whereEqualTo("userID", userID);
                             //
-
                             likeQuery.addSnapshotListener(new EventListener<QuerySnapshot>() {
                                 @Override
                                 public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
                                     if (mProcessLike) {
                                         if (documentSnapshots.isEmpty()) {
                                             // user did not like current food
-                                            Like like = new Like(foodID, userID);
-                                            mLikeRef.add(like)
-                                                    .addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
-                                                        @Override
-                                                        public void onComplete(@NonNull Task<DocumentReference> task) {
-                                                            holder.setBtnLike(true);
-                                                        }
-                                                    });
+                                            Like like = new Like(detail.getStringExtra("foodID"), userID);
+                                            //holder.setBtnLike(true);
+                                            mLikeRef.add(like);
+                                            mFoodRef.document(detail.getStringExtra("foodID"))
+                                                    .update("like", food.getLike() + 1);
                                             mProcessLike = false;
                                         } else {
                                             // user liked -> unlike
                                             String likedRef = documentSnapshots.getDocuments().get(0).getId();
-                                            mLikeRef.document(likedRef).delete()
-                                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                        @Override
-                                                        public void onComplete(@NonNull Task<Void> task) {
-                                                            holder.setBtnLike(false);
-                                                        }
-                                                    });
+                                            //holder.setBtnLike(false);
+                                            mLikeRef.document(likedRef).delete();
+                                            mFoodRef.document(detail.getStringExtra("foodID"))
+                                                    .update("like", food.getLike() - 1);
                                             mProcessLike = false;
                                         }
                                     }

@@ -56,6 +56,6 @@ public class MostViewedFoodFragment extends Fragment {
     @Override
     public void onStop() {
         super.onStop();
-        adapter.getAdapter().stopListening();
+       adapter.getAdapter().stopListening();
     }
 }

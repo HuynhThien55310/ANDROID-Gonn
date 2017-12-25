@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Gonn</string>
+    <string name="app_name"></string>
     <string name="facebook_app_id">206777106530321</string>
     <string name="fb_login_protocol_scheme">fb206777106530321</string>
     <string name="navAccount">Tài khoản</string>

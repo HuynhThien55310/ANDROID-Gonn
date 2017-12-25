@@ -82,5 +82,7 @@ public class User extends BaseObservable {
         this.avatar = avatar;
     }
 
-
+    public String getDisplayName(){
+        return this.lastName + " " + this.firstName;
+    }
 }

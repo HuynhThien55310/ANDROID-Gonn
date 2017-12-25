@@ -3,7 +3,6 @@ package com.gonnteam.adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,13 +20,9 @@ import com.gonnteam.activities.FoodDetailActivity;
 import com.gonnteam.activities.LoginActivity;
 import com.gonnteam.models.Food;
 import com.gonnteam.models.Like;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
@@ -51,6 +46,7 @@ public class FoodFirebaseAdapter {
     private boolean mProcessLike = false;
     private CollectionReference mLikeRef;
     private CollectionReference mFoodRef;
+    private CollectionReference mCmtRef;
     private String foodID;
     private FirebaseUser fuser;
     private FirebaseAuth mAuth;
@@ -85,6 +81,7 @@ public class FoodFirebaseAdapter {
                 //get firebase instance
                 mLikeRef = FirebaseFirestore.getInstance().collection("likes");
                 mFoodRef = FirebaseFirestore.getInstance().collection("foods");
+                mCmtRef = FirebaseFirestore.getInstance().collection("comments");
                 mAuth = FirebaseAuth.getInstance();
                 fuser = mAuth.getCurrentUser();
                 // get food
@@ -104,6 +101,7 @@ public class FoodFirebaseAdapter {
                         holder.setLike(documentSnapshots.getDocuments().size());
                     }
                 });
+
                 if (fuser != null){
                     countLike.whereEqualTo("userID",fuser.getUid())
                             .addSnapshotListener(new EventListener<QuerySnapshot>() {
@@ -118,7 +116,16 @@ public class FoodFirebaseAdapter {
                                 }
                             });
                 }
-                //holder.setLike(food.getLike());
+
+                //set comment number
+                Query countCmt = mCmtRef.whereEqualTo("foodID", detail.getStringExtra("foodID"));
+                countCmt.addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
+                        holder.setCmt(documentSnapshots.size());
+                    }
+                });
+
 
 
                 // binding food value

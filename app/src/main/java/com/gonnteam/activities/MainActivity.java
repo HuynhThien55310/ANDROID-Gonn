@@ -1,5 +1,6 @@
 package com.gonnteam.activities;
 
+import android.app.DownloadManager;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -23,6 +24,12 @@ import com.gonnteam.adapters.TabsPagerAdapter;
 import com.gonnteam.models.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
 import com.squareup.picasso.Picasso;
 
 public class MainActivity extends AppCompatActivity
@@ -75,11 +82,12 @@ public class MainActivity extends AppCompatActivity
         mAuth = FirebaseAuth.getInstance();
         fUser = mAuth.getCurrentUser();
         View header = navigationView.getHeaderView(0);
-        TextView txtName = header.findViewById(R.id.txtName);
-        ImageView imgAvatar = header.findViewById(R.id.imgAvatar);
+        final TextView txtName = header.findViewById(R.id.txtName);
+        final ImageView imgAvatar = header.findViewById(R.id.imgAvatar);
         if (mAuth.getCurrentUser() == null){
             isUpdatedUser = false;
             txtName.setText(R.string.txtLogin);
+            imgAvatar.setImageResource(R.drawable.com_facebook_profile_picture_blank_square);
             txtName.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -93,8 +101,16 @@ public class MainActivity extends AppCompatActivity
                 return;
             }
             // Update user profile
-            txtName.setText(fUser.getDisplayName());
-            Picasso.with(this).load(fUser.getPhotoUrl()).into(imgAvatar);
+            CollectionReference mUserRef = FirebaseFirestore.getInstance().collection("users");
+            mUserRef.document(fUser.getUid())
+                    .addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                        @Override
+                        public void onEvent(DocumentSnapshot documentSnapshot, FirebaseFirestoreException e) {
+                            User user = documentSnapshot.toObject(User.class);
+                            txtName.setText(user.getDisplayName());
+                            Picasso.with(MainActivity.this).load(user.getAvatar()).into(imgAvatar);
+                        }
+                    });
         }
     }
 
@@ -112,6 +128,7 @@ public class MainActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
+        
         return true;
     }
 

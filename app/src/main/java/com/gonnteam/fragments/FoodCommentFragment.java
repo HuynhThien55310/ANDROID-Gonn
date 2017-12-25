@@ -89,19 +89,8 @@ public class FoodCommentFragment extends Fragment{
 
             mDocRef = FirebaseFirestore.getInstance().collection("comments");
             comment = new Comment(foodID, currentUser.getUid(), text);
-            mDocRef.add(comment)
-                    .addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
-                        @Override
-                        public void onComplete(@NonNull Task<DocumentReference> task) {
-                            txtComment.setText("");
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(getContext(),"That bai " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    });
+            txtComment.setText("");
+            mDocRef.add(comment);
         }
     }
 

@@ -5,13 +5,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.gonnteam.activities.AppInfoActivity">
+    tools:context="com.gonnteam.activities.ChangeAvatarActivity">
     <ImageView
-        android:layout_width="100sp"
-        android:layout_height="100sp"
-        android:layout_gravity="center"/>
-    <WebView
+        android:id="@+id/imgAvatar"
+        android:contentDescription="@string/account_setting_change_avatar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    </WebView>
+        android:layout_height="200sp" />
+    <Button
+        android:id="@+id/btnChangeAva"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/save"/>
 </LinearLayout>

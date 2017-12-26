@@ -1,15 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.gonnteam.activities.MainActivity">
-
-    <android.support.design.widget.AppBarLayout
+    <android.support.v4.view.ViewPager
+        android:layout_width="match_parent"
+        android:id="@+id/pager"
+        android:layout_height="match_parent"
+        android:layout_marginTop="53sp">
+        <android.support.v4.view.PagerTabStrip
+            style="@style/viewPagerTitleStrip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top" />
+    </android.support.v4.view.ViewPager>
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="5sp"
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <android.support.v7.widget.Toolbar
@@ -19,13 +29,40 @@
             android:background="?attr/colorPrimary"
             android:textAlignment="center"
             app:popupTheme="@style/AppTheme.PopupOverlay">
-
         </android.support.v7.widget.Toolbar>
-    </android.support.design.widget.AppBarLayout>
+        <com.miguelcatalan.materialsearchview.MaterialSearchView
+            android:id="@+id/search_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+    </FrameLayout>
+    <!--<android.support.design.widget.AppBarLayout-->
+        <!--android:id="@+id/appbarLayout"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:background="@color/search_layover_bg">-->
+        <!--<FrameLayout-->
+            <!--android:id="@+id/toolbar_container"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content">-->
 
-    <include
-        layout="@layout/content_main"
-        android:layout_height="513dp"
-        tools:layout_editor_absoluteY="54dp" />
+            <!--<android.support.v7.widget.Toolbar-->
+                <!--android:id="@+id/toolbar"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="?attr/actionBarSize"-->
+                <!--android:background="@color/colorPrimary" />-->
 
-</android.support.design.widget.CoordinatorLayout>
+            <!--<com.miguelcatalan.materialsearchview.MaterialSearchView-->
+                <!--android:id="@+id/search_view"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--/>-->
+        <!--</FrameLayout>-->
+    <!--</android.support.design.widget.AppBarLayout>-->
+    <!--<include-->
+        <!--layout="@layout/content_main"-->
+
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_marginTop="53sp"/>-->
+</RelativeLayout>

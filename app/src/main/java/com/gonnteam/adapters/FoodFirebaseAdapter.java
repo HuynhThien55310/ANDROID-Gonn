@@ -139,7 +139,6 @@ public class FoodFirebaseAdapter {
                         // increase view value
                         mFoodRef.document(detail.getStringExtra("foodID"))
                                 .update("view", food.getView() +1);
-                        Toast.makeText(context,detail.getStringExtra("foodID"),Toast.LENGTH_SHORT).show();
                         context.startActivity(detail);
                     }
                 });

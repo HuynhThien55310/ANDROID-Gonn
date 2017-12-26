@@ -16,7 +16,7 @@ public class User extends BaseObservable {
     public String firstName;
     public String lastName;
     public String gender;
-    public Date dateOfBirth;
+    public String dateOfBirth;
     public String avatar;
     public User() {
         // Default constructor
@@ -65,11 +65,11 @@ public class User extends BaseObservable {
     }
 
     @Bindable
-    public Date getDateOfBirth() {
+    public String getDateOfBirth() {
         return dateOfBirth;
     }
 
-    public void setDateOfBirth(Date dateOfBirth) {
+    public void setDateOfBirth(String dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
 

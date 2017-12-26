@@ -37,9 +37,6 @@ public class FoodDetailFragment extends Fragment {
         txtTitle = rootView.findViewById(R.id.txtTitle);
         imgBackdrop = rootView.findViewById(R.id.imgBackdrop);
         wbvBody = rootView.findViewById(R.id.wbvBody);
-
-
-
         txtTitle.setText(food.getTitle());
         Picasso.with(getActivity()).load(food.getBackdrop()).into(imgBackdrop);
         wbvBody.loadData("<style>img{display: inline;height: auto;max-width: 100%;}</style>" + food.getBody(),"text/html; charset=UTF-8", null);

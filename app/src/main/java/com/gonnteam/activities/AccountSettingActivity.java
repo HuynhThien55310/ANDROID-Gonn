@@ -52,11 +52,15 @@ public class AccountSettingActivity extends AppCompatActivity {
             public void onClick(View view) {
                 FirebaseAuth.getInstance().signOut();
                 LoginManager.getInstance().logOut();
+                finish();
             }
         });
     }
 
     private void addControls() {
-
+        btnLogout = findViewById(R.id.btnLogout);
+        btnChangeInfo = findViewById(R.id.btnChangeInfo);
+        btnChangeAvatar = findViewById(R.id.btnChangeAva);
+        btnChangePass = findViewById(R.id.btnChangePass);
     }
 }

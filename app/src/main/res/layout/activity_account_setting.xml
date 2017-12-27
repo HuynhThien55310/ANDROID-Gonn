@@ -7,31 +7,64 @@
     android:orientation="vertical"
     tools:context="com.gonnteam.activities.AccountSettingActivity">
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/account_setting"/>
+        android:textSize="15sp"
+        android:background="@color/colorRed"
+        android:textColor="#ffffff"
+        android:text="@string/account_setting"
+        android:textAlignment="center"/>
 
     <Button
         android:id="@+id/btnChangeAva"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/colorTransparent"
+        android:paddingLeft="15sp"
         android:text="@string/account_setting_change_avatar"
         android:textAlignment="viewStart" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1sp"
+        android:background="@color/colorRed"
+        android:paddingLeft="20sp" />
     <Button
         android:id="@+id/btnChangePass"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/colorTransparent"
+        android:paddingLeft="15sp"
         android:text="@string/account_setting_change_password"
         android:textAlignment="viewStart"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1sp"
+        android:background="@color/colorRed"
+        android:paddingLeft="20sp" />
     <Button
         android:id="@+id/btnChangeInfo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/colorTransparent"
+        android:paddingLeft="15sp"
         android:text="@string/account_setting_change_info"
         android:textAlignment="viewStart"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1sp"
+        android:background="@color/colorRed"
+        android:paddingLeft="20sp" />
     <Button
         android:id="@+id/btnLogout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/colorTransparent"
+        android:paddingLeft="15sp"
+        android:textAlignment="viewStart"
         android:text="@string/account_setting_logout"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1sp"
+        android:background="@color/colorRed"
+        android:paddingLeft="20sp" />
 </LinearLayout>

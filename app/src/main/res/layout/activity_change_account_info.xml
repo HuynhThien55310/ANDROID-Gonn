@@ -7,30 +7,24 @@
     android:orientation="vertical"
     tools:context="com.gonnteam.activities.ChangeAccountInfoActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/last_name"/>
+
     <EditText
         android:id="@+id/txtLName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:ems="10" />
+        android:ems="10"
+        android:hint="@string/last_name"
+        style="@style/editText_style"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/first_name"/>
     <EditText
         android:id="@+id/txtFName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:ems="10" />
+        android:ems="10"
+        android:hint="@string/first_name"
+        style="@style/editText_style"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/birthday"/>
+
     <TextView
         android:id="@+id/txtBirthday"
         android:layout_width="wrap_content"
@@ -39,6 +33,7 @@
 
     <Button
         android:id="@+id/btnChangePass"
+        style="@style/button_style"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/account_setting_change_password" />

@@ -53,6 +53,9 @@
     <string name="policy">Điều khoản sử dụng</string>
     <string name="contact">Liên hệ</string>
     <string name="about">Thông tin ứng dụng</string>
+    <string name="app_setting">Cài đặt ứng dụng</string>
+    <string name="change_avatar">Đổi ảnh đại diện</string>
+    <string name="change_pass">Đổi mật khẩu</string>
     <!-- Strings related to Settings -->
 
     <!-- Example General settings -->

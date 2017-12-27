@@ -6,43 +6,86 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.gonnteam.activities.AppSettingActivity">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="15sp"
+        android:background="@color/colorRed"
+        android:textColor="#ffffff"
+        android:text="@string/app_setting"
+        android:textAlignment="center"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:paddingRight="10sp"
+        android:paddingTop="10sp"
+        android:paddingBottom="10sp">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="2"
+            android:layout_weight="1"
+            android:textColor="#222222"
+            android:paddingLeft="12sp"
+            android:textSize="17sp"
+            android:textStyle="bold"
             android:text="@string/notification"/>
         <ToggleButton
             android:id="@+id/toggleButton1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="60sp"
+            android:layout_height="30sp"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:background="@drawable/toggle_selector"
             android:checked="false"
+            android:paddingRight="10sp"
             android:text=""
             android:textOff=""
             android:textOn="" />
     </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1sp"
+        android:background="@color/colorRed"
+        android:paddingLeft="20sp" />
     <Button
         android:id="@+id/btnPolicy"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/policy"
+        android:background="@color/colorTransparent"
+        android:paddingLeft="15sp"
         android:textAlignment="viewStart"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1sp"
+        android:background="@color/colorRed"
+        android:paddingLeft="20sp" />
     <Button
         android:id="@+id/btnContact"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/contact"
+        android:background="@color/colorTransparent"
+        android:paddingLeft="15sp"
         android:textAlignment="viewStart"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1sp"
+        android:background="@color/colorRed"
+        android:paddingLeft="20sp" />
     <Button
         android:id="@+id/btnAbout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/about"
+        android:background="@color/colorTransparent"
+        android:paddingLeft="15sp"
         android:textAlignment="viewStart"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1sp"
+        android:background="@color/colorRed"
+        android:paddingLeft="20sp" />
 </LinearLayout>

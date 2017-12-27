@@ -6,14 +6,24 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.gonnteam.activities.ChangeAvatarActivity">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="15sp"
+        android:background="@color/colorRed"
+        android:textColor="#ffffff"
+        android:text="@string/change_avatar"
+        android:textAlignment="center"/>
     <ImageView
         android:id="@+id/imgAvatar"
         android:contentDescription="@string/account_setting_change_avatar"
         android:layout_width="match_parent"
-        android:layout_height="200sp" />
+        android:layout_height="200sp"
+        android:background="@color/colorWhite"/>
     <Button
         android:id="@+id/btnChangeAva"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/save"/>
+        android:text="@string/save"
+        style="@style/button_style"/>
 </LinearLayout>

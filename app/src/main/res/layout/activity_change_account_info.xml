@@ -27,9 +27,11 @@
 
     <TextView
         android:id="@+id/txtBirthday"
-        android:layout_width="wrap_content"
+        android:textSize="18sp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/birthday"/>
+        android:text="@string/birthday"
+        style="@style/editText_style"/>
 
     <Button
         android:id="@+id/btnChangePass"

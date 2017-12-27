@@ -42,7 +42,6 @@ public class FoodFirebaseAdapter {
     private List<Food> data;
     private Context context;
     private Query query;
-    private Like like;
     private boolean mProcessLike = false;
     private CollectionReference mLikeRef;
     private CollectionReference mFoodRef;
@@ -50,18 +49,26 @@ public class FoodFirebaseAdapter {
     private String foodID;
     private FirebaseUser fuser;
     private FirebaseAuth mAuth;
-    private boolean likeInit = false;
-    public FoodFirebaseAdapter(final Query query, final Context context) {
+    private boolean isLoaded = false;
+    public FoodFirebaseAdapter(Query query, Context context) {
         this.context = context;
         this.query = query;
+        initAdapter();
+    }
+
+    public void initAdapter(){
         this.query.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
-                data = new ArrayList<>();
-
-                data = documentSnapshots.toObjects(Food.class);
-
+                if (!isLoaded){
+                    if (documentSnapshots != null){
+                        data = new ArrayList<>();
+                        data = documentSnapshots.toObjects(Food.class);
+                    }
+                    isLoaded = true;
+                }
             }
+
         });
 
         FirestoreRecyclerOptions<Food> options = new FirestoreRecyclerOptions.Builder<Food>()
@@ -107,12 +114,12 @@ public class FoodFirebaseAdapter {
                             .addSnapshotListener(new EventListener<QuerySnapshot>() {
                                 @Override
                                 public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
-                                        if (documentSnapshots.size() != 0){
-                                            holder.setBtnLike(true);
-                                        }else {
-                                            holder.setBtnLike(false);
+                                    if (documentSnapshots.size() != 0){
+                                        holder.setBtnLike(true);
+                                    }else {
+                                        holder.setBtnLike(false);
 
-                                        }
+                                    }
                                 }
                             });
                 }
@@ -190,10 +197,6 @@ public class FoodFirebaseAdapter {
 
             }
 
-            @Override
-            public void onError(FirebaseFirestoreException e) {
-                Log.d("Lỗi ở main", e.getMessage());
-            }
         };
     }
 

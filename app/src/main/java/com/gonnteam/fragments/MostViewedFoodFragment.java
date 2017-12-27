@@ -24,6 +24,7 @@ import static com.facebook.FacebookSdk.getApplicationContext;
 public class MostViewedFoodFragment extends Fragment {
     RecyclerView revFoodDiscover;
     FoodFirebaseAdapter adapter;
+    private Query query;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
@@ -31,10 +32,18 @@ public class MostViewedFoodFragment extends Fragment {
         revFoodDiscover = rootView.findViewById(R.id.revDiscover);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        Query query = FirebaseFirestore.getInstance()
-                .collection("foods")
-                .orderBy("view", Query.Direction.DESCENDING)
-                .limit(50);
+        String tag = getArguments().getString("tag");
+        if (tag == "all"){
+            query = FirebaseFirestore.getInstance()
+                    .collection("foods")
+                    .orderBy("postedAt", Query.Direction.DESCENDING);
+        } else {
+            query = FirebaseFirestore.getInstance()
+                    .collection("foods")
+                    .whereEqualTo(tag,true)
+                    .orderBy("like", Query.Direction.DESCENDING);
+        }
+
         adapter = new FoodFirebaseAdapter(query, getContext());
         revFoodDiscover.setAdapter(adapter.getAdapter());
         revFoodDiscover.setLayoutManager(layoutManager);
@@ -43,6 +52,14 @@ public class MostViewedFoodFragment extends Fragment {
 
     public MostViewedFoodFragment() {
 
+    }
+
+    public static MostViewedFoodFragment newInstance(String tag){
+        MostViewedFoodFragment newFragment = new MostViewedFoodFragment();
+        Bundle args = new Bundle();
+        args.putString("tag",tag);
+        newFragment.setArguments(args);
+        return newFragment;
     }
 
     @Override

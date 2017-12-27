@@ -32,7 +32,7 @@
             android:textStyle="bold"
             android:text="@string/notification"/>
         <ToggleButton
-            android:id="@+id/toggleButton1"
+            android:id="@+id/btnNotification"
             android:layout_width="60sp"
             android:layout_height="30sp"
             android:layout_centerHorizontal="true"

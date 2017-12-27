@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity
     // ViewPager
     private TabsPagerAdapter adapter;
     private ViewPager pager;
-
+    private String tag;
     // Navigation menu
     private Toolbar toolbar;
     private DrawerLayout drawer;
@@ -65,8 +65,7 @@ public class MainActivity extends AppCompatActivity
     // Search view
     private MaterialSearchView searchView;
     private FirebaseRecyclerAdapter fbadapter;
-    private CollectionReference mFoodRef;
-    private Query query;
+    private Query searchViewQuery;
     private List<Food> data;
     private String[] dataFilter;
     @Override
@@ -74,14 +73,17 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initNavigationMenu();
+        tag = "all";
         initViewPager();
         initSearchView();
     }
 
     private void initViewPager() {
-        adapter = new TabsPagerAdapter(getSupportFragmentManager(),this);
+        adapter = new TabsPagerAdapter(getSupportFragmentManager(),this, tag);
+        adapter.notifyDataSetChanged();
         pager = findViewById(R.id.pager);
         pager.setAdapter(adapter);
+
     }
 
     private void initNavigationMenu(){
@@ -140,8 +142,6 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void initSearchView(){
-        // connect to firebase
-        mFoodRef = FirebaseFirestore.getInstance().collection("foods");
 
         // create search view
         searchView = findViewById(R.id.search_view);
@@ -156,8 +156,8 @@ public class MainActivity extends AppCompatActivity
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                query = mFoodRef.orderBy("title").startAt(newText).endAt(newText + "\uf8ff").limit(5);
-                query.addSnapshotListener(new EventListener<QuerySnapshot>() {
+                searchViewQuery = FirebaseFirestore.getInstance().collection("foods").orderBy("title").startAt(newText).endAt(newText + "\uf8ff").limit(5);
+                searchViewQuery.addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
                     public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
                         data = new ArrayList<>();
@@ -187,9 +187,7 @@ public class MainActivity extends AppCompatActivity
         });
     }
 
-    private void filterFood(String title){
 
-    }
 
     @Override
     public void onBackPressed() {
@@ -237,14 +235,58 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-
-        if (id == R.id.navSetting) {
-            Intent appSetting = new Intent(MainActivity.this, AppSettingActivity.class);
-            startActivity(appSetting);
+        switch (id){
+            case R.id.navSetting:
+                Intent appSetting = new Intent(MainActivity.this, AppSettingActivity.class);
+                startActivity(appSetting);
+            case R.id.navMix:
+                tag = "all";
+                adapter.setTag(tag);
+                adapter.notifyDataSetChanged();
+                break;
+            case R.id.navSoup:
+                tag = "tag.Canh";
+                adapter.setTag(tag);
+                adapter.notifyDataSetChanged();
+                break;
+            case R.id.navGrill:
+                tag = "tag.Nướng";
+                adapter.setTag(tag);
+                adapter.notifyDataSetChanged();
+                break;
+            case R.id.navFry:
+                tag = "tag.Chiên";
+                adapter.setTag(tag);
+                adapter.notifyDataSetChanged();
+                break;
+            case R.id.navSteam:
+                tag = "tag.Hấp";
+                adapter.setTag(tag);
+                adapter.notifyDataSetChanged();
+                break;
+            case R.id.navVegetable:
+                tag = "tag.Chay";
+                adapter.setTag(tag);
+                adapter.notifyDataSetChanged();
+                break;
+            case R.id.navDessert:
+                tag = "tag.Tráng miệng";
+                adapter.setTag(tag);
+                adapter.notifyDataSetChanged();
+                break;
+                default: break;
         }
-//        } else if (id == R.id.navReport) {
-//            Intent accSetting = new Intent(MainActivity.this, AccountSettingActivity.class);
-//            startActivity(accSetting);
+//        if (id == R.id.navSetting) {
+//            Intent appSetting = new Intent(MainActivity.this, AppSettingActivity.class);
+//            startActivity(appSetting);
+//        }
+//        if (id == R.id.navMix) {
+//            Intent appSetting = new Intent(MainActivity.this, AppSettingActivity.class);
+//            startActivity(appSetting);
+//        }
+//        if (id == R.id.navSetting) {
+//            Intent appSetting = new Intent(MainActivity.this, AppSettingActivity.class);
+//            startActivity(appSetting);
 //        }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);

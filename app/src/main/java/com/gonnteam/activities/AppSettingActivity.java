@@ -47,7 +47,10 @@ public class AppSettingActivity extends AppCompatActivity {
     }
 
     private void addControls() {
-
+        btnContact = findViewById(R.id.btnContact);
+        btnAppInfo = findViewById(R.id.btnAbout);
+        btnPolicy = findViewById(R.id.btnPolicy);
+        btnNotification = findViewById(R.id.btnNotification);
     }
 
     public void switchNotification(){

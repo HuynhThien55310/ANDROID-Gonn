@@ -2,8 +2,11 @@ package com.gonnteam.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -105,7 +108,7 @@ public class FoodFirebaseAdapter {
                 countLike.addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
                     public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
-                        holder.setLike(documentSnapshots.getDocuments().size());
+                        holder.setLike(food.getLike());
                     }
                 });
 
@@ -129,7 +132,7 @@ public class FoodFirebaseAdapter {
                 countCmt.addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
                     public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
-                        holder.setCmt(documentSnapshots.size());
+                        holder.setCmt(food.getCmt());
                     }
                 });
 
@@ -232,7 +235,14 @@ public class FoodFirebaseAdapter {
 
         public void setBackdrop(String backdrop, Context context) {
             imgBackdrop = itemView.findViewById(R.id.imgBackdrop);
-            Picasso.with(context).load(backdrop).into(imgBackdrop);
+            if (backdrop.contains("data:image/jpeg;base64")) {
+                backdrop = backdrop.substring(backdrop.indexOf(",") + 1);
+                byte[] decodedString = Base64.decode(backdrop, Base64.DEFAULT);
+                Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+                imgBackdrop.setImageBitmap(decodedByte);
+            } else {
+                Picasso.with(context).load(backdrop).into(imgBackdrop);
+            }
         }
 
         public void setBtnLike(boolean isLiked) {

@@ -2,6 +2,8 @@ package com.gonnteam.activities;
 
 import android.app.DownloadManager;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.PersistableBundle;
@@ -12,6 +14,8 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Base64;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -40,8 +44,10 @@ import com.miguelcatalan.materialsearchview.MaterialSearchView;
 import com.miguelcatalan.materialsearchview.SearchAdapter;
 import com.squareup.picasso.Picasso;
 
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -68,6 +74,8 @@ public class MainActivity extends AppCompatActivity
     private Query searchViewQuery;
     private List<Food> data;
     private String[] dataFilter;
+    private ArrayList<String> dataSuggestion;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,14 +87,14 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void initViewPager() {
-        adapter = new TabsPagerAdapter(getSupportFragmentManager(),this, tag);
+        adapter = new TabsPagerAdapter(getSupportFragmentManager(), this, tag);
         adapter.notifyDataSetChanged();
         pager = findViewById(R.id.pager);
         pager.setAdapter(adapter);
 
     }
 
-    private void initNavigationMenu(){
+    private void initNavigationMenu() {
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         drawer = findViewById(R.id.drawer_layout);
@@ -98,25 +106,25 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
     }
 
-    private void initUser(){
+    private void initUser() {
         mAuth = FirebaseAuth.getInstance();
         fUser = mAuth.getCurrentUser();
         View header = navigationView.getHeaderView(0);
         final TextView txtName = header.findViewById(R.id.txtName);
         final ImageView imgAvatar = header.findViewById(R.id.imgAvatar);
-        if (mAuth.getCurrentUser() == null){
+        if (mAuth.getCurrentUser() == null) {
             isUpdatedUser = false;
             txtName.setText(R.string.txtLogin);
             imgAvatar.setImageResource(R.drawable.com_facebook_profile_picture_blank_square);
             header.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent login = new Intent(MainActivity.this,LoginActivity.class);
+                    Intent login = new Intent(MainActivity.this, LoginActivity.class);
                     startActivity(login);
                 }
             });
         } else {
-            if (isUpdatedUser){
+            if (isUpdatedUser) {
                 //User avatar was updated do nothing
                 return;
             }
@@ -128,48 +136,63 @@ public class MainActivity extends AppCompatActivity
                         public void onEvent(DocumentSnapshot documentSnapshot, FirebaseFirestoreException e) {
                             User user = documentSnapshot.toObject(User.class);
                             txtName.setText(user.getDisplayName());
-                            Picasso.with(MainActivity.this).load(user.getAvatar()).into(imgAvatar);
+                            if (user.getAvatar().contains("data:image/jpeg;base64")) {
+                                String ava = user.getAvatar().substring(user.getAvatar().indexOf(",") + 1);
+                                byte[] decodedString = Base64.decode(ava, Base64.DEFAULT);
+                                Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+                                imgAvatar.setImageBitmap(decodedByte);
+                            } else {
+                                Picasso.with(MainActivity.this).load(user.getAvatar()).into(imgAvatar);
+                            }
+
                         }
                     });
             header.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent accountSetting = new Intent(MainActivity.this,AccountSettingActivity.class);
+                    Intent accountSetting = new Intent(MainActivity.this, AccountSettingActivity.class);
                     startActivity(accountSetting);
                 }
             });
         }
     }
 
-    private void initSearchView(){
+    private void initSearchView() {
 
         // create search view
         searchView = findViewById(R.id.search_view);
         searchView.setEllipsize(true);
+        searchViewQuery = FirebaseFirestore.getInstance().collection("foods");
 
+        searchViewQuery.addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
+                    data = new ArrayList<>();
+                    data = documentSnapshots.toObjects(Food.class);
+            }
+        });
         searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                Toast.makeText(getApplicationContext(),"Không tìm thấy kết quả",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Không tìm thấy kết quả", Toast.LENGTH_SHORT).show();
                 return false;
             }
 
             @Override
-            public boolean onQueryTextChange(String newText) {
-                searchViewQuery = FirebaseFirestore.getInstance().collection("foods").orderBy("title").startAt(newText).endAt(newText + "\uf8ff").limit(5);
-                searchViewQuery.addSnapshotListener(new EventListener<QuerySnapshot>() {
-                    @Override
-                    public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
-                        data = new ArrayList<>();
-                        data = documentSnapshots.toObjects(Food.class);
-                        dataFilter = new String[data.size()];
-                        for(int i = 0; i < data.size(); i ++){
-                            dataFilter[i] = data.get(i).getTitle();
-                        }
-                        //searchView.setSuggestions(dataFilter);
-                        searchView.setAdapter(new SearchAdapter(getApplicationContext(),dataFilter));
+            public boolean onQueryTextChange(final String newText) {
+                dataSuggestion = new ArrayList<>();
+                String alias = createAlias(newText);
+                for(int i=0; i < data.size();i++){
+                    if (data.get(i).getAlias().contains(alias)){
+                        dataSuggestion.add(data.get(i).getTitle());
+                        Log.d("TRUE", i + " id: " + data.get(i).getId() +
+                                " alias: " + alias + " size" + dataSuggestion.size() + " text: " + newText);
                     }
-                });
+                }
+                dataFilter = new String[dataSuggestion.size()];
+                dataFilter = dataSuggestion.toArray(dataFilter);
+                searchView.setSuggestions(dataFilter);
+                //searchView.setAdapter(new SearchAdapter(getApplicationContext(),dataFilter));
                 return false;
             }
         });
@@ -187,7 +210,13 @@ public class MainActivity extends AppCompatActivity
         });
     }
 
-
+    private String createAlias(String title) {
+        title = title.toLowerCase();
+        title = title.replaceAll("\\s+", "");
+        String nfdNormalizedString = Normalizer.normalize(title, Normalizer.Form.NFD);
+        Pattern pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
+        return pattern.matcher(nfdNormalizedString).replaceAll("");
+    }
 
     @Override
     public void onBackPressed() {
@@ -235,7 +264,7 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-        switch (id){
+        switch (id) {
             case R.id.navSetting:
                 Intent appSetting = new Intent(MainActivity.this, AppSettingActivity.class);
                 startActivity(appSetting);
@@ -274,7 +303,8 @@ public class MainActivity extends AppCompatActivity
                 adapter.setTag(tag);
                 adapter.notifyDataSetChanged();
                 break;
-                default: break;
+            default:
+                break;
         }
 //        if (id == R.id.navSetting) {
 //            Intent appSetting = new Intent(MainActivity.this, AppSettingActivity.class);

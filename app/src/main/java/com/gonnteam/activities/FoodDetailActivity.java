@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.gonnteam.R;
 import com.gonnteam.fragments.FoodCommentFragment;
@@ -47,17 +48,15 @@ public class FoodDetailActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+        switch (item.getItemId()) {
+            case R.id.action_add:
+                Toast.makeText(FoodDetailActivity.this,"Thêm vào thực đơn", Toast.LENGTH_SHORT).show();
+                return true;
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_search) {
-            return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
         }
-
-        return super.onOptionsItemSelected(item);
     }
 
 
@@ -66,14 +65,15 @@ public class FoodDetailActivity extends AppCompatActivity {
         public SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
         }
-
+        FoodDetailFragment foodDetail = new FoodDetailFragment();
+        FoodCommentFragment foodCmt = new FoodCommentFragment();
         @Override
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
             switch (position){
-                case 0: return new FoodDetailFragment();
-                case 1: return new FoodCommentFragment();
+                case 0: return foodDetail;
+                case 1: return foodCmt;
                 default: return null;
             }
         }

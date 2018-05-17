@@ -34,7 +34,7 @@ public class AccountSettingActivity extends AppCompatActivity {
         btnChangeAvatar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent changeAvatar = new Intent(AccountSettingActivity.this,ChangeAccountInfoActivity.class);
+                Intent changeAvatar = new Intent(AccountSettingActivity.this,ChangeAvatarActivity.class);
                 startActivity(changeAvatar);
             }
         });

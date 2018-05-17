@@ -49,7 +49,6 @@ public class CommentFirebaseAdapter {
             @Override
             public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
                 data = new ArrayList<>();
-
                 data = documentSnapshots.toObjects(Comment.class);
             }
         });
@@ -75,10 +74,12 @@ public class CommentFirebaseAdapter {
                 mDocRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
                     @Override
                     public void onEvent(DocumentSnapshot documentSnapshot, FirebaseFirestoreException e) {
-                        User user = documentSnapshot.toObject(User.class);
-                        holder.setAvatar(user.getAvatar(), context);
-                        holder.setCmt(comment.getText());
-                        holder.setName(user.getLastName() + " " + user.getFirstName());
+                        if (documentSnapshot.exists()) {
+                            User user = documentSnapshot.toObject(User.class);
+                            holder.setAvatar(user.getAvatar(), context);
+                            holder.setCmt(comment.getText());
+                            holder.setName(user.getLastName() + " " + user.getFirstName());
+                        }
                     }
                 });
 

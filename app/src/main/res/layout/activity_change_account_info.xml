@@ -25,18 +25,25 @@
         style="@style/editText_style"/>
 
 
-    <TextView
-        android:id="@+id/txtBirthday"
-        android:textSize="18sp"
+    <!--<TextView-->
+        <!--android:id="@+id/txtBirthday"-->
+        <!--android:textSize="18sp"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="@string/birthday"-->
+        <!---->
+        <!--android:clickable="true" />-->
+    <Button
+        android:id="@+id/btnBirthday"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/birthday"
+        android:textSize="18sp"
         style="@style/editText_style"/>
 
     <Button
-        android:id="@+id/btnChangePass"
+        android:id="@+id/btnSave"
         style="@style/button_style"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/account_setting_change_password" />
+        android:text="@string/save" />
 </LinearLayout>

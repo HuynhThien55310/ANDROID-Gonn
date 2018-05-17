@@ -16,19 +16,51 @@ import java.util.List;
  */
 
 public class Food implements Serializable {
-
+    private String id;
     private String backdrop;
     private String body;
     private String title;
-
+    private String alias;
     private int share;
     private int view;
     private int like;
+    private int comment;
+
+    public int getCmt() {
+        return comment;
+    }
+
+    public void setCmt(int cmt) {
+        this.comment = cmt;
+    }
+
     public Food() {
 
     }
 
+    public String getId() {
+        return id;
+    }
 
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getAlias() {
+        return alias;
+    }
+
+    public void setAlias(String alias) {
+        this.alias = alias;
+    }
+
+    public int getComment() {
+        return comment;
+    }
+
+    public void setComment(int comment) {
+        this.comment = comment;
+    }
 
     public String getBackdrop() {
         return backdrop;

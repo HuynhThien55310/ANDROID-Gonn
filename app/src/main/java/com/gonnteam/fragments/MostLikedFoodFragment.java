@@ -11,7 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.gonnteam.R;
-import com.gonnteam.adapters.FoodFirebaseAdapter;
+import com.gonnteam.adapters.FoodAdapter;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
@@ -23,7 +23,7 @@ import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class MostLikedFoodFragment extends Fragment {
     RecyclerView revFoodDiscover;
-    FoodFirebaseAdapter adapter;
+    FoodAdapter adapter;
     private Query query;
     @Nullable
     @Override
@@ -44,7 +44,7 @@ public class MostLikedFoodFragment extends Fragment {
                     .orderBy("like", Query.Direction.DESCENDING);
         }
 
-        adapter = new FoodFirebaseAdapter(query, getContext());
+        adapter = new FoodAdapter(query, getContext());
         revFoodDiscover.setAdapter(adapter.getAdapter());
         revFoodDiscover.setLayoutManager(layoutManager);
         return rootView;

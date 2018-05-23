@@ -2,7 +2,6 @@ package com.gonnteam.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,20 +11,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
 import com.gonnteam.R;
 import com.gonnteam.activities.LoginActivity;
-import com.gonnteam.adapters.CommentFirebaseAdapter;
-import com.gonnteam.adapters.FoodFirebaseAdapter;
+import com.gonnteam.adapters.CommentAdapter;
 import com.gonnteam.models.Comment;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
@@ -41,7 +34,7 @@ public class FoodCommentFragment extends Fragment{
     private CollectionReference mDocRef;
 
     private RecyclerView revCommentDiscover;
-    private CommentFirebaseAdapter adapter;
+    private CommentAdapter adapter;
     private String foodID;
     @Nullable
     @Override
@@ -66,7 +59,7 @@ public class FoodCommentFragment extends Fragment{
                 .collection("comments")
                 .whereEqualTo("foodID", foodID)
                 .limit(50);
-        adapter = new CommentFirebaseAdapter(query, getContext());
+        adapter = new CommentAdapter(query, getContext());
         revCommentDiscover.setAdapter(adapter.getAdapter());
         LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);

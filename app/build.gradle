@@ -53,6 +53,7 @@ dependencies {
     implementation 'com.facebook.android:facebook-share:[4,5)'
     implementation 'com.facebook.android:facebook-applinks:[4,5)'
     implementation 'com.miguelcatalan:materialsearchview:1.4.0'
+    implementation 'br.com.mauker.materialsearchview:materialsearchview:1.2.3'
 
 }
 

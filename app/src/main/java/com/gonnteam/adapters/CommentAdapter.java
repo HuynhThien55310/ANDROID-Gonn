@@ -35,14 +35,14 @@ import java.util.Objects;
  * Created by MrThien on 2017-12-17.
  */
 
-public class CommentFirebaseAdapter {
+public class CommentAdapter {
     private FirestoreRecyclerAdapter adapter;
     private List<Comment> data;
     private Context context;
     private Query query;
     private DocumentReference mDocRef;
 
-    public CommentFirebaseAdapter(final Query query, final Context context) {
+    public CommentAdapter(final Query query, final Context context) {
         this.context = context;
         this.query = query;
         this.query.addSnapshotListener(new EventListener<QuerySnapshot>() {
@@ -118,7 +118,7 @@ public class CommentFirebaseAdapter {
 
 
 
-    public CommentFirebaseAdapter() {
+    public CommentAdapter() {
     }
 
     public FirestoreRecyclerAdapter getAdapter() {

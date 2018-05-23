@@ -40,7 +40,7 @@ import java.util.List;
  * Created by MrThien on 2017-12-13.
  */
 
-public class FoodFirebaseAdapter {
+public class FoodAdapter {
     private FirestoreRecyclerAdapter adapter;
     private List<Food> data;
     private Context context;
@@ -53,7 +53,7 @@ public class FoodFirebaseAdapter {
     private FirebaseUser fuser;
     private FirebaseAuth mAuth;
     private boolean isLoaded = false;
-    public FoodFirebaseAdapter(Query query, Context context) {
+    public FoodAdapter(Query query, Context context) {
         this.context = context;
         this.query = query;
         initAdapter();

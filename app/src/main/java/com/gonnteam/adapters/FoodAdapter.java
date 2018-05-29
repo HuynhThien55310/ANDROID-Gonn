@@ -29,6 +29,7 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.squareup.picasso.Picasso;
@@ -65,8 +66,13 @@ public class FoodAdapter {
             public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
                 if (!isLoaded){
                     if (documentSnapshots != null){
-                        data = new ArrayList<>();
-                        data = documentSnapshots.toObjects(Food.class);
+//                        data = new ArrayList<>();
+//                        data = documentSnapshots.toObjects(Food.class);
+                        try {
+                            data = documentSnapshots.toObjects(Food.class);
+                        }catch (RuntimeException r){
+                            Log.d("CRASH ID: ",r.getMessage());
+                        }
                     }
                     isLoaded = true;
                 }
@@ -77,6 +83,7 @@ public class FoodAdapter {
         FirestoreRecyclerOptions<Food> options = new FirestoreRecyclerOptions.Builder<Food>()
                 .setQuery(this.query, Food.class)
                 .build();
+
 
         this.adapter = new FirestoreRecyclerAdapter<Food, FoodViewHolder>(options) {
             @Override

@@ -167,8 +167,15 @@ public class MainActivity extends AppCompatActivity
         searchViewQuery.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
-                    data = new ArrayList<>();
+                    //data = new ArrayList<>();
+                try {
                     data = documentSnapshots.toObjects(Food.class);
+                }catch (RuntimeException r){
+                    Log.d("CRASH ID: ",r.getMessage());
+                }
+
+
+
             }
         });
         searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
@@ -265,6 +272,9 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
         switch (id) {
+            case R.id.navMenu:
+                Intent menu = new Intent(MainActivity.this, MenuActivity.class);
+                startActivity(menu);
             case R.id.navSetting:
                 Intent appSetting = new Intent(MainActivity.this, AppSettingActivity.class);
                 startActivity(appSetting);

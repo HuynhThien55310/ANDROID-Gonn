@@ -25,13 +25,13 @@ public class Food implements Serializable {
     private int view;
     private int like;
     private int comment;
-    private Ingredient[] ingredients;
+    private List<Ingredient> ingredients;
 
-    public Ingredient[] getIngredients() {
+    public List<Ingredient> getIngredients() {
         return ingredients;
     }
 
-    public void setIngredients(Ingredient[] ingredients) {
+    public void setIngredients(List<Ingredient> ingredients) {
         this.ingredients = ingredients;
     }
 

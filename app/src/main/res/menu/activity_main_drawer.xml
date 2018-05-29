@@ -4,6 +4,9 @@
     tools:showIn="navigation_view">
 
     <group android:checkableBehavior="single">
+        <item android:id="@+id/navMenu"
+            android:icon="@drawable/ic_menu"
+            android:title="Thực đơn"/>
         <item android:id="@+id/navMix"
             android:icon="@drawable/ic_3region"
             android:title="@string/navMix"/>

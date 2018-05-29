@@ -3,7 +3,7 @@ package com.gonnteam.models;
 public class Ingredient {
     String id;
     String name;
-    float price;
+    int price;
     int amount;
     String unit;
     String alias;
@@ -24,11 +24,11 @@ public class Ingredient {
         this.name = name;
     }
 
-    public float getPrice() {
+    public int getPrice() {
         return price;
     }
 
-    public void setPrice(float price) {
+    public void setPrice(int price) {
         this.price = price;
     }
 

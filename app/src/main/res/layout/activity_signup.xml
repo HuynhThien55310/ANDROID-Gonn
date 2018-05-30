@@ -34,7 +34,8 @@
                 android:hint="@string/email"
                 android:inputType="textEmailAddress"
                 android:text="@={user.email}"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                android:textColorHint="@color/colorWhite"/>
             <EditText
                 android:id="@+id/txtSignupPass"
                 style="@style/editText_style"
@@ -44,7 +45,8 @@
                 android:layout_weight="1"
                 android:hint="@string/password"
                 android:inputType="textPassword"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                android:textColorHint="@color/colorWhite"/>
 
             <EditText
                 android:id="@+id/txtSignupRePass"
@@ -55,7 +57,8 @@
                 android:layout_weight="1"
                 android:hint="@string/repeat_password"
                 android:inputType="textPassword"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                android:textColorHint="@color/colorWhite"/>
 
 
 
@@ -75,6 +78,8 @@
                     android:hint="@string/last_name"
                     android:inputType="textPersonName"
                     android:text="@={user.firstName}"
+                    android:textColor="@color/colorWhite"
+                    android:textColorHint="@color/colorWhite"
                     android:textSize="20sp" />
 
                 <EditText
@@ -87,7 +92,8 @@
                     android:hint="@string/first_name"
                     android:inputType="textPersonName"
                     android:text="@={user.lastName}"
-                    android:textSize="20sp" />
+                    android:textSize="20sp"
+                    android:textColorHint="@color/colorWhite"/>
 
             </LinearLayout>
 

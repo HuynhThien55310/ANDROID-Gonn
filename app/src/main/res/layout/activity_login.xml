@@ -27,7 +27,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:hint="@string/email"
-            android:inputType="textEmailAddress" />
+            android:inputType="textEmailAddress"
+            android:textColorHint="@color/colorWhite"/>
 
         <EditText
             android:id="@+id/txtPass"
@@ -35,7 +36,8 @@
             android:layout_width="match_parent"
             android:layout_gravity="center"
             android:hint="@string/password"
-            android:inputType="textPassword" />
+            android:inputType="textPassword"
+            android:textColorHint="@color/colorWhite"/>
 
         <Button
             android:id="@+id/btnLogin"
@@ -50,10 +52,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:gravity="center"
-            android:textColor="#F7F7F7"
             android:background="#00EDD3D2"
-            android:text="@string/forgot_password" />
+            android:gravity="center"
+            android:text="@string/forgot_password"
+            android:textColor="#F7F7F7" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -78,6 +80,8 @@
                 android:paddingRight="2sp"
                 android:text="Hoặc"
                 android:textAlignment="center"
+                android:textColor="#F7F7F7"
+                android:textColorLink="#F7F7F7"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
@@ -124,26 +128,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical"></LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical"></LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical">
-
-        </LinearLayout>
 
         <Button
             android:id="@+id/btnRegister"

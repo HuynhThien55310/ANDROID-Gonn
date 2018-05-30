@@ -7,6 +7,7 @@
     <color name="colorWhite">#ffffff</color>
     <color name="colorTransparent">#00ffffff</color>
     <color name="colorRed">#D4A3A3</color>
+    <color name="colorRed80">#80D4A3A3</color>
     <color name="colorFoodAction">#222222</color>
     <color name="colorDarkRed">#B25A5D</color>
 

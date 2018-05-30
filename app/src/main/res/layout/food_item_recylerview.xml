@@ -8,115 +8,141 @@
         android:background="@drawable/shadowbackground"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/txtTitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:background="@color/colorWhite"
-            android:gravity="center"
-            android:paddingEnd="10sp"
-            android:paddingStart="10sp"
-            android:text="Tên món ăn"
-            android:textAlignment="textStart"
-            android:textColor="@color/colorDarkRed"
-            android:textSize="22sp"
-            android:textStyle="normal|bold" />
-
-        <ImageView
-            android:id="@+id/imgBackdrop"
-
-            android:layout_width="match_parent"
-            android:layout_height="200sp"
-            android:scaleType="centerCrop"
-            app:srcCompat="@mipmap/backdrop" />
-
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:orientation="horizontal"
-            android:paddingBottom="5sp"
-            android:paddingTop="5sp">
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="15dp">
 
-            <ImageButton
+            <ImageView
+                android:id="@+id/imgBackdrop"
 
-                android:layout_width="50sp"
-                android:layout_height="30sp"
-                android:layout_weight="1"
-                android:background="@android:color/transparent"
-                android:id="@+id/btnLike"
-                android:contentDescription="@string/imgLikeDes"
-                app:srcCompat="@drawable/ic_like" />
+                android:layout_width="match_parent"
+                android:layout_height="200sp"
+                android:scaleType="centerCrop"
+                app:srcCompat="@mipmap/backdrop" />
 
-            <ImageButton
-                android:layout_width="50sp"
-                android:layout_height="30sp"
-                android:layout_weight="1"
-                android:background="@android:color/transparent"
-                android:id="@+id/btnComment"
-                android:contentDescription="@string/imgShareDes"
-                app:srcCompat="@drawable/ic_comment" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:paddingTop="5dp">
 
-            <ImageButton
-                android:layout_width="50sp"
-                android:layout_height="30sp"
-                android:layout_weight="1"
-                android:background="@android:color/transparent"
-                android:id="@+id/btnShare"
-                android:contentDescription="@string/imgShareDes"
-                app:srcCompat="@drawable/ic_share" />
+                <TextView
+                    android:id="@+id/txtTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:background="@color/colorWhite"
+                    android:elegantTextHeight="true"
+                    android:gravity="center"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="5dp"
+                    android:text="Tên món ăn"
+                    android:textAlignment="textStart"
+                    android:textColor="@color/colorDarkRed"
+                    android:textSize="16sp"
+                    android:textStyle="normal|bold" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_horizontal"
+                    android:orientation="horizontal"
+                    android:paddingBottom="5dp"
+                    android:paddingTop="5dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
+
+                        <ImageButton
+
+                            android:id="@+id/btnLike"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:background="@android:color/transparent"
+                            android:contentDescription="@string/imgLikeDes"
+                            app:srcCompat="@drawable/ic_like" />
+
+                        <TextView
+                            android:id="@+id/txtLike"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="2"
+                            android:text="0"
+                            android:textAlignment="center"
+                            android:textColor="@color/colorDarkRed"
+                            android:textSize="17sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
+
+                        <ImageButton
+                            android:id="@+id/btnComment"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:background="@android:color/transparent"
+                            android:contentDescription="@string/imgShareDes"
+                            app:srcCompat="@drawable/ic_comment" />
+
+                        <TextView
+                            android:id="@+id/txtCmt"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:text="0"
+                            android:textAlignment="center"
+                            android:textColor="@color/colorDarkRed"
+                            android:textSize="17sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
+
+                        <ImageButton
+                            android:id="@+id/btnShare"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:background="@android:color/transparent"
+                            android:contentDescription="@string/imgShareDes"
+                            app:srcCompat="@drawable/ic_share" />
+
+                        <TextView
+                            android:id="@+id/txtShare"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:text="0"
+                            android:textAlignment="center"
+                            android:textColor="@color/colorDarkRed"
+                            android:textSize="17sp" />
+                    </LinearLayout>
 
 
+                </LinearLayout>
+
+
+            </LinearLayout>
         </LinearLayout>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1sp"
-            android:background="@color/colorRed"
-            android:paddingLeft="20sp" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:paddingBottom="4sp"
-            android:paddingTop="4sp">
-
-            <TextView
-                android:id="@+id/txtLike"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="0"
-                android:textAlignment="center"
-                android:textColor="@color/colorDarkRed"
-                android:textSize="17sp" />
-
-            <TextView
-                android:id="@+id/txtCmt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="0"
-                android:textAlignment="center"
-                android:textColor="@color/colorDarkRed"
-                android:textSize="17sp" />
-
-            <TextView
-                android:id="@+id/txtShare"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="0"
-                android:textAlignment="center"
-                android:textColor="@color/colorDarkRed"
-                android:textSize="17sp" />
-        </LinearLayout>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="5sp"
-            android:background="@color/colorRed" />
+            android:background="@color/colorRed80" />
 
     </LinearLayout>
+
 </layout>

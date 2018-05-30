@@ -275,9 +275,11 @@ public class MainActivity extends AppCompatActivity
             case R.id.navMenu:
                 Intent menu = new Intent(MainActivity.this, MenuActivity.class);
                 startActivity(menu);
+                break;
             case R.id.navSetting:
                 Intent appSetting = new Intent(MainActivity.this, AppSettingActivity.class);
                 startActivity(appSetting);
+                break;
             case R.id.navMix:
                 tag = "all";
                 adapter.setTag(tag);

@@ -64,7 +64,7 @@
         <activity android:name=".activities.ChangeAvatarActivity" />
         <activity
             android:name=".activities.MenuActivity"
-            android:label="@string/title_activity_menu"
+            android:label="Thêm thực đơn"
             android:theme="@style/AppTheme" />
     </application>
 

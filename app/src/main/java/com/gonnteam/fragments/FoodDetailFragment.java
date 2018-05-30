@@ -35,23 +35,24 @@ public class FoodDetailFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_food_detail, container, false);
 
-        Bundle bundle = getActivity().getIntent().getBundleExtra("bundle");
-        this.food = (Food) bundle.getSerializable("food");
+        String body = getActivity().getIntent().getStringExtra("body");
+        String title = getActivity().getIntent().getStringExtra("title");
+        String backdrop = getActivity().getIntent().getStringExtra("backdrop");
+        // String foodID = getActivity().getIntent().getStringExtra("foodID");
         txtTitle = rootView.findViewById(R.id.txtTitle);
         imgBackdrop = rootView.findViewById(R.id.imgBackdrop);
         wbvBody = rootView.findViewById(R.id.wbvBody);
-        txtTitle.setText(food.getTitle());
-        String backdrop = food.getBackdrop();
+        txtTitle.setText(title);
         if (backdrop.contains("data:image/jpeg;base64")) {
             backdrop = backdrop.substring(backdrop.indexOf(",") + 1);
             byte[] decodedString = Base64.decode(backdrop, Base64.DEFAULT);
             Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
             imgBackdrop.setImageBitmap(decodedByte);
         } else {
-            Picasso.with(getActivity()).load(food.getBackdrop()).into(imgBackdrop);
+            Picasso.with(getActivity()).load(backdrop).into(imgBackdrop);
         }
 
-        wbvBody.loadData("<style>img{display: inline;height: auto;max-width: 100%;}</style>" + food.getBody(),"text/html; charset=UTF-8", null);
+        wbvBody.loadData("<style>img{display: inline;height: auto;max-width: 100%;}</style>" + body,"text/html; charset=UTF-8", null);
         return rootView;
     }
 

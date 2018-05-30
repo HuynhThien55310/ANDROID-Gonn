@@ -8,6 +8,7 @@ import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.firestore.Exclude;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 

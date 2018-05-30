@@ -34,6 +34,7 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.squareup.picasso.Picasso;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -105,10 +106,12 @@ public class FoodAdapter {
                 foodID = getSnapshots().getSnapshot(position).getId();
                 final Food food = data.get(position);
                 final Intent detail = new Intent(context, FoodDetailActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("food", food);
-                detail.putExtra("bundle", bundle);
                 detail.putExtra("foodID", foodID);
+                detail.putExtra("title",food.getTitle());
+                detail.putExtra("backdrop",food.getBackdrop());
+                detail.putExtra("body",food.getBody());
+
+
 
                 // set like number
                 Query countLike = mLikeRef.whereEqualTo("foodID", detail.getStringExtra("foodID"));
@@ -156,6 +159,11 @@ public class FoodAdapter {
                         // increase view value
                         mFoodRef.document(detail.getStringExtra("foodID"))
                                 .update("view", food.getView() +1);
+//                        try{
+//                            context.startActivity(detail);
+//                        }catch (Exception i){
+//
+//                        }
                         context.startActivity(detail);
                     }
                 });

@@ -103,41 +103,41 @@ public class MenuAdapter {
     }
 
     private float calPrice() {
-        totalPrice = 0;
-        for(int i=0; i< foodID.length; i++){
-            mFoodRef.document(foodID[i]).addSnapshotListener(new EventListener<DocumentSnapshot>() {
-                @Override
-                public void onEvent(final DocumentSnapshot documentSnapshot, FirebaseFirestoreException e) {
-                    final Food food = documentSnapshot.toObject(Food.class);
-                    if (food.getIngredients() == null || food.getIngredients().size() == 0){
-                        return;
-                    }
-                    for(int j=0; j < food.getIngredients().size(); j++){
-                        final Ingredient ingreJ = food.getIngredients().get(j);
-                        mIngreRef.whereEqualTo("name",ingreJ
-                                .getName()).addSnapshotListener(new EventListener<QuerySnapshot>() {
-                            @Override
-                            public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
-                                List<Ingredient> temp;
-                                temp = documentSnapshots.toObjects(Ingredient.class);
-                                if (!temp.isEmpty()){
-                                    Ingredient ingre = temp.get(0);
-                                    if (ingre.getUnit() == ingreJ.getUnit()){
-                                        // nguyên liệu cùng đơn vị
-                                        totalPrice += ingreJ.getAmount() * ingre.getPrice() / 1000;
-
-                                    } else {
-                                        // nguyên liệu khác đơn vị
-                                        totalPrice += ingreJ.getAmount() * ingre.getPrice() / ingre.getAmount();
-                                    }
-                                }
-
-                            }
-                        });
-                    }
-                }
-            });
-        }
+//        totalPrice = 0;
+//        for(int i=0; i< foodID.length; i++){
+//            mFoodRef.document(foodID[i]).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+//                @Override
+//                public void onEvent(final DocumentSnapshot documentSnapshot, FirebaseFirestoreException e) {
+//                    final Food food = documentSnapshot.toObject(Food.class);
+//                    if (food.getIngredients() == null || food.getIngredients().size() == 0){
+//                        return;
+//                    }
+//                    for(int j=0; j < food.getIngredients().size(); j++){
+//                        final Ingredient ingreJ = food.getIngredients().get(j);
+//                        mIngreRef.whereEqualTo("name",ingreJ
+//                                .getName()).addSnapshotListener(new EventListener<QuerySnapshot>() {
+//                            @Override
+//                            public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
+//                                List<Ingredient> temp;
+//                                temp = documentSnapshots.toObjects(Ingredient.class);
+//                                if (!temp.isEmpty()){
+//                                    Ingredient ingre = temp.get(0);
+//                                    if (ingre.getUnit() == ingreJ.getUnit()){
+//                                        // nguyên liệu cùng đơn vị
+//                                        totalPrice += ingreJ.getAmount() * ingre.getPrice() / 1000;
+//
+//                                    } else {
+//                                        // nguyên liệu khác đơn vị
+//                                        totalPrice += ingreJ.getAmount() * ingre.getPrice() / ingre.getAmount();
+//                                    }
+//                                }
+//
+//                            }
+//                        });
+//                    }
+//                }
+//            });
+//        }
 
         return totalPrice;
     }

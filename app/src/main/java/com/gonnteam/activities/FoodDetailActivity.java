@@ -1,5 +1,6 @@
 package com.gonnteam.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -50,7 +51,9 @@ public class FoodDetailActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_add:
-                Toast.makeText(FoodDetailActivity.this,"Thêm vào thực đơn", Toast.LENGTH_SHORT).show();
+                Intent add_menu = new Intent(FoodDetailActivity.this, MenuActivity.class);
+                startActivity(add_menu);
+
                 return true;
 
 

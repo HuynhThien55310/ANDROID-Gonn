@@ -5,40 +5,42 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
     tools:context="com.gonnteam.activities.ChangeAccountInfoActivity">
 
 
     <EditText
         android:id="@+id/txtLName"
+        style="@style/editText_style"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="@string/last_name"
-        style="@style/editText_style"/>
+        android:hint="@string/last_name" />
 
     <EditText
         android:id="@+id/txtFName"
+        style="@style/editText_style"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="@string/first_name"
-        style="@style/editText_style"/>
+        android:hint="@string/first_name" />
 
 
     <!--<TextView-->
-        <!--android:id="@+id/txtBirthday"-->
-        <!--android:textSize="18sp"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:text="@string/birthday"-->
-        <!---->
-        <!--android:clickable="true" />-->
+    <!--android:id="@+id/txtBirthday"-->
+    <!--android:textSize="18sp"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:text="@string/birthday"-->
+    <!---->
+    <!--android:clickable="true" />-->
     <Button
         android:id="@+id/btnBirthday"
+        style="@style/editText_style"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="18sp"
-        style="@style/editText_style"/>
+        android:textSize="18sp" />
 
     <Button
         android:id="@+id/btnSave"

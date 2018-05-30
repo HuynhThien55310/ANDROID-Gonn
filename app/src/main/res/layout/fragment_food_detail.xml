@@ -8,23 +8,30 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="10dp">
 
         <ImageView
+            android:id="@+id/imgBackdrop"
             android:layout_width="match_parent"
             android:layout_height="200sp"
-            android:scaleType="centerCrop"
-            android:id="@+id/imgBackdrop"/>
+            android:scaleType="centerCrop" />
+
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:id="@+id/txtTitle"
-            android:textSize="20sp"/>
-        <WebView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/wbvBody">
-        </WebView>
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp"
+            android:textAlignment="textStart"
+            android:textSize="18sp" />
+
+        <WebView
+            android:id="@+id/wbvBody"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"></WebView>
     </LinearLayout>
 
 </ScrollView>

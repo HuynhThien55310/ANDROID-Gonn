@@ -9,21 +9,41 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="15sp"
-        android:background="@color/colorRed"
+        android:textSize="18sp"
+        android:background="@color/colorPrimary"
+        android:paddingBottom="8dp"
+        android:paddingTop="8dp"
         android:textColor="#ffffff"
         android:text="@string/change_avatar"
         android:textAlignment="center"/>
-    <ImageView
-        android:id="@+id/imgAvatar"
-        android:contentDescription="@string/account_setting_change_avatar"
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="200sp"
-        android:background="@color/colorWhite"/>
-    <Button
-        android:id="@+id/btnChangeAva"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/save"
-        style="@style/button_style"/>
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="10dp">
+
+        <ImageView
+            android:id="@+id/imgAvatar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/com_facebook_profile_picture_blank_square"
+            android:contentDescription="@string/account_setting_change_avatar"
+            android:padding="5dp" />
+
+        <Button
+            android:id="@+id/btnChangeAva"
+            style="@style/button_style"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/save" />
+    </LinearLayout>
 </LinearLayout>

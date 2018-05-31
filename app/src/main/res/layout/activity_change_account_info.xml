@@ -5,26 +5,57 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:paddingLeft="10dp"
-    android:paddingRight="10dp"
+
     tools:context="com.gonnteam.activities.ChangeAccountInfoActivity">
 
-
-    <EditText
-        android:id="@+id/txtLName"
-        style="@style/editText_style"
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="@string/last_name" />
+        android:background="@color/colorPrimary"
+        android:paddingBottom="8dp"
+        android:paddingTop="8dp"
+        android:text="@string/change_pass"
+        android:textAlignment="center"
+        android:textColor="#ffffff"
+        android:textSize="18sp" />
 
-    <EditText
-        android:id="@+id/txtFName"
-        style="@style/editText_style"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="@string/first_name" />
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
+        <Button
+            android:id="@+id/btnBirthday"
+            style="@style/editText_style"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/txtLName"
+            style="@style/editText_style"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/last_name" />
+
+        <EditText
+            android:id="@+id/txtFName"
+            style="@style/editText_style"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/first_name" />
+
+        <Button
+            android:id="@+id/btnSave"
+            style="@style/button_style"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/save" />
+    </LinearLayout>
 
 
     <!--<TextView-->
@@ -35,17 +66,5 @@
     <!--android:text="@string/birthday"-->
     <!---->
     <!--android:clickable="true" />-->
-    <Button
-        android:id="@+id/btnBirthday"
-        style="@style/editText_style"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="18sp" />
 
-    <Button
-        android:id="@+id/btnSave"
-        style="@style/button_style"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/save" />
 </LinearLayout>

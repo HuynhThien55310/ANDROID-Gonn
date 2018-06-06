@@ -7,7 +7,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
@@ -23,10 +23,13 @@
             android:id="@+id/txtTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/colorWhite"
             android:paddingBottom="10dp"
             android:paddingTop="10dp"
-            android:textAlignment="textStart"
-            android:textSize="18sp" />
+            android:textAlignment="center"
+            android:textColor="@color/colorDarkRed"
+            android:textSize="24sp"
+            android:textStyle="normal|bold" />
 
         <WebView
             android:id="@+id/wbvBody"

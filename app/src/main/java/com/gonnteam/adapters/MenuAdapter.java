@@ -1,25 +1,34 @@
 package com.gonnteam.adapters;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.gonnteam.R;
+import com.gonnteam.activities.MenuDetailActivity;
 import com.gonnteam.models.Food;
+import com.gonnteam.models.FoodMenu;
 import com.gonnteam.models.Ingredient;
-import com.gonnteam.models.Menu;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
@@ -36,57 +45,101 @@ import java.util.List;
 
 public class MenuAdapter {
     private FirestoreRecyclerAdapter adapter;
-    private List<Menu> data;
+    private List<FoodMenu> data;
     private Context context;
     private Query query;
     private CollectionReference mMenuRef;
     private CollectionReference mFoodRef;
     private CollectionReference mIngreRef;
     private String menuID;
-    private String[] foodID;
+    private ArrayList<String> foods;
     private String uid;
+    private String foodID;
     private FirebaseUser fuser;
     private FirebaseAuth mAuth;
     private float totalPrice;
     private float totalCal;
+    private Activity menuActivity;
 
-    public MenuAdapter(Context context, Query query) {
+    public MenuAdapter(Context context, Query query, String foodID, Activity menuActivity) {
         this.context = context;
         this.query = query;
+        this.foodID = foodID;
+        this.menuActivity = menuActivity;
         initAdapter();
     }
 
 
-    public void initAdapter(){
+    public void initAdapter() {
         this.query.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
                 data = new ArrayList<>();
-                data = documentSnapshots.toObjects(Menu.class);
+                try {
+                    data = documentSnapshots.toObjects(FoodMenu.class);
+                } catch (NullPointerException n) {
+                    return;
+                }
+
             }
         });
 
-        FirestoreRecyclerOptions<Menu> options = new FirestoreRecyclerOptions.Builder<Menu>()
-                .setQuery(this.query, Menu.class)
+        FirestoreRecyclerOptions<FoodMenu> options = new FirestoreRecyclerOptions.Builder<FoodMenu>()
+                .setQuery(this.query, FoodMenu.class)
                 .build();
 
-        this.adapter = new FirestoreRecyclerAdapter<Menu, MenuViewHolder>(options) {
+
+        this.adapter = new FirestoreRecyclerAdapter<FoodMenu, MenuViewHolder>(options) {
             @Override
-            protected void onBindViewHolder(MenuViewHolder holder, int position, Menu model) {
+            protected void onBindViewHolder(MenuViewHolder holder, int position, FoodMenu model) {
                 mFoodRef = FirebaseFirestore.getInstance().collection("foods");
                 mIngreRef = FirebaseFirestore.getInstance().collection("ingredients");
+                mMenuRef = FirebaseFirestore.getInstance().collection("menus");
                 mAuth = FirebaseAuth.getInstance();
                 fuser = mAuth.getCurrentUser();
                 // get menu & put to Menu detail
                 menuID = getSnapshots().getSnapshot(position).getId();
-                foodID = data.get(position).getFoodID();
-                final Menu menu = data.get(position);
+                // foodID = data.get(position).getFoodID();
+                final FoodMenu menu = data.get(position);
 
 
                 // binding menu value;
                 // totalCal = calCal();
                 // totalPrice = calPrice();
                 holder.setMenuName(menu.getTitle());
+
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (foodID == "" || foodID == null) {
+                            if (menu.getFoods() == null || menu.getFoods().size() == 0){
+                                Toast.makeText(context, "Thực đơn trống", Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+                            // click trong menu
+                            Bundle bundle = new Bundle();
+                            bundle.putSerializable("foods", menu.getFoods());
+                            Intent menuDetail = new Intent(context, MenuDetailActivity.class);
+                            menuDetail.putExtra("bundle", bundle);
+                            context.startActivity(menuDetail);
+                        } else {
+                            // click tu food detail
+                            if (menu.getFoods() == null || !menu.getFoods().contains(foodID)) {
+                                menu.setFoods(new ArrayList<String>());
+                                menu.getFoods().add(foodID);
+                                mMenuRef.document(menu.getId()).set(menu).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        menuActivity.finish();
+                                    }
+                                });
+                            }else {
+                                Toast.makeText(context, "Bạn đã thêm món này rồi", Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+                        }
+                    }
+                });
                 // holder.setTotalCal(totalCal);
                 // .setTotalPrice(Math.round(totalPrice));
             }
@@ -143,10 +196,9 @@ public class MenuAdapter {
     }
 
 
-    private int calCal(){
+    private int calCal() {
         return 1;
     }
-
 
 
     public static class MenuViewHolder extends RecyclerView.ViewHolder {
@@ -163,8 +215,7 @@ public class MenuAdapter {
         }
 
         public void setMenuName(String title) {
-            TextView txtTitle = itemView.findViewById(R.id.txtTitle);
-            txtTitle.setText(title);
+            txtMenuName.setText(title);
         }
 
         public void setTotalPrice(int price) {
@@ -189,11 +240,11 @@ public class MenuAdapter {
         this.adapter = adapter;
     }
 
-    public List<Menu> getData() {
+    public List<FoodMenu> getData() {
         return data;
     }
 
-    public void setData(List<Menu> data) {
+    public void setData(List<FoodMenu> data) {
         this.data = data;
     }
 

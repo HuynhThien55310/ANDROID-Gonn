@@ -136,7 +136,9 @@ public class MainActivity extends AppCompatActivity
                         public void onEvent(DocumentSnapshot documentSnapshot, FirebaseFirestoreException e) {
                             User user = documentSnapshot.toObject(User.class);
                             txtName.setText(user.getDisplayName());
-                            if (user.getAvatar().contains("data:image/jpeg;base64")) {
+                            if (user.getAvatar() == null || user.getAvatar() == "") {
+                                imgAvatar.setImageResource(R.drawable.com_facebook_profile_picture_blank_square);
+                            } else if (user.getAvatar().contains("data:image/jpeg;base64")) {
                                 String ava = user.getAvatar().substring(user.getAvatar().indexOf(",") + 1);
                                 byte[] decodedString = Base64.decode(ava, Base64.DEFAULT);
                                 Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
@@ -144,6 +146,7 @@ public class MainActivity extends AppCompatActivity
                             } else {
                                 Picasso.with(MainActivity.this).load(user.getAvatar()).into(imgAvatar);
                             }
+
 
                         }
                     });
@@ -189,6 +192,8 @@ public class MainActivity extends AppCompatActivity
             public boolean onQueryTextChange(final String newText) {
                 dataSuggestion = new ArrayList<>();
                 String alias = createAlias(newText);
+                if (data == null || data.size() == 0)
+                    return false;
                 for(int i=0; i < data.size();i++){
                     if (data.get(i).getAlias().contains(alias)){
                         dataSuggestion.add(data.get(i).getTitle());
@@ -273,8 +278,14 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
         switch (id) {
             case R.id.navMenu:
-                Intent menu = new Intent(MainActivity.this, MenuActivity.class);
-                startActivity(menu);
+                if (fUser == null){
+                    Intent login = new Intent(MainActivity.this, LoginActivity.class);
+                    startActivity(login);
+                } else {
+                    Intent add_menu = new Intent(MainActivity.this, MenuActivity.class);
+                    add_menu.putExtra("uid", fUser.getUid());
+                    startActivityForResult(add_menu,1);
+                }
                 break;
             case R.id.navSetting:
                 Intent appSetting = new Intent(MainActivity.this, AppSettingActivity.class);

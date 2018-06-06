@@ -127,6 +127,8 @@ public class FoodAdapter {
                             .addSnapshotListener(new EventListener<QuerySnapshot>() {
                                 @Override
                                 public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
+                                    if(documentSnapshots == null)
+                                        return;
                                     if (documentSnapshots.size() != 0){
                                         holder.setBtnLike(true);
                                     }else {

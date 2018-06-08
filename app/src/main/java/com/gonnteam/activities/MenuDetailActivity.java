@@ -1,10 +1,12 @@
 package com.gonnteam.activities;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.MenuItem;
 
 import com.gonnteam.R;
 import com.gonnteam.adapters.MenuAdapter;
@@ -33,22 +35,19 @@ public class MenuDetailActivity extends AppCompatActivity {
 
         Bundle bundle = getIntent().getBundleExtra("bundle");
         foods = bundle.getStringArrayList("foods");
-        adapter = new MenuDetailAdapter(MenuDetailActivity.this, foods);
+        String menuID = getIntent().getStringExtra("menuID");
+        adapter = new MenuDetailAdapter(MenuDetailActivity.this, foods, menuID);
         revMenu.setAdapter(adapter);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         revMenu.setLayoutManager(layoutManager);
+
     }
 
     private void addEvents() {
 
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        revMenu.getAdapter().notifyDataSetChanged();
-    }
 
     @Override
     protected void onResume() {
@@ -56,4 +55,12 @@ public class MenuDetailActivity extends AppCompatActivity {
         revMenu.getAdapter().notifyDataSetChanged();
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 }

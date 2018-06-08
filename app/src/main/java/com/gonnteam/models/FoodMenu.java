@@ -1,12 +1,22 @@
 package com.gonnteam.models;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 public class FoodMenu {
     private String id;
     private String uid;
     private String title;
     private ArrayList<String> foods;
+    public Date createdAt;
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
 
     public FoodMenu() {
     }

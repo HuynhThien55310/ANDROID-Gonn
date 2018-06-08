@@ -1,15 +1,22 @@
 package com.gonnteam.adapters;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.util.Base64;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -17,8 +24,12 @@ import android.widget.TextView;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.gonnteam.R;
+import com.gonnteam.activities.FoodMenuDetailActivity;
+import com.gonnteam.fragments.FoodDetailFragment;
 import com.gonnteam.models.Food;
 import com.gonnteam.models.FoodMenu;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentListenOptions;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -33,20 +44,52 @@ import java.util.ArrayList;
 public class MenuDetailAdapter extends RecyclerView.Adapter<MenuDetailAdapter.MenuDetailViewHolder> {
 
     private Context context;
-    private Query query;
+    private String menuID;
     private CollectionReference mMenuRef;
     private CollectionReference mFoodRef;
     private ArrayList<String> foodID;
     private ArrayList<Food> foods;
 
-    public MenuDetailAdapter(Context context, ArrayList<String> foodID) {
+    private AlertDialog dialog;
+    private TextView txtCustomTitle;
+    private int deletePosition;
+
+    public MenuDetailAdapter(Context context, ArrayList<String> foodID, String menuID) {
         this.context = context;
         this.foodID = foodID;
-        initAdapter();
+        foods = new ArrayList<>();
+        this.menuID = menuID;
+        fetchData();
+        // init dialog
+        dialog = new AlertDialog.Builder(context).create();
+        txtCustomTitle = new EditText(context);
+        // edit style dialog o day ne m
+        txtCustomTitle.setText("Bạn có đồng ý muốn xóa?");
+        txtCustomTitle.setBackgroundColor(Color.DKGRAY);
+        txtCustomTitle.setPadding(10, 10, 10, 10);
+        txtCustomTitle.setGravity(Gravity.CENTER);
+        txtCustomTitle.setTextColor(Color.WHITE);
+        txtCustomTitle.setTextSize(20);
+        txtCustomTitle.setEnabled(false);
+        // end style
+        dialog.setCustomTitle(txtCustomTitle);
+        dialog.setButton(DialogInterface.BUTTON_POSITIVE, "Xóa", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                deleteFood();
+            }
+        });
+        dialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Hủy", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                return;
+            }
+        });
+
     }
 
-    private void initAdapter() {
-        foods = new ArrayList<>();
+    public void fetchData() {
+        foods.clear();
         for (int i = 0; i < foodID.size(); i++) {
             FirebaseFirestore.getInstance()
                     .collection("foods").document(foodID.get(i))
@@ -60,6 +103,20 @@ public class MenuDetailAdapter extends RecyclerView.Adapter<MenuDetailAdapter.Me
         }
     }
 
+    private void deleteFood(){
+        foods.remove(deletePosition);
+        foodID.remove(deletePosition);
+        FirebaseFirestore.getInstance()
+                .collection("menus").document(menuID)
+                .update("foods", foodID)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        notifyDataSetChanged();
+                    }
+                });
+    }
+
     @NonNull
     @Override
     public MenuDetailViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -69,11 +126,29 @@ public class MenuDetailAdapter extends RecyclerView.Adapter<MenuDetailAdapter.Me
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MenuDetailViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull MenuDetailViewHolder holder, final int position) {
         holder.setBackdrop(foods.get(position).getBackdrop(), context);
         holder.setTitle(foods.get(position).getTitle());
         holder.setCal(0);
         holder.setPrice(0);
+        holder.imgBackdrop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent foodDetail = new Intent(context, FoodMenuDetailActivity.class);
+                foodDetail.putExtra("body",foods.get(position).getBody());
+                foodDetail.putExtra("title",foods.get(position).getTitle());
+                foodDetail.putExtra("backdrop",foods.get(position).getBackdrop());
+                context.startActivity(foodDetail);
+            }
+        });
+
+        holder.btnDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                deletePosition = position;
+                dialog.show();
+            }
+        });
     }
 
     @Override
@@ -96,6 +171,7 @@ public class MenuDetailAdapter extends RecyclerView.Adapter<MenuDetailAdapter.Me
             txtPrice = itemView.findViewById(R.id.txtPrice);
             txtCal = itemView.findViewById(R.id.txtCal);
             imgBackdrop = itemView.findViewById(R.id.imgBackdrop);
+            btnDelete = itemView.findViewById(R.id.btnDelete);
         }
 
         public void setTitle(String title) {
@@ -115,11 +191,11 @@ public class MenuDetailAdapter extends RecyclerView.Adapter<MenuDetailAdapter.Me
         }
 
         public void setCal(int cal) {
-            txtCal.setText(cal + "");
+            txtCal.setText(cal + " Cal");
         }
 
         public void setPrice(int price) {
-            txtPrice.setText(price + "");
+            txtPrice.setText(price + " VND");
         }
 
     }

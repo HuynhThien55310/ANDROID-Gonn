@@ -34,6 +34,9 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
+import java.util.Calendar;
+import java.util.Date;
+
 import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class MenuActivity extends AppCompatActivity {
@@ -105,9 +108,9 @@ public class MenuActivity extends AppCompatActivity {
 
         query = FirebaseFirestore.getInstance()
                 .collection("menus")
-                .whereEqualTo("uid",uid);
+                .whereEqualTo("uid",uid)
+                .orderBy("createdAt", Query.Direction.DESCENDING);
         foodID = getIntent().getStringExtra("foodID");
-        Log.d("foodID", "ID ne: " + foodID);
         adapter = new MenuAdapter(MenuActivity.this,query,foodID,this );
         revMenu.setAdapter(adapter.getAdapter());
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
@@ -117,6 +120,7 @@ public class MenuActivity extends AppCompatActivity {
 
     public void addMenu(String title){
         final FoodMenu menu = new FoodMenu();
+        menu.createdAt = Calendar.getInstance().getTime();
         menu.setUid(getIntent().getStringExtra("uid"));
         menu.setTitle(title);
         mMenuRef = FirebaseFirestore.getInstance().collection("menus");

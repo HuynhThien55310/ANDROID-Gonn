@@ -2,19 +2,24 @@ package com.gonnteam.adapters;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.util.Base64;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -55,11 +60,15 @@ public class MenuAdapter {
     private ArrayList<String> foods;
     private String uid;
     private String foodID;
+    private int deletePosition;
     private FirebaseUser fuser;
     private FirebaseAuth mAuth;
     private float totalPrice;
     private float totalCal;
     private Activity menuActivity;
+
+    private AlertDialog dialog;
+    private TextView txtCustomTitle;
 
     public MenuAdapter(Context context, Query query, String foodID, Activity menuActivity) {
         this.context = context;
@@ -71,6 +80,31 @@ public class MenuAdapter {
 
 
     public void initAdapter() {
+        // init dialog
+        dialog = new AlertDialog.Builder(context).create();
+        txtCustomTitle = new EditText(context);
+        // edit style dialog o day ne m
+        txtCustomTitle.setText("Bạn có đồng ý muốn xóa?");
+        txtCustomTitle.setBackgroundColor(Color.DKGRAY);
+        txtCustomTitle.setPadding(10, 10, 10, 10);
+        txtCustomTitle.setGravity(Gravity.CENTER);
+        txtCustomTitle.setTextColor(Color.WHITE);
+        txtCustomTitle.setTextSize(20);
+        txtCustomTitle.setEnabled(false);
+        // end style
+        dialog.setCustomTitle(txtCustomTitle);
+        dialog.setButton(DialogInterface.BUTTON_POSITIVE, "Xóa", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                deleteMenu();
+            }
+        });
+        dialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Hủy", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                return;
+            }
+        });
         this.query.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
@@ -91,7 +125,7 @@ public class MenuAdapter {
 
         this.adapter = new FirestoreRecyclerAdapter<FoodMenu, MenuViewHolder>(options) {
             @Override
-            protected void onBindViewHolder(MenuViewHolder holder, int position, FoodMenu model) {
+            protected void onBindViewHolder(MenuViewHolder holder, final int position, FoodMenu model) {
                 mFoodRef = FirebaseFirestore.getInstance().collection("foods");
                 mIngreRef = FirebaseFirestore.getInstance().collection("ingredients");
                 mMenuRef = FirebaseFirestore.getInstance().collection("menus");
@@ -112,7 +146,7 @@ public class MenuAdapter {
                     @Override
                     public void onClick(View view) {
                         if (foodID == "" || foodID == null) {
-                            if (menu.getFoods() == null || menu.getFoods().size() == 0){
+                            if (menu.getFoods() == null || menu.getFoods().size() == 0) {
                                 Toast.makeText(context, "Thực đơn trống", Toast.LENGTH_SHORT).show();
                                 return;
                             }
@@ -121,10 +155,11 @@ public class MenuAdapter {
                             bundle.putSerializable("foods", menu.getFoods());
                             Intent menuDetail = new Intent(context, MenuDetailActivity.class);
                             menuDetail.putExtra("bundle", bundle);
+                            menuDetail.putExtra("menuID", menu.getId());
                             context.startActivity(menuDetail);
                         } else {
                             // click tu food detail
-                            if (menu.getFoods() == null || !menu.getFoods().contains(foodID)) {
+                            if (menu.getFoods() == null) {
                                 menu.setFoods(new ArrayList<String>());
                                 menu.getFoods().add(foodID);
                                 mMenuRef.document(menu.getId()).set(menu).addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -133,11 +168,27 @@ public class MenuAdapter {
                                         menuActivity.finish();
                                     }
                                 });
-                            }else {
+                            } else if (!menu.getFoods().contains(foodID)) {
+                                menu.getFoods().add(foodID);
+                                mMenuRef.document(menu.getId()).set(menu).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        menuActivity.finish();
+                                    }
+                                });
+                            } else {
                                 Toast.makeText(context, "Bạn đã thêm món này rồi", Toast.LENGTH_SHORT).show();
                                 return;
                             }
                         }
+                    }
+                });
+                holder.btnDelete.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        deletePosition = position;
+                        dialog.show();
                     }
                 });
                 // holder.setTotalCal(totalCal);
@@ -153,6 +204,12 @@ public class MenuAdapter {
                 return new MenuViewHolder(view);
             }
         };
+    }
+
+    private void deleteMenu(){
+        FirebaseFirestore.getInstance()
+                .collection("menus").document(data.get(deletePosition).getId())
+                .delete();
     }
 
     private float calPrice() {
@@ -206,12 +263,14 @@ public class MenuAdapter {
         private TextView txtMenuName;
         private TextView txtTotalPrice;
         private TextView txtTotalCal;
+        public ImageButton btnDelete;
 
         public MenuViewHolder(View itemView) {
             super(itemView);
-            txtMenuName = itemView.findViewById(R.id.txtMenuName);
+            txtMenuName = itemView.findViewById(R.id.txtTitle);
             txtTotalPrice = itemView.findViewById(R.id.txtTotalPrice);
             txtTotalCal = itemView.findViewById(R.id.txtTotalCal);
+            btnDelete = itemView.findViewById(R.id.btnDelete);
         }
 
         public void setMenuName(String title) {
@@ -219,14 +278,12 @@ public class MenuAdapter {
         }
 
         public void setTotalPrice(int price) {
-            TextView txtLike = itemView.findViewById(R.id.txtLike);
-            txtLike.setText(price + " VND");
+            txtTotalPrice.setText(price + " VND");
 
         }
 
         public void setTotalCal(int cal) {
-            TextView txtCmt = itemView.findViewById(R.id.txtCmt);
-            txtCmt.setText(cal + " Cal");
+            txtTotalCal.setText(cal + "");
         }
 
 

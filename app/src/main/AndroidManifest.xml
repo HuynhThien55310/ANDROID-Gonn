@@ -66,9 +66,15 @@
             android:name=".activities.MenuActivity"
             android:label="Thêm thực đơn"
             android:theme="@style/AppTheme" />
-        <activity android:name=".activities.MenuDetailActivity"
+        <activity
+            android:name=".activities.MenuDetailActivity"
             android:label=""
             android:parentActivityName=".activities.MenuActivity">
+
+        </activity>
+        <activity android:name=".activities.FoodMenuDetailActivity"
+            android:label=""
+            android:parentActivityName=".activities.MenuDetailActivity">
 
         </activity>
     </application>

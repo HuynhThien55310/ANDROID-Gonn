@@ -28,6 +28,7 @@ import com.gonnteam.activities.FoodMenuDetailActivity;
 import com.gonnteam.fragments.FoodDetailFragment;
 import com.gonnteam.models.Food;
 import com.gonnteam.models.FoodMenu;
+import com.gonnteam.models.Ingredient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
@@ -37,9 +38,11 @@ import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MenuDetailAdapter extends RecyclerView.Adapter<MenuDetailAdapter.MenuDetailViewHolder> {
 
@@ -53,6 +56,8 @@ public class MenuDetailAdapter extends RecyclerView.Adapter<MenuDetailAdapter.Me
     private AlertDialog dialog;
     private TextView txtCustomTitle;
     private int deletePosition;
+
+    private int price;
 
     public MenuDetailAdapter(Context context, ArrayList<String> foodID, String menuID) {
         this.context = context;
@@ -149,6 +154,36 @@ public class MenuDetailAdapter extends RecyclerView.Adapter<MenuDetailAdapter.Me
                 dialog.show();
             }
         });
+        holder.setPrice(getPrice(foods.get(position)));
+    }
+
+    public int getPrice(Food food){
+        price = 0;
+        for(int i=0; i < food.getIngredients().size(); i++){
+            Ingredient fIngre = food.getIngredients().get(i);
+            FirebaseFirestore.getInstance()
+                    .collection("ingredients")
+                    .whereEqualTo("name", fIngre.getName())
+                    .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                        @Override
+                        public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+                            List<Ingredient> temp;
+                                temp = queryDocumentSnapshots.toObjects(Ingredient.class);
+                                if (!temp.isEmpty()){
+                                    Ingredient ingre = temp.get(0);
+                                    if (ingre.getUnit() == ingre.getUnit()){
+                                        // nguyên liệu cùng đơn vị
+                                        price += ingre.getAmount() * ingre.getPrice() / 1000;
+
+                                    } else {
+                                        // nguyên liệu khác đơn vị
+                                        price += ingre.getAmount() * ingre.getPrice() / ingre.getAmount();
+                                    }
+                                }
+                        }
+                    });
+        }
+        return price;
     }
 
     @Override

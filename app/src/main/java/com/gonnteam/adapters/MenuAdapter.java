@@ -57,7 +57,7 @@ public class MenuAdapter {
     private CollectionReference mFoodRef;
     private CollectionReference mIngreRef;
     private String menuID;
-    private ArrayList<String> foods;
+    private ArrayList<String> foodsID;
     private String uid;
     private String foodID;
     private int deletePosition;
@@ -69,6 +69,7 @@ public class MenuAdapter {
 
     private AlertDialog dialog;
     private TextView txtCustomTitle;
+    private int[] price;
 
     public MenuAdapter(Context context, Query query, String foodID, Activity menuActivity) {
         this.context = context;
@@ -111,6 +112,7 @@ public class MenuAdapter {
                 data = new ArrayList<>();
                 try {
                     data = documentSnapshots.toObjects(FoodMenu.class);
+                    price = new int[data.size()];
                 } catch (NullPointerException n) {
                     return;
                 }
@@ -125,7 +127,7 @@ public class MenuAdapter {
 
         this.adapter = new FirestoreRecyclerAdapter<FoodMenu, MenuViewHolder>(options) {
             @Override
-            protected void onBindViewHolder(MenuViewHolder holder, final int position, FoodMenu model) {
+            protected void onBindViewHolder(final MenuViewHolder holder, final int position, FoodMenu model) {
                 mFoodRef = FirebaseFirestore.getInstance().collection("foods");
                 mIngreRef = FirebaseFirestore.getInstance().collection("ingredients");
                 mMenuRef = FirebaseFirestore.getInstance().collection("menus");
@@ -191,6 +193,49 @@ public class MenuAdapter {
                         dialog.show();
                     }
                 });
+
+                // set price
+                price[position] = 0;
+                if(menu.getFoods() == null){
+                    holder.setTotalPrice(0);
+                }else {
+                    for (int i = 0; i < menu.getFoods().size(); i++) {
+                        mFoodRef.document(menu.getFoods().get(i)).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                            @Override
+                            public void onEvent(final DocumentSnapshot documentSnapshot, FirebaseFirestoreException e) {
+                                final Food food = documentSnapshot.toObject(Food.class);
+                                if (food.getIngredients() == null || food.getIngredients().size() == 0) {
+                                    return;
+                                }
+                                for (int j = 0; j < food.getIngredients().size(); j++) {
+                                    final Ingredient ingreJ = food.getIngredients().get(j);
+                                    mIngreRef.whereEqualTo("name", ingreJ
+                                            .getName()).addSnapshotListener(new EventListener<QuerySnapshot>() {
+                                        @Override
+                                        public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
+                                            List<Ingredient> temp;
+                                            temp = documentSnapshots.toObjects(Ingredient.class);
+                                            if (!temp.isEmpty()) {
+                                                Ingredient ingre = temp.get(0);
+                                                if (!ingre.getUnit().equals(ingreJ.getUnit())) {
+                                                    // nguyên liệu khác đơn vị
+                                                    price[position] += ingreJ.getAmount() * ingre.getPrice() / 1000;
+                                                    holder.setTotalPrice(price[position]);
+                                                } else {
+                                                    // nguyên liệu cùng đơn vị
+                                                    price[position] += ingreJ.getAmount() * ingre.getPrice() / ingre.getAmount();
+                                                    holder.setTotalPrice(price[position]);
+                                                }
+                                            }
+
+                                        }
+                                    });
+                                }
+                            }
+                        });
+                    }
+                }
+
                 // holder.setTotalCal(totalCal);
                 // .setTotalPrice(Math.round(totalPrice));
             }
@@ -206,7 +251,7 @@ public class MenuAdapter {
         };
     }
 
-    private void deleteMenu(){
+    private void deleteMenu() {
         FirebaseFirestore.getInstance()
                 .collection("menus").document(data.get(deletePosition).getId())
                 .delete();

@@ -20,6 +20,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
@@ -56,8 +57,7 @@ public class MenuDetailAdapter extends RecyclerView.Adapter<MenuDetailAdapter.Me
     private AlertDialog dialog;
     private TextView txtCustomTitle;
     private int deletePosition;
-
-    private int price;
+    private int[] price;
 
     public MenuDetailAdapter(Context context, ArrayList<String> foodID, String menuID) {
         this.context = context;
@@ -102,6 +102,7 @@ public class MenuDetailAdapter extends RecyclerView.Adapter<MenuDetailAdapter.Me
                         @Override
                         public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
                             foods.add(documentSnapshot.toObject(Food.class));
+                            price = new int[foods.size()];
                             notifyDataSetChanged();
                         }
                     });
@@ -131,7 +132,7 @@ public class MenuDetailAdapter extends RecyclerView.Adapter<MenuDetailAdapter.Me
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MenuDetailViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull final MenuDetailViewHolder holder, final int position) {
         holder.setBackdrop(foods.get(position).getBackdrop(), context);
         holder.setTitle(foods.get(position).getTitle());
         holder.setCal(0);
@@ -154,13 +155,10 @@ public class MenuDetailAdapter extends RecyclerView.Adapter<MenuDetailAdapter.Me
                 dialog.show();
             }
         });
-        holder.setPrice(getPrice(foods.get(position)));
-    }
-
-    public int getPrice(Food food){
-        price = 0;
+        Food food = foods.get(position);
+        price[position] = 0;
         for(int i=0; i < food.getIngredients().size(); i++){
-            Ingredient fIngre = food.getIngredients().get(i);
+            final Ingredient fIngre = food.getIngredients().get(i);
             FirebaseFirestore.getInstance()
                     .collection("ingredients")
                     .whereEqualTo("name", fIngre.getName())
@@ -168,23 +166,25 @@ public class MenuDetailAdapter extends RecyclerView.Adapter<MenuDetailAdapter.Me
                         @Override
                         public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
                             List<Ingredient> temp;
-                                temp = queryDocumentSnapshots.toObjects(Ingredient.class);
-                                if (!temp.isEmpty()){
-                                    Ingredient ingre = temp.get(0);
-                                    if (ingre.getUnit() == ingre.getUnit()){
-                                        // nguyên liệu cùng đơn vị
-                                        price += ingre.getAmount() * ingre.getPrice() / 1000;
+                            temp = queryDocumentSnapshots.toObjects(Ingredient.class);
+                            if (!temp.isEmpty()){
+                                Ingredient ingre = temp.get(0);
+                                if (!fIngre.getUnit().equals(ingre.getUnit())){
+                                    // nguyên liệu khác đơn vị
+                                    price[position] += fIngre.getAmount() * ingre.getPrice() / 1000;
+                                    holder.setPrice(price[position]);
 
-                                    } else {
-                                        // nguyên liệu khác đơn vị
-                                        price += ingre.getAmount() * ingre.getPrice() / ingre.getAmount();
-                                    }
+                                } else {
+                                    // nguyên liệu cùng đơn vị
+                                    price[position] += fIngre.getAmount() * ingre.getPrice() / ingre.getAmount();
+                                    holder.setPrice(price[position]);
                                 }
-                        }
-                    });
+                            }
+                        }});
         }
-        return price;
+        // holder.setPrice(getPrice(foods.get(position)));
     }
+
 
     @Override
     public int getItemCount() {

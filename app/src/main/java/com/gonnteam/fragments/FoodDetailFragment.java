@@ -56,8 +56,11 @@ public class FoodDetailFragment extends Fragment {
         return rootView;
     }
 
-    public FoodDetailFragment() {
+    public void setFood(Food food){
+        this.food = food;
     }
 
+    public FoodDetailFragment() {
 
+    }
 }

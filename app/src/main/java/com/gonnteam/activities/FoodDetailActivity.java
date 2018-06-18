@@ -15,12 +15,15 @@ import android.widget.Toast;
 import com.gonnteam.R;
 import com.gonnteam.fragments.FoodCommentFragment;
 import com.gonnteam.fragments.FoodDetailFragment;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class FoodDetailActivity extends AppCompatActivity {
     private SectionsPagerAdapter mSectionsPagerAdapter;
 
     private ViewPager mViewPager;
-
+    private FirebaseUser fuser;
+    private FirebaseAuth mAuth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,7 +39,8 @@ public class FoodDetailActivity extends AppCompatActivity {
         mViewPager = findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
+        mAuth = FirebaseAuth.getInstance();
+        fuser = mAuth.getCurrentUser();
     }
 
 
@@ -51,9 +55,15 @@ public class FoodDetailActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_add:
-                Intent add_menu = new Intent(FoodDetailActivity.this, MenuActivity.class);
-                startActivity(add_menu);
-
+                if (fuser == null){
+                    Intent login = new Intent(FoodDetailActivity.this, LoginActivity.class);
+                    startActivity(login);
+                } else {
+                    Intent add_menu = new Intent(FoodDetailActivity.this, MenuActivity.class);
+                    add_menu.putExtra("uid", fuser.getUid());
+                    add_menu.putExtra("foodID", getIntent().getStringExtra("foodID"));
+                    startActivityForResult(add_menu,1);
+                }
                 return true;
 
 

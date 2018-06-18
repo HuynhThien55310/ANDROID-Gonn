@@ -5,6 +5,7 @@
       <map>
         <entry key="imageWizard">
           <value>
+<<<<<<< HEAD
             <PersistentState>
               <option name="children">
                 <map>
@@ -54,6 +55,9 @@
                 </map>
               </option>
             </PersistentState>
+=======
+            <PersistentState />
+>>>>>>> 632c13b144b979fa035a0e65eac2f524f231d714
           </value>
         </entry>
         <entry key="vectorWizard">
@@ -67,8 +71,11 @@
                         <option name="values">
                           <map>
                             <entry key="assetSourceType" value="FILE" />
-                            <entry key="outputName" value="ic_menu" />
-                            <entry key="sourceFile" value="F:\downloads\etc\menu.svg" />
+                            <entry key="height" value="20" />
+                            <entry key="outputName" value="ic_cross" />
+                            <entry key="overrideSize" value="true" />
+                            <entry key="sourceFile" value="F:\downloads\etc\cross.svg" />
+                            <entry key="width" value="20" />
                           </map>
                         </option>
                       </PersistentState>

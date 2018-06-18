@@ -7,6 +7,15 @@ public class Ingredient {
     int amount;
     String unit;
     String alias;
+    int calories;
+
+    public int getCalories() {
+        return calories;
+    }
+
+    public void setCalories(int calories) {
+        this.calories = calories;
+    }
 
     public String getId() {
         return id;

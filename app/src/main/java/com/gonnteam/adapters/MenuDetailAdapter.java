@@ -58,6 +58,7 @@ public class MenuDetailAdapter extends RecyclerView.Adapter<MenuDetailAdapter.Me
     private TextView txtCustomTitle;
     private int deletePosition;
     private int[] price;
+    private int[] calories;
 
     public MenuDetailAdapter(Context context, ArrayList<String> foodID, String menuID) {
         this.context = context;
@@ -103,6 +104,7 @@ public class MenuDetailAdapter extends RecyclerView.Adapter<MenuDetailAdapter.Me
                         public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
                             foods.add(documentSnapshot.toObject(Food.class));
                             price = new int[foods.size()];
+                            calories = new int[foods.size()];
                             notifyDataSetChanged();
                         }
                     });
@@ -155,8 +157,11 @@ public class MenuDetailAdapter extends RecyclerView.Adapter<MenuDetailAdapter.Me
                 dialog.show();
             }
         });
+
         Food food = foods.get(position);
         price[position] = 0;
+        calories[position] = 0;
+        // set price & calories
         for(int i=0; i < food.getIngredients().size(); i++){
             final Ingredient fIngre = food.getIngredients().get(i);
             FirebaseFirestore.getInstance()
@@ -169,6 +174,8 @@ public class MenuDetailAdapter extends RecyclerView.Adapter<MenuDetailAdapter.Me
                             temp = queryDocumentSnapshots.toObjects(Ingredient.class);
                             if (!temp.isEmpty()){
                                 Ingredient ingre = temp.get(0);
+
+                                // set price
                                 if (!fIngre.getUnit().equals(ingre.getUnit())){
                                     // nguyên liệu khác đơn vị
                                     price[position] += fIngre.getAmount() * ingre.getPrice() / 1000;
@@ -179,9 +186,22 @@ public class MenuDetailAdapter extends RecyclerView.Adapter<MenuDetailAdapter.Me
                                     price[position] += fIngre.getAmount() * ingre.getPrice() / ingre.getAmount();
                                     holder.setPrice(price[position]);
                                 }
+
+                                // set calories
+                                if(fIngre.getUnit().equals("gram")){
+                                    // cung don vi la gram
+                                    calories[position] += fIngre.getAmount() * ingre.getCalories() / 100;
+                                    holder.setCal(calories[position]);
+                                }else {
+                                    // khac don vi
+                                    calories[position] += fIngre.getAmount() * ingre.getCalories() * 10;
+                                    holder.setCal(calories[position]);
+                                }
                             }
                         }});
         }
+        // set calories
+
         // holder.setPrice(getPrice(foods.get(position)));
     }
 

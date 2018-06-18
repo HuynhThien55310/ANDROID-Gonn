@@ -70,7 +70,7 @@ public class MenuAdapter {
     private AlertDialog dialog;
     private TextView txtCustomTitle;
     private int[] price;
-
+    private int[] calories;
     public MenuAdapter(Context context, Query query, String foodID, Activity menuActivity) {
         this.context = context;
         this.query = query;
@@ -113,6 +113,7 @@ public class MenuAdapter {
                 try {
                     data = documentSnapshots.toObjects(FoodMenu.class);
                     price = new int[data.size()];
+                    calories = new int[data.size()];
                 } catch (NullPointerException n) {
                     return;
                 }
@@ -196,6 +197,7 @@ public class MenuAdapter {
 
                 // set price
                 price[position] = 0;
+                calories[position] = 0;
                 if(menu.getFoods() == null){
                     holder.setTotalPrice(0);
                 }else {
@@ -217,6 +219,7 @@ public class MenuAdapter {
                                             temp = documentSnapshots.toObjects(Ingredient.class);
                                             if (!temp.isEmpty()) {
                                                 Ingredient ingre = temp.get(0);
+                                                // set price
                                                 if (!ingre.getUnit().equals(ingreJ.getUnit())) {
                                                     // nguyên liệu khác đơn vị
                                                     price[position] += ingreJ.getAmount() * ingre.getPrice() / 1000;
@@ -226,7 +229,20 @@ public class MenuAdapter {
                                                     price[position] += ingreJ.getAmount() * ingre.getPrice() / ingre.getAmount();
                                                     holder.setTotalPrice(price[position]);
                                                 }
+
+                                                //set calories
+                                                // set calories
+                                                if(ingreJ.getUnit().equals("gram")){
+                                                    // cung don vi la gram
+                                                    calories[position] += ingreJ.getAmount() * ingre.getCalories() / 100;
+                                                    holder.setTotalCal(calories[position]);
+                                                }else {
+                                                    // khac don vi
+                                                    calories[position] += ingreJ.getAmount() * ingre.getCalories() * 10;
+                                                    holder.setTotalCal(calories[position]);
+                                                }
                                             }
+
 
                                         }
                                     });
@@ -257,50 +273,7 @@ public class MenuAdapter {
                 .delete();
     }
 
-    private float calPrice() {
-//        totalPrice = 0;
-//        for(int i=0; i< foodID.length; i++){
-//            mFoodRef.document(foodID[i]).addSnapshotListener(new EventListener<DocumentSnapshot>() {
-//                @Override
-//                public void onEvent(final DocumentSnapshot documentSnapshot, FirebaseFirestoreException e) {
-//                    final Food food = documentSnapshot.toObject(Food.class);
-//                    if (food.getIngredients() == null || food.getIngredients().size() == 0){
-//                        return;
-//                    }
-//                    for(int j=0; j < food.getIngredients().size(); j++){
-//                        final Ingredient ingreJ = food.getIngredients().get(j);
-//                        mIngreRef.whereEqualTo("name",ingreJ
-//                                .getName()).addSnapshotListener(new EventListener<QuerySnapshot>() {
-//                            @Override
-//                            public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
-//                                List<Ingredient> temp;
-//                                temp = documentSnapshots.toObjects(Ingredient.class);
-//                                if (!temp.isEmpty()){
-//                                    Ingredient ingre = temp.get(0);
-//                                    if (ingre.getUnit() == ingreJ.getUnit()){
-//                                        // nguyên liệu cùng đơn vị
-//                                        totalPrice += ingreJ.getAmount() * ingre.getPrice() / 1000;
-//
-//                                    } else {
-//                                        // nguyên liệu khác đơn vị
-//                                        totalPrice += ingreJ.getAmount() * ingre.getPrice() / ingre.getAmount();
-//                                    }
-//                                }
-//
-//                            }
-//                        });
-//                    }
-//                }
-//            });
-//        }
 
-        return totalPrice;
-    }
-
-
-    private int calCal() {
-        return 1;
-    }
 
 
     public static class MenuViewHolder extends RecyclerView.ViewHolder {
@@ -328,7 +301,7 @@ public class MenuAdapter {
         }
 
         public void setTotalCal(int cal) {
-            txtTotalCal.setText(cal + "");
+            txtTotalCal.setText(cal + " Cal");
         }
 
 

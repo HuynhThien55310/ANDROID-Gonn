@@ -4,29 +4,32 @@
     android:id="@+id/constraintLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
+
         <EditText
-            android:layout_width="330sp"
+            android:id="@+id/txtComment"
+            android:layout_width="330dp"
             android:layout_height="wrap_content"
-            android:hint="@string/txtComment"
-            android:layout_marginStart="10sp"
-            android:id="@+id/txtComment"/>
+            android:hint="@string/txtComment" />
 
         <ImageButton
-            android:layout_width="50sp"
-            android:layout_height="50sp"
+            android:id="@+id/btnSend"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:background="@android:color/transparent"
-            app:srcCompat="@drawable/ic_menu_send"
-            android:id="@+id/btnSend"/>
+            app:srcCompat="@drawable/ic_menu_send" />
     </LinearLayout>
+
     <android.support.v7.widget.RecyclerView
+        android:id="@+id/revComment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/revComment">
-    </android.support.v7.widget.RecyclerView>
+        android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
 
 </LinearLayout>

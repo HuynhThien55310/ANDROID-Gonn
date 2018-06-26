@@ -18,6 +18,16 @@ public class User extends BaseObservable {
     public String gender;
     public String dateOfBirth;
     public String avatar;
+    private String uid;
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
+
     public User() {
         // Default constructor
     }

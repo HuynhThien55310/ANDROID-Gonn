@@ -36,7 +36,7 @@ public class MostLikedFoodFragment extends Fragment {
         if (tag == "all"){
             query = FirebaseFirestore.getInstance()
                     .collection("foods")
-                    .orderBy("postedAt", Query.Direction.DESCENDING);
+                    .orderBy("like", Query.Direction.DESCENDING);
         } else {
             query = FirebaseFirestore.getInstance()
                     .collection("foods")

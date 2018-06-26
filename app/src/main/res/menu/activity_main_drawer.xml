@@ -28,6 +28,9 @@
         <item android:id="@+id/navDessert"
             android:icon="@drawable/ic_dessert"
             android:title="@string/navDessert"/>
+        <item android:id="@+id/navMarketPrice"
+            android:icon="@drawable/ic_bag"
+            android:title="Giá cả hôm nay"/>
     </group>
 
     <item android:title="@string/navAppSetting">

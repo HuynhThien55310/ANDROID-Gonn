@@ -72,7 +72,7 @@ public class ChangeAccountInfoActivity extends AppCompatActivity {
                 };
                 String s = btnBirthday.getText().toString();
                 int nam, thang, ngay;
-                if (user.getDateOfBirth() == ""){
+                if (user.getDateOfBirth() == "" || user.getDateOfBirth() == null){
                     nam = 1990;
                     thang = Calendar.getInstance().get(Calendar.MONTH + 1);
                     ngay = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
@@ -93,7 +93,7 @@ public class ChangeAccountInfoActivity extends AppCompatActivity {
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(ChangeAccountInfoActivity.this,"abc",Toast.LENGTH_SHORT).show();
+                updateInfo();
             }
         });
     }
@@ -125,7 +125,17 @@ public class ChangeAccountInfoActivity extends AppCompatActivity {
     }
 
     public void updateInfo(){
-
+        user.setDateOfBirth(btnBirthday.getText().toString());
+        user.setFirstName(txtFname.getText().toString());
+        user.setLastName(txtLname.getText().toString());
+        FirebaseFirestore.getInstance().collection("user")
+                .document(user.getUid()).set(user)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        finish();
+                    }
+                });
     }
 
     @Override

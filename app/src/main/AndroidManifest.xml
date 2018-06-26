@@ -5,7 +5,7 @@
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="Gonn"
+        android:label="Cookery"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
@@ -69,14 +69,13 @@
         <activity
             android:name=".activities.MenuDetailActivity"
             android:label=""
-            android:parentActivityName=".activities.MenuActivity">
-
-        </activity>
-        <activity android:name=".activities.FoodMenuDetailActivity"
+            android:parentActivityName=".activities.MenuActivity"></activity>
+        <activity
+            android:name=".activities.FoodMenuDetailActivity"
             android:label=""
-            android:parentActivityName=".activities.MenuDetailActivity">
-
-        </activity>
+            android:parentActivityName=".activities.MenuDetailActivity"></activity>
+        <activity android:name=".activities.MarketPriceActivity"
+            android:label=""></activity>
     </application>
 
 </manifest>

@@ -36,12 +36,12 @@ public class MostViewedFoodFragment extends Fragment {
         if (tag == "all"){
             query = FirebaseFirestore.getInstance()
                     .collection("foods")
-                    .orderBy("postedAt", Query.Direction.DESCENDING);
+                    .orderBy("view", Query.Direction.DESCENDING);
         } else {
             query = FirebaseFirestore.getInstance()
                     .collection("foods")
                     .whereEqualTo(tag,true)
-                    .orderBy("like", Query.Direction.DESCENDING);
+                    .orderBy("view", Query.Direction.DESCENDING);
         }
 
         adapter = new FoodAdapter(query, getContext());

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.util.Base64;
 import android.util.Log;
@@ -118,22 +119,26 @@ public class FoodAdapter {
                 countLike.addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
                     public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
-                        holder.setLike(food.getLike());
+                        if(documentSnapshots == null || documentSnapshots.isEmpty()){
+                            holder.setLike(0);
+                        } else {
+                            holder.setLike(documentSnapshots.size());
+                        }
                     }
                 });
 
                 if (fuser != null){
-                    countLike.whereEqualTo("userID",fuser.getUid())
+                    FirebaseFirestore.getInstance()
+                            .collection("likes")
+                            .whereEqualTo("foodID", detail.getStringExtra("foodID"))
+                            .whereEqualTo("userID", fuser.getUid())
                             .addSnapshotListener(new EventListener<QuerySnapshot>() {
                                 @Override
-                                public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
-                                    if(documentSnapshots == null)
-                                        return;
-                                    if (documentSnapshots.size() != 0){
-                                        holder.setBtnLike(true);
-                                    }else {
+                                public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+                                    if(queryDocumentSnapshots == null || queryDocumentSnapshots.isEmpty()){
                                         holder.setBtnLike(false);
-
+                                    }else {
+                                        holder.setBtnLike(true);
                                     }
                                 }
                             });
@@ -144,7 +149,11 @@ public class FoodAdapter {
                 countCmt.addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
                     public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
-                        holder.setCmt(food.getCmt());
+                        if(documentSnapshots == null || documentSnapshots.isEmpty()){
+                            holder.setCmt(0);
+                        } else {
+                            holder.setCmt(documentSnapshots.size());
+                        }
                     }
                 });
 
@@ -189,11 +198,12 @@ public class FoodAdapter {
                                 @Override
                                 public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
                                     if (mProcessLike) {
-                                        if (documentSnapshots.isEmpty()) {
+                                        if (documentSnapshots == null || documentSnapshots.isEmpty() ) {
                                             // user did not like current food
                                             Like like = new Like(detail.getStringExtra("foodID"), userID);
                                             //holder.setBtnLike(true);
-                                            mLikeRef.add(like);
+                                            FirebaseFirestore.getInstance().collection("likes")
+                                                    .add(like);
                                             mFoodRef.document(detail.getStringExtra("foodID"))
                                                     .update("like", food.getLike() + 1);
                                             mProcessLike = false;

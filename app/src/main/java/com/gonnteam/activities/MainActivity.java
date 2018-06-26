@@ -326,6 +326,10 @@ public class MainActivity extends AppCompatActivity
                 adapter.setTag(tag);
                 adapter.notifyDataSetChanged();
                 break;
+            case R.id.navMarketPrice:
+                Intent marketPirce = new Intent(MainActivity.this, MarketPriceActivity.class);
+                startActivity(marketPirce);
+                break;
             default:
                 break;
         }

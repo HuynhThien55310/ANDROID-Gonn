@@ -15,14 +15,19 @@
 
         <EditText
             android:id="@+id/txtComment"
-            android:layout_width="330dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="80"
             android:hint="@string/txtComment" />
 
         <ImageButton
             android:id="@+id/btnSend"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="10dp"
+            android:layout_weight="20"
             android:background="@android:color/transparent"
             app:srcCompat="@drawable/ic_menu_send" />
     </LinearLayout>
@@ -30,6 +35,7 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/revComment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
+        android:layout_height="match_parent"
+        android:layout_weight="100"></android.support.v7.widget.RecyclerView>
 
 </LinearLayout>

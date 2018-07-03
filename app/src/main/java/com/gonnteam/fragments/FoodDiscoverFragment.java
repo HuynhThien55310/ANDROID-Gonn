@@ -43,7 +43,7 @@ public class FoodDiscoverFragment extends Fragment {
                     .whereEqualTo(tag,true);
         }
 
-        adapter = new FoodAdapter(query, getContext());
+        adapter = new FoodAdapter(query, getContext(), getActivity());
         revFoodDiscover.setAdapter(adapter.getAdapter());
         revFoodDiscover.setLayoutManager(layoutManager);
         return rootView;

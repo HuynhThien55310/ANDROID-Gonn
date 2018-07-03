@@ -1,9 +1,11 @@
 package com.gonnteam.adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
@@ -17,6 +19,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.share.model.SharePhoto;
+import com.facebook.share.model.SharePhotoContent;
+import com.facebook.share.widget.ShareDialog;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.gonnteam.R;
@@ -56,9 +61,14 @@ public class FoodAdapter {
     private FirebaseUser fuser;
     private FirebaseAuth mAuth;
     private boolean isLoaded = false;
-    public FoodAdapter(Query query, Context context) {
+
+    // share image to facebook
+    private ShareDialog shareDialog;
+    private Activity parent;
+    public FoodAdapter(Query query, Context context, Activity parent) {
         this.context = context;
         this.query = query;
+        this.parent = parent;
         initAdapter();
     }
 
@@ -157,7 +167,21 @@ public class FoodAdapter {
                     }
                 });
 
-
+                // set btn share
+                holder.btnShare.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        shareDialog = new ShareDialog(parent);
+                        Bitmap bitmap = ((BitmapDrawable)holder.imgBackdrop.getDrawable()).getBitmap();
+                        SharePhoto photo = new SharePhoto.Builder()
+                                .setBitmap(bitmap)
+                                .build();
+                        SharePhotoContent content = new SharePhotoContent.Builder()
+                                .addPhoto(photo)
+                                .build();
+                        shareDialog.show(content);
+                    }
+                });
 
                 // binding food value
                 holder.setTitle(food.getTitle());
@@ -234,10 +258,12 @@ public class FoodAdapter {
 
         private ImageView imgBackdrop;
         private ImageButton btnLike;
-
+        private ImageButton btnShare;
+        private Bitmap bitBackdrop;
         public FoodViewHolder(View itemView) {
             super(itemView);
             btnLike = itemView.findViewById(R.id.btnLike);
+            btnShare = itemView.findViewById(R.id.btnShare);
         }
 
         public void setTitle(String title) {
@@ -265,8 +291,8 @@ public class FoodAdapter {
             if (backdrop.contains("data:image/jpeg;base64")) {
                 backdrop = backdrop.substring(backdrop.indexOf(",") + 1);
                 byte[] decodedString = Base64.decode(backdrop, Base64.DEFAULT);
-                Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-                imgBackdrop.setImageBitmap(decodedByte);
+                bitBackdrop = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+                imgBackdrop.setImageBitmap(bitBackdrop);
             } else {
                 Picasso.with(context).load(backdrop).into(imgBackdrop);
             }

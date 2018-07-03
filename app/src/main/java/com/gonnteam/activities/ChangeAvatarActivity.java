@@ -11,5 +11,18 @@ public class ChangeAvatarActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_change_avatar);
+        addControls();
+        addEvents();
+    }
+
+    private void addControls() {
+    }
+
+    private void addEvents() {
+
+    }
+
+    private void updateAvatar(){
+
     }
 }

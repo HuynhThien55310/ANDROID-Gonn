@@ -44,7 +44,7 @@ public class MostLikedFoodFragment extends Fragment {
                     .orderBy("like", Query.Direction.DESCENDING);
         }
 
-        adapter = new FoodAdapter(query, getContext());
+        adapter = new FoodAdapter(query, getContext(), getActivity());
         revFoodDiscover.setAdapter(adapter.getAdapter());
         revFoodDiscover.setLayoutManager(layoutManager);
         return rootView;

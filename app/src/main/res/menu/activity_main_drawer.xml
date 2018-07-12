@@ -4,24 +4,45 @@
     tools:showIn="navigation_view">
 
     <group android:checkableBehavior="single">
-        <item android:id="@+id/navMenu"
-            android:icon="@drawable/ic_menu"
-            android:title="Thực đơn"/>
         <item android:id="@+id/navMix"
             android:icon="@drawable/ic_3region"
             android:title="@string/navMix"/>
+        <item android:id="@+id/navMenu"
+            android:icon="@drawable/ic_menu"
+            android:title="Thực đơn"/>
+        <item android:id="@+id/navRecommend"
+            android:icon="@drawable/ic_heart"
+            android:title="Dành cho bạn"/>
+        <item android:id="@+id/navBreakfast"
+            android:icon="@drawable/ic_breakfast"
+            android:title="Ăn sáng"/>
+        <item android:id="@+id/navDiet"
+            android:icon="@drawable/ic_diet"
+            android:title="Ăn kiêng"/>
+        <item android:id="@+id/navMeat"
+            android:icon="@drawable/ic_meat"
+            android:title="Giàu năng lượng"/>
+        <item android:id="@+id/navChild"
+            android:icon="@drawable/ic_children"
+            android:title="Dành cho bé"/>
         <item android:id="@+id/navSoup"
             android:icon="@drawable/ic_soup"
             android:title="@string/navSoup"/>
         <item android:id="@+id/navGrill"
             android:icon="@drawable/ic_grill"
             android:title="@string/navGrill"/>
+        <item android:id="@+id/navNoodle"
+            android:icon="@drawable/ic_noodles"
+            android:title="Phở, Hủ tiếu, Bún"/>
         <item android:id="@+id/navFry"
             android:icon="@drawable/ic_soup"
             android:title="@string/navFry"/>
         <item android:id="@+id/navSteam"
             android:icon="@drawable/ic_soup"
             android:title="@string/navSteam"/>
+        <item android:id="@+id/navSeaFood"
+            android:icon="@drawable/ic_crab"
+            android:title="Hải sản"/>
         <item android:id="@+id/navVegetable"
             android:icon="@drawable/ic_vegeterian"
             android:title="@string/navVegetable"/>
@@ -30,7 +51,8 @@
             android:title="@string/navDessert"/>
         <item android:id="@+id/navMarketPrice"
             android:icon="@drawable/ic_bag"
-            android:title="Giá cả hôm nay"/>
+            android:title="Nguyên liệu"/>
+
     </group>
 
     <item android:title="@string/navAppSetting">
@@ -39,7 +61,9 @@
                 android:id="@+id/navSetting"
                 android:icon="@drawable/ic_settings"
                 android:title="@string/navSetting" />
-
+            <item android:id="@+id/navBMI"
+                android:icon="@drawable/ic_dancer_balance_posture_on_one_leg"
+                android:title="Tra cứu BMI"/>
         </menu>
     </item>
 

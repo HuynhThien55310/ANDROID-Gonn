@@ -60,8 +60,8 @@
                         <option name="values">
                           <map>
                             <entry key="assetSourceType" value="FILE" />
-                            <entry key="outputName" value="ic_bag" />
-                            <entry key="sourceFile" value="F:\downloads\etc\bag.svg" />
+                            <entry key="outputName" value="ic_scale" />
+                            <entry key="sourceFile" value="F:\downloads\etc\scale.svg" />
                           </map>
                         </option>
                       </PersistentState>

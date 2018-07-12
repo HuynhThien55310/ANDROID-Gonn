@@ -330,6 +330,37 @@ public class MainActivity extends AppCompatActivity
                 Intent marketPirce = new Intent(MainActivity.this, MarketPriceActivity.class);
                 startActivity(marketPirce);
                 break;
+            case R.id.navBreakfast:
+                tag = "tag.Bữa sáng";
+                adapter.setTag(tag);
+                adapter.notifyDataSetChanged();
+                break;
+            case R.id.navSeaFood:
+                tag = "tag.Hải sản";
+                adapter.setTag(tag);
+                adapter.notifyDataSetChanged();
+                break;
+            case R.id.navDiet:
+                tag = "tag.Ăn kiêng";
+                adapter.setTag(tag);
+                adapter.notifyDataSetChanged();
+                break;
+            case R.id.navMeat:
+                tag = "tag.Protein";
+                adapter.setTag(tag);
+                adapter.notifyDataSetChanged();
+                break;
+            case R.id.navChild:
+                tag = "tag.Baby";
+                adapter.setTag(tag);
+                adapter.notifyDataSetChanged();
+                break;
+            case R.id.navBMI:
+                Intent bmi = new Intent(this,BMIActivity.class);
+                startActivity(bmi);
+                break;
+            case R.id.navRecommend:
+                break;
             default:
                 break;
         }

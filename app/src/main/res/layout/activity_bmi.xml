@@ -20,7 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/txtHeight"
-            android:inputType="number"
+            android:inputType="numberDecimal"
             android:hint="Chiều cao (cm)"
             android:textAlignment="center"/>
     </LinearLayout>
@@ -37,7 +37,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Cân nặng (kg)"
-            android:inputType="number"
+            android:inputType="numberDecimal"
             android:id="@+id/txtWeight"
             android:textAlignment="center"/>
     </LinearLayout>
@@ -65,5 +65,5 @@
         android:textAlignment="center"
         android:textSize="25sp"
         android:id="@+id/txtResult"
-        android:text="Thông tin"/>
+       />
 </LinearLayout>

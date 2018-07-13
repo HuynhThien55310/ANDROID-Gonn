@@ -5,65 +5,78 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:paddingLeft="15dp"
+    android:paddingRight="15dp"
     tools:context=".activities.BMIActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_margin="25sp">
+        android:layout_margin="25sp"
+        android:orientation="horizontal">
+
         <ImageView
             android:layout_width="50sp"
             android:layout_height="50sp"
-            android:src="@drawable/ic_height"/>
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/ic_height" />
+
         <EditText
+            android:id="@+id/txtHeight"
+            style="@style/editText_style"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/txtHeight"
-            android:inputType="numberDecimal"
             android:hint="Chiều cao (cm)"
-            android:textAlignment="center"/>
+            android:inputType="numberDecimal"
+            android:textAlignment="center" />
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_margin="25sp">
+        android:layout_margin="25sp"
+        android:orientation="horizontal">
+
         <ImageView
             android:layout_width="50sp"
             android:layout_height="50sp"
-            android:src="@drawable/ic_scale"/>
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/ic_scale" />
+
         <EditText
+            android:id="@+id/txtWeight"
+            style="@style/editText_style"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Cân nặng (kg)"
             android:inputType="numberDecimal"
-            android:id="@+id/txtWeight"
-            android:textAlignment="center"/>
+            android:textAlignment="center" />
     </LinearLayout>
+
     <TextView
+        android:id="@+id/txtBMI"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:text="BMI: "
         android:textAlignment="center"
-        android:textSize="25sp"
-        android:id="@+id/txtBMI"
-        android:text="BMI: "/>
+        android:textSize="25sp" />
+
     <Button
-        android:layout_margin="20sp"
+        android:id="@+id/btnBMI"
+        style="@style/button_style"
         android:layout_width="100sp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        style="@style/button_style"
-        android:textSize="20sp"
-        android:id="@+id/btnBMI"
-        android:text="Tính"/>
+        android:layout_margin="20sp"
+        android:text="Tính"
+        android:textSize="20sp" />
+
     <TextView
+        android:id="@+id/txtResult"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:textAlignment="center"
-        android:textSize="25sp"
-        android:id="@+id/txtResult"
-       />
+        android:textSize="25sp" />
 </LinearLayout>

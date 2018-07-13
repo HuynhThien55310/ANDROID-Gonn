@@ -64,6 +64,9 @@
             <item android:id="@+id/navBMI"
                 android:icon="@drawable/ic_dancer_balance_posture_on_one_leg"
                 android:title="Tra cứu BMI"/>
+            <item android:id="@+id/navTDEE"
+                android:icon="@drawable/ic_cal"
+                android:title="Tra cứu TDEE"/>
         </menu>
     </item>
 

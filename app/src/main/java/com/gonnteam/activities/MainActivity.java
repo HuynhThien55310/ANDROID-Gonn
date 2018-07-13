@@ -359,6 +359,10 @@ public class MainActivity extends AppCompatActivity
                 Intent bmi = new Intent(this,BMIActivity.class);
                 startActivity(bmi);
                 break;
+            case R.id.navTDEE:
+                Intent tdee = new Intent(this,TDEEActivity.class);
+                startActivity(tdee);
+                break;
             case R.id.navRecommend:
                 break;
             default:

@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activities.TDEEActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="15sp"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="50sp"
+            android:layout_height="50sp"
+            android:src="@drawable/ic_height" />
+
+        <EditText
+            android:id="@+id/txtHeight"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Chiều cao (cm)"
+            android:inputType="numberDecimal"
+            android:textAlignment="center" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="15sp"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="50sp"
+            android:layout_height="50sp"
+            android:src="@drawable/ic_scale" />
+
+        <EditText
+            android:id="@+id/txtWeight"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Cân nặng (kg)"
+            android:inputType="numberDecimal"
+            android:textAlignment="center" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="15sp"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="50sp"
+            android:layout_height="50sp"
+            android:src="@drawable/ic_age" />
+
+        <EditText
+            android:id="@+id/txtAge"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Tuổi"
+            android:inputType="number"
+            android:textAlignment="center" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="15sp"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="50sp"
+            android:layout_height="50sp"
+            android:src="@drawable/ic_activity_level" />
+
+        <Spinner
+            android:id="@+id/spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"></Spinner>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="15sp"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="50sp"
+            android:layout_height="50sp"
+            android:src="@drawable/ic_gender" />
+
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:id="@+id/rdg">
+            <RadioButton
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:id="@+id/rdNam"
+                android:text="Nam"/>
+            <RadioButton
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:id="@+id/rdNu"
+                android:text="Nữ"/>
+        </RadioGroup>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btnTDEE"
+        style="@style/button_style"
+        android:layout_width="100sp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="20sp"
+        android:text="Tính"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/txtResult"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:textAlignment="center"
+        android:textSize="25sp" />
+
+</LinearLayout>

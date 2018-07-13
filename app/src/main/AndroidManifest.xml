@@ -77,7 +77,8 @@
         <activity
             android:name=".activities.MarketPriceActivity"
             android:label="" />
-        <activity android:name=".activities.BMIActivity"></activity>
+        <activity android:name=".activities.BMIActivity" />
+        <activity android:name=".activities.TDEEActivity"></activity>
     </application>
 
 </manifest>

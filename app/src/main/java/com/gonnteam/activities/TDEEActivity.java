@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.gonnteam.R;
+import com.gonnteam.models.User;
 
 public class TDEEActivity extends AppCompatActivity {
     private Button btnTDEE;
@@ -52,53 +53,22 @@ public class TDEEActivity extends AppCompatActivity {
         btnTDEE.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                double height, weight,bmr, tdee;
-                int age, gender;
+                User user = new User();
+                double bmr, tdee;
                 try {
                     if(rdNam.isChecked()){
-                        gender = 0;
-                    }else gender = 1;
-                    height = Double.parseDouble(txtHeight.getText().toString());
-                    weight = Double.parseDouble(txtWeight.getText().toString());
-                    age = Integer.parseInt(txtAge.getText().toString());
-                    bmr = getBMR(height,weight,gender,age);
-                    tdee = getTDEE(bmr,spinner.getSelectedItemPosition());
+                        user.setGender(0);
+                    }else user.setGender(1);
+                    user.setHeight(Double.parseDouble(txtHeight.getText().toString()));
+                    user.setWeight(Double.parseDouble(txtWeight.getText().toString()));
+                    user.setAge(Integer.parseInt(txtAge.getText().toString()));
+                    bmr = user.getBMR();
+                    tdee = user.getTDEE(bmr);
                     txtResult.setText("Lượng calo cần thiết 1 ngày của bạn là: " + Math.round(tdee));
                 }catch (NumberFormatException e){
                     Toast.makeText(TDEEActivity.this,"Bạn chưa nhập đủ thông tin",Toast.LENGTH_SHORT).show();
                 }
             }
         });
-    }
-
-    private double getBMR(double height, double weight, int gender, int age){
-        if (gender == 0){
-            // nam
-            return (13.397 * weight + 4.799 * height) - (5.677 * age) + 88.362;
-        }else {
-            return (9.247 * weight + 3.098 * height) - (4.330 * age) + 447.593;
-        }
-    }
-
-    private double getTDEE(double bmr, int activity_level){
-        double TDEE = 0;
-        switch (activity_level){
-            case 0:
-                TDEE = bmr * 1.2;
-                break;
-            case 1:
-                TDEE = bmr * 1.375;
-                break;
-            case 2:
-                TDEE = bmr * 1.55;
-                break;
-            case 3:
-                TDEE = bmr * 1.725;
-                break;
-            case 4:
-                TDEE = bmr * 1.9;
-                break;
-        }
-        return  TDEE;
     }
 }

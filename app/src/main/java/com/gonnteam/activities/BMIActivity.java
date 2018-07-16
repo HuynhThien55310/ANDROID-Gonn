@@ -9,6 +9,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.gonnteam.R;
+import com.gonnteam.models.User;
 
 public class BMIActivity extends AppCompatActivity {
     private Button btnBMI;
@@ -35,11 +36,12 @@ public class BMIActivity extends AppCompatActivity {
         btnBMI.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                double height, weight, bmi;
+                double bmi;
+                User user = new User();
                 try {
-                    height = Double.parseDouble(txtHeight.getText().toString()) / 100;
-                    weight = Double.parseDouble(txtWeight.getText().toString());
-                    bmi = calBMI(height,weight);
+                    user.setHeight(Double.parseDouble(txtHeight.getText().toString()) / 100);
+                    user.setWeight(Double.parseDouble(txtWeight.getText().toString()));
+                    bmi = user.getBMI();
                     if (bmi < 18.5){
                         // gầy
                         txtBMI.setText("BMI: " + bmi);
@@ -60,7 +62,4 @@ public class BMIActivity extends AppCompatActivity {
         });
     }
 
-    public double calBMI(double height, double weight){
-        return Math.floor(weight / (height*height) * 10)/10;
-    }
 }

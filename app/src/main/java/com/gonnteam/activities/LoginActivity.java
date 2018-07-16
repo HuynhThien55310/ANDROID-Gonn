@@ -288,12 +288,6 @@ public class LoginActivity extends FragmentActivity {
                         user.lastName = object.getString("last_name");
                     if (object.has("email"))
                         user.email = object.getString("email");
-                    if (object.has("birthday")){
-                        //user.dateOfBirth = object.getString("birthday");
-                        Log.d(TAG, "birthday: " + object.getString("birthday"));
-                    }
-                    if (object.has("gender"))
-                        user.gender = object.getString("gender");
                     finish();
                 } catch (JSONException e) {
                     e.printStackTrace();

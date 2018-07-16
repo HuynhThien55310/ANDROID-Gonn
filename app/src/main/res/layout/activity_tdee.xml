@@ -120,21 +120,25 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+
                 android:buttonTint="#FFFFFF"
                 android:gravity="center"
                 android:text="Nam"
                 android:textColor="#FFFFFF" />
+
 
             <RadioButton
                 android:id="@+id/rdNu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+
                 android:buttonTint="#FFFFFF"
                 android:gravity="center"
                 android:singleLine="false"
                 android:text="Nữ"
                 android:textColor="#FFFFFF" />
+
         </RadioGroup>
     </LinearLayout>
 

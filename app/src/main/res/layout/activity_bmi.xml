@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@mipmap/background_image"
     android:orientation="vertical"
     android:paddingLeft="15dp"
     android:paddingRight="15dp"
@@ -23,7 +24,7 @@
 
         <EditText
             android:id="@+id/txtHeight"
-            style="@style/editText_style"
+            style="@style/editText_style_white"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Chiều cao (cm)"
@@ -45,7 +46,7 @@
 
         <EditText
             android:id="@+id/txtWeight"
-            style="@style/editText_style"
+            style="@style/editText_style_white"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Cân nặng (kg)"
@@ -60,6 +61,7 @@
         android:layout_gravity="center"
         android:text="BMI: "
         android:textAlignment="center"
+        android:textColor="#FFFFFF"
         android:textSize="25sp" />
 
     <Button
@@ -78,5 +80,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:textAlignment="center"
+        android:textColor="#FFFFFF"
         android:textSize="25sp" />
 </LinearLayout>

@@ -28,7 +28,7 @@
             android:layout_gravity="center"
             android:hint="@string/email"
             android:inputType="textEmailAddress"
-            android:textColorHint="@color/colorWhite"/>
+            android:textColorHint="@color/colorWhite" />
 
         <EditText
             android:id="@+id/txtPass"
@@ -37,7 +37,7 @@
             android:layout_gravity="center"
             android:hint="@string/password"
             android:inputType="textPassword"
-            android:textColorHint="@color/colorWhite"/>
+            android:textColorHint="@color/colorWhite" />
 
         <Button
             android:id="@+id/btnLogin"

@@ -22,7 +22,15 @@ public class User extends BaseObservable {
     public double weight;
     public int age;
     public int activity_level;
+    public boolean isUpdated;
 
+    public boolean isUpdated() {
+        return isUpdated;
+    }
+
+    public void setUpdated(boolean updated) {
+        isUpdated = updated;
+    }
 
     public double getHeight() {
         return height;
@@ -38,7 +46,7 @@ public class User extends BaseObservable {
     }
 
     public double getBMI(){
-        return Math.floor(weight / (height*height) * 10)/10;
+        return Math.floor(weight / (height/100 * height/100) * 10)/10;
     }
 
     public double getTDEE(double bmr){

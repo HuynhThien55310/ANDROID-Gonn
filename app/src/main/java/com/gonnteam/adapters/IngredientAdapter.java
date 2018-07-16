@@ -1,6 +1,7 @@
 package com.gonnteam.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.gonnteam.R;
+import com.gonnteam.activities.FoodByIngredientActivity;
 import com.gonnteam.models.FoodMenu;
 import com.gonnteam.models.Ingredient;
 import com.google.firebase.firestore.EventListener;
@@ -68,10 +70,18 @@ public class IngredientAdapter {
             }
 
             @Override
-            protected void onBindViewHolder(@NonNull IngredientViewHolder holder, int position, @NonNull Ingredient model) {
+            protected void onBindViewHolder(@NonNull IngredientViewHolder holder, final int position, @NonNull Ingredient model) {
                 if(position < data.size()){
                     holder.setTitle(data.get(position).getName());
                     holder.setPrice(data.get(position));
+                    holder.txtTitle.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Intent foodByIngre = new Intent(context, FoodByIngredientActivity.class);
+                            foodByIngre.putExtra("tag","ingreTag." + data.get(position).getName());
+                            context.startActivity(foodByIngre);
+                        }
+                    });
                 }
             }
 

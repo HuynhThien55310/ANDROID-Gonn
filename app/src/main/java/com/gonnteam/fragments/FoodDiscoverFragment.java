@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.gonnteam.R;
 import com.gonnteam.adapters.FoodAdapter;
@@ -41,6 +42,8 @@ public class FoodDiscoverFragment extends Fragment {
             query = FirebaseFirestore.getInstance()
                     .collection("foods")
                     .whereEqualTo(tag,true);
+
+
         }
 
         adapter = new FoodAdapter(query, getContext(), getActivity());

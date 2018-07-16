@@ -7,6 +7,8 @@ import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.PersistableBundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
@@ -31,6 +33,8 @@ import com.gonnteam.R;
 import com.gonnteam.adapters.TabsPagerAdapter;
 import com.gonnteam.models.Food;
 import com.gonnteam.models.User;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
@@ -363,23 +367,9 @@ public class MainActivity extends AppCompatActivity
                 Intent tdee = new Intent(this,TDEEActivity.class);
                 startActivity(tdee);
                 break;
-            case R.id.navRecommend:
-                break;
             default:
                 break;
         }
-//        if (id == R.id.navSetting) {
-//            Intent appSetting = new Intent(MainActivity.this, AppSettingActivity.class);
-//            startActivity(appSetting);
-//        }
-//        if (id == R.id.navMix) {
-//            Intent appSetting = new Intent(MainActivity.this, AppSettingActivity.class);
-//            startActivity(appSetting);
-//        }
-//        if (id == R.id.navSetting) {
-//            Intent appSetting = new Intent(MainActivity.this, AppSettingActivity.class);
-//            startActivity(appSetting);
-//        }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

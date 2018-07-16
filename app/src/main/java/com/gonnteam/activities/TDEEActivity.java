@@ -54,7 +54,7 @@ public class TDEEActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 User user = new User();
-                double bmr, tdee;
+                    double bmr, tdee;
                 try {
                     if(rdNam.isChecked()){
                         user.setGender(0);

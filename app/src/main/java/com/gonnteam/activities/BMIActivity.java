@@ -39,7 +39,7 @@ public class BMIActivity extends AppCompatActivity {
                 double bmi;
                 User user = new User();
                 try {
-                    user.setHeight(Double.parseDouble(txtHeight.getText().toString()) / 100);
+                    user.setHeight(Double.parseDouble(txtHeight.getText().toString()));
                     user.setWeight(Double.parseDouble(txtWeight.getText().toString()));
                     bmi = user.getBMI();
                     if (bmi < 18.5){

@@ -1,5 +1,6 @@
 package com.gonnteam.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -9,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.gonnteam.R;
@@ -23,7 +25,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.Calendar;
 
 public class ChangeAccountInfoActivity extends AppCompatActivity {
-    private EditText txtFname, txtLname, txtAge, txtHeight, txtWeight;
+    private EditText txtFname, txtLname,
+            txtAge, txtHeight, txtWeight;
+    private TextView  txtBMI, txtTDEE;
     private RadioButton rdNam, rdNu;
     private Spinner spinner;
     private String arr[]
@@ -48,6 +52,8 @@ public class ChangeAccountInfoActivity extends AppCompatActivity {
         txtHeight = findViewById(R.id.txtHeight);
         txtWeight = findViewById(R.id.txtWeight);
         txtAge = findViewById(R.id.txtAge);
+        txtBMI = findViewById(R.id.txtBMI);
+        txtTDEE = findViewById(R.id.txtTDEE);
         rdNam = findViewById(R.id.rdNam);
         rdNu = findViewById(R.id.rdNu);
         spinner = findViewById(R.id.spinner);
@@ -64,6 +70,7 @@ public class ChangeAccountInfoActivity extends AppCompatActivity {
             }
         });
     }
+
 
     public void getUserInfo(){
         mAuth = FirebaseAuth.getInstance();
@@ -83,6 +90,26 @@ public class ChangeAccountInfoActivity extends AppCompatActivity {
 
     public void setUserInfo(){
         try{
+            if(user.isUpdated){
+                double bmi = user.getBMI();
+                double bmr, tdee;
+                bmr = user.getBMR();
+                tdee = user.getTDEE(bmr);
+                txtTDEE.setText("Lượng calo cần thiết 1 ngày của bạn là: " + Math.round(tdee));
+                if (bmi < 18.5){
+                    // gầy
+                    txtBMI.setText("BMI: " + bmi);
+                    txtBMI.append(". Bạn thuộc nhóm người gầy, bạn nên cung cấp thêm dinh dưỡng cho cơ thể nhé");
+                }else if (bmi > 24.9){
+                    // mập
+                    txtBMI.setText("BMI: " + bmi);
+                    txtBMI.append(". Bạn thuộc nhóm người béo, bạn nên hạn chế khẩu phần ăn và tập luyện thêm nhé");
+                } else {
+                    // cân đối
+                    txtBMI.setText("BMI: " + bmi);
+                    txtBMI.append(". Bạn thuộc nhóm người cân đối, cố gắng giữ vững phong độ nhé");
+                }
+            }
             txtLname.setText(user.getLastName());
             txtFname.setText(user.getFirstName());
             spinner.setSelection(user.getActivity_level());
@@ -129,12 +156,15 @@ public class ChangeAccountInfoActivity extends AppCompatActivity {
             user.setActivity_level(spinner.getSelectedItemPosition());
             user.setFirstName(txtFname.getText().toString());
             user.setLastName(txtLname.getText().toString());
-            FirebaseFirestore.getInstance().collection("user")
+            user.setUpdated(true);
+            FirebaseFirestore.getInstance().collection("users")
                     .document(user.getUid()).set(user)
                     .addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
-                            finish();
+                            setUserInfo();
+                            Toast.makeText(ChangeAccountInfoActivity.this,"Cập nhật thành công",Toast.LENGTH_SHORT).show();
+
                         }
                     });
         }catch (NumberFormatException e){

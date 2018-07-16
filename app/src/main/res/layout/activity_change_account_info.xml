@@ -96,7 +96,20 @@
             style="@style/button_style"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/save" />
+            android:text="Cập nhật" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtBMI"
+
+            android:textSize="20sp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtTDEE"
+
+            android:textSize="20sp"/>
+
     </LinearLayout>
 
 

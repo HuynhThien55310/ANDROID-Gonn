@@ -10,9 +10,6 @@
         <item android:id="@+id/navMenu"
             android:icon="@drawable/ic_menu"
             android:title="Thực đơn"/>
-        <item android:id="@+id/navRecommend"
-            android:icon="@drawable/ic_heart"
-            android:title="Dành cho bạn"/>
         <item android:id="@+id/navBreakfast"
             android:icon="@drawable/ic_breakfast"
             android:title="Ăn sáng"/>
